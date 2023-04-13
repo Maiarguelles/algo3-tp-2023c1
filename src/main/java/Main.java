@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args){
         var calendar = new Calendar();
         var evento1 = new Event("algo3", "materia", false, LocalDateTime.of(2023, 4, 15, 15, 0), 3, null);
-
+        var evento2 = new Event("algo2", "materia", false,  LocalDateTime.of(2023, 4, 15, 15, 0), 3, null);
 
         LocalDateTime date0 =LocalDateTime.of(2023,7,3,10,30);
         var z= date0.toLocalDate();
