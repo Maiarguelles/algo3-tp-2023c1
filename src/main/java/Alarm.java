@@ -24,7 +24,7 @@ public class Alarm {
         this.goOffTime = calculateGoOffTime();
     }
 
-    private LocalDateTime calculateGoOffTime(){
+    public LocalDateTime calculateGoOffTime(){
         return null;
     }
 

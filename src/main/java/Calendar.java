@@ -1,4 +1,6 @@
 import java.net.InetSocketAddress;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -34,7 +36,30 @@ public class Calendar {
         tasks.remove(task);
     }
 
-    private void updateNextAlarm(ArrayList alarms){}
+    private void updateNextAlarm(ArrayList<Alarm> alarms){
+        for(int i = 0; i < alarms.size(); i++){
+            var alarm = alarms.get(i);
+            if(nextAlarm.calculateGoOffTime().isAfter(alarm.calculateGoOffTime()))
+                nextAlarm = alarm;
+        }
+    }
+
+    private void sortEvents(){
+
+    }
+
+    public ArrayList<Event> showEvents(LocalDateTime date1, LocalDateTime date2){
+        var eventsToShow = new ArrayList<Event>();
+        sortEvents();
+        for(int i = 0; i < events.size(); i++){
+            var event = events.get(i);
+            if(event.getStartDate().isAfter(date1.toLocalDate().atStartOfDay())
+                    || event.getStartDate().isBefore(date2.toLocalDate().plusDays(1).atStartOfDay())){
+                eventsToShow.add(event);
+            }
+        }
+        return eventsToShow;
+    }
 
 
 
