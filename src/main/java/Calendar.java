@@ -44,19 +44,22 @@ public class Calendar {
         }
     }
 
-    private void sortEvents(){
+    /*private void sortEvents(){
 
-    }
+    }*/
 
     public ArrayList<Event> showEvents(LocalDateTime date1, LocalDateTime date2){
         var eventsToShow = new ArrayList<Event>();
-        sortEvents();
+        var dates = new ArrayList<LocalDateTime>();
+        Event event;
+        //sortEvents();
         for(int i = 0; i < events.size(); i++){
-            var event = events.get(i);
-            if(event.getStartDate().isAfter(date1.toLocalDate().atStartOfDay())
-                    || event.getStartDate().isBefore(date2.toLocalDate().plusDays(1).atStartOfDay())){
-                eventsToShow.add(event);
+            event = events.get(i);
+            dates = event.showDatesOfEvent(date1, date2);
+            for(int j = 0; j < dates.size(); i++){
+                eventsToShow.add(new Event(event.getTitle(), event.getDescription(), event.isCompleteDay(), dates.get(j), event.getDuration(), null));
             }
+
         }
         return eventsToShow;
     }
