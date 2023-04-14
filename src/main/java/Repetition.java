@@ -1,46 +1,19 @@
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Repetition {
+public abstract class  Repetition {
 
-    private final FrequencyType frequencyType;
-    private final RepeatType repeatType;
-    private final int frequency;
-    private final int ocurrences;
-    private final ArrayList<DayOfWeek> weekDays;
-    private final LocalDateTime expirationDate;
+    protected  FrequencyType frequencyType;
+    protected  int frequency;
+    protected  ArrayList<DayOfWeek> weekDays;
 
-    public Repetition(FrequencyType frequencyType,int frequency, ArrayList<DayOfWeek> weekDays, int ocurrences){ //BY_OCURRENCES
-        this.repeatType = RepeatType.BY_OCURRENCES;
-        this.frequencyType = frequencyType;
-        this.frequency = frequency;
-        this.weekDays = weekDays;
-        this.ocurrences = ocurrences;
-        this.expirationDate = null;
-
-    }
-
-    public Repetition(FrequencyType frequencyType,int frequency, ArrayList<DayOfWeek> weekDays){ //INFINITE
-        this.repeatType = RepeatType.INFINITE;
-        this.frequencyType = frequencyType;
-        this.frequency = frequency;
-        this.weekDays = weekDays;
-        this.expirationDate = null;
-        this.ocurrences = 0;
-    }
-
-    public Repetition(FrequencyType frequencyType,int frequency, ArrayList<DayOfWeek> weekDays, LocalDateTime expirationDate){ //BY_DATE
-        this.repeatType = RepeatType.BY_DATE;
-        this.frequencyType = frequencyType;
-        this.frequency = frequency;
-        this.weekDays = weekDays;
-        this.ocurrences = 0;
-        this.expirationDate = expirationDate;
-    }
+    protected RepeatType repeatType;
 
 
+    public abstract ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate); //da las fechas del evento entre el startDate y expirationDate
 
 
     public enum FrequencyType{
