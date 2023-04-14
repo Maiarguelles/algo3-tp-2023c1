@@ -4,14 +4,38 @@ import java.util.ArrayList;
 
 public class Event {
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isCompleteDay() {
+        return completeDay;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
     private String title;
     private String description;
 
     private boolean completeDay; //si completeDay es true, la hora de inicio debe ser 00:00
 
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
     private LocalDateTime startDate;
 
     private int duration;
+
+    public Repetition getRepetition() {
+        return repetition;
+    }
 
     private Repetition repetition;
 
@@ -26,6 +50,7 @@ public class Event {
         this.duration = duration;
         this.repetition = repetition;
         this.alarms = new ArrayList<Alarm>();
+
     }
 
     public ArrayList<Alarm> getAlarms(){
@@ -58,6 +83,11 @@ public class Event {
     public void setRepetition(Repetition repetition) {
         this.repetition = repetition;
     }
+
+    public ArrayList<LocalDateTime> showDatesOfEvent(LocalDateTime startDate, LocalDateTime endDate){
+        return repetition.showDatesOfEvents(startDate, endDate);
+    }
+
 
 
 }
