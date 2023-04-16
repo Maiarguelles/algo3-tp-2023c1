@@ -13,6 +13,11 @@ public class OcurrencesRepetition extends Repetition{
         this.ocurrences = ocurrences;
     }
 
+    @Override
+    public boolean isRepeating(){
+        return ocurrences != 0;
+    }
+
     public  ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate){
         return null;
     }

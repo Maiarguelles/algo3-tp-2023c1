@@ -10,6 +10,11 @@ public class InfiniteRepetition extends Repetition{
         this.weekDays = weekDays;
     }
 
+    @Override
+    public boolean isRepeating(){
+        return true;
+    }
+
     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate){ //startdate debe coincidir con una fecha del evento mismo
         var dates = new ArrayList<LocalDateTime>();
 
@@ -19,22 +24,29 @@ public class InfiniteRepetition extends Repetition{
             }
         }
 
-        if(frequencyType == FrequencyType.MONTHLY){
+        else if(frequencyType == FrequencyType.MONTHLY){
             for(; startDate.isBefore(endDate); startDate.plusMonths(frequency)){
                 dates.add(startDate);
             }
         }
 
-        if(frequencyType == FrequencyType.YEARLY){
+        else if(frequencyType == FrequencyType.YEARLY){
             for(; startDate.isBefore(endDate); startDate.plusYears(frequency)){
                 dates.add(startDate);
             }
         }
 
-        if(frequencyType == FrequencyType.WEEKLY){
-            for(; startDate.isBefore(endDate); startDate.plusDays(1)){
-                if(weekDays.contains(startDate.getDayOfWeek()))
+        else if(frequencyType == FrequencyType.WEEKLY){
+            int days = 0;
+            for(; startDate.isBefore(endDate); startDate.plusDays(1)) {
+                days++;
+                if (weekDays.contains(startDate.getDayOfWeek())) {
                     dates.add(startDate);
+                }
+                if(days== 7){
+                    startDate.plusWeeks(frequency-1);
+                    startDate.minusDays(1);
+                }
             }
         }
 

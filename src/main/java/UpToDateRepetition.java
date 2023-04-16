@@ -13,6 +13,12 @@ public class UpToDateRepetition extends Repetition{
         this.expirationDate = expirationDate;
     }
 
+
+    @Override
+    public boolean isRepeating() {
+        return false;
+    }
+
     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate){
         return null;
     }

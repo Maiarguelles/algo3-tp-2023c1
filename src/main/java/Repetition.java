@@ -10,8 +10,25 @@ public abstract class  Repetition {
     protected  int frequency;
     protected  ArrayList<DayOfWeek> weekDays;
 
+    public FrequencyType getFrequencyType() {
+        return frequencyType;
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public ArrayList<DayOfWeek> getWeekDays() {
+        return weekDays;
+    }
+
+    public RepeatType getRepeatType() {
+        return repeatType;
+    }
+
     protected RepeatType repeatType;
 
+    public abstract boolean isRepeating();
 
     public abstract ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate); //da las fechas del evento entre el startDate y expirationDate
 

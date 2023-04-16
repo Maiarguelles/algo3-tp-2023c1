@@ -8,12 +8,10 @@ public class Calendar {
     private final ArrayList<Event> events;
     private final ArrayList<Task> tasks;
     private Alarm nextAlarm;
-    private final Timer timer;
 
     public Calendar(){
         events = new ArrayList<Event>();
-        tasks = new ArrayList<Task>();
-        timer = new Timer();
+        tasks = new ArrayList<Task>();;
         nextAlarm = null;
     }
 
@@ -44,9 +42,7 @@ public class Calendar {
         }
     }
 
-    /*private void sortEvents(){
 
-    }*/
 
     public ArrayList<Event> showEvents(LocalDateTime date1, LocalDateTime date2){
         var eventsToShow = new ArrayList<Event>();

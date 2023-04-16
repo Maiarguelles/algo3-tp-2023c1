@@ -25,14 +25,16 @@ public class Alarm {
     }
 
     public LocalDateTime calculateGoOffTime(){
-        return null;
+        return this.eventDate.minusMinutes(this.minBefore);
     }
 
     public boolean shouldTrigger(){
-        return false;
+        return (LocalDateTime.now().isEqual(this.goOffTime));
     }
 
-    public void trigger(){}
+    public void trigger(){
+        effect.produceEffect();
+    }
 
 
 }

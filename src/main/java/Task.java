@@ -10,8 +10,6 @@ public class Task {
     private LocalDateTime startDate;
     private LocalDateTime expirationDate;
 
-    private ArrayList<>
-
     public void completeTask(){
         completed = true;
     }
