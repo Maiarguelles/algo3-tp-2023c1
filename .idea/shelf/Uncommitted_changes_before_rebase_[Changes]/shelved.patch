@@ -1,0 +1,383 @@
+Index: src/main/java/Calendar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.net.InetSocketAddress;\r\nimport java.util.ArrayList;\r\nimport java.util.Timer;\r\n\r\npublic class Calendar {\r\n    private final ArrayList<Event> events;\r\n    private final ArrayList<Task> tasks;\r\n    private Alarm nextAlarm;\r\n    private final Timer timer;\r\n\r\n    public Calendar(){\r\n        events = new ArrayList<Event>();\r\n        tasks = new ArrayList<Task>();\r\n        timer = new Timer();\r\n        nextAlarm = null;\r\n    }\r\n\r\n    public void addEvent(Event event){\r\n        events.add((event));\r\n        var alarms = event.getAlarms();\r\n        if(alarms != null)\r\n            updateNextAlarm(event.getAlarms());\r\n    }\r\n\r\n    public void deleteEvent(Event event){\r\n        events.remove(event);\r\n    }\r\n\r\n    public void addTask(Task task){\r\n        tasks.add(task);\r\n    }\r\n\r\n    public void deleteTask(Task task){\r\n        tasks.remove(task);\r\n    }\r\n\r\n    private void updateNextAlarm(ArrayList alarms){}\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Calendar.java b/src/main/java/Calendar.java
+--- a/src/main/java/Calendar.java	(revision 000aabc17bba4b893b00070ce3f0c704fb370db5)
++++ b/src/main/java/Calendar.java	(date 1681480180093)
+@@ -1,4 +1,7 @@
+ import java.net.InetSocketAddress;
++import java.time.DayOfWeek;
++import java.time.LocalDate;
++import java.time.Period;
+ import java.util.ArrayList;
+ import java.util.Timer;
+ 
+@@ -14,14 +17,14 @@
+         timer = new Timer();
+         nextAlarm = null;
+     }
+-
++/*
+     public void addEvent(Event event){
+         events.add((event));
+         var alarms = event.getAlarms();
+         if(alarms != null)
+-            updateNextAlarm(event.getAlarms());
++            //updateNextAlarm(event.getAlarms());
+     }
+-
++*/
+     public void deleteEvent(Event event){
+         events.remove(event);
+     }
+@@ -34,8 +37,31 @@
+         tasks.remove(task);
+     }
+ 
++
+     private void updateNextAlarm(ArrayList alarms){}
++/*
++    public ArrayList<Event> showEvents(LocalDate date1, LocalDate date2){
++        var eventsToShow = new ArrayList<Event>();
++        for (Event event: this.events) {
++            LocalDate eventDate = event.getStartDate().toLocalDate();
++            
++            if (eventDate.isBefore(date1)){
++                DayOfWeek eventDateDay = eventDate.getDayOfWeek();
++                Period differenceDateEventWithDate1 = eventDate.until(date1);
++                LocalDate reference;
++                Period differenceDateEventWithDate2 = eventDate.until(date2);
+ 
++                if (event.getRepetition().getRepeatType() == Repetition.RepeatType.INFINITE){
++                    if (date1.getDayOfWeek() !=)
++                }
++            }
+ 
++
++        }
++    }
++*/
++    private ArrayList<Event> allRepetitionsOfEventInfinity(Event event, LocalDate date1, LocalDate date2){
++        return null;
++    }
+ 
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d7a07a29-3160-4d52-8377-d0897e52492c\" name=\"Changes\" comment=\"Agrego las bases de todas las clases y algunos metodos\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n        <option value=\"JUnit4 Test Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\r\n  \"lastFilter\": {\r\n    \"state\": \"OPEN\"\r\n  }\r\n}]]></component>\r\n  <component name=\"GithubPullRequestsUISettings\">\r\n    <option name=\"selectedUrlAndAccountId\">\r\n      <UrlAndAccount>\r\n        <option name=\"accountId\" value=\"11b57802-555e-459a-b9bf-c71d297620c6\" />\r\n        <option name=\"url\" value=\"https://github.com/Maiarguelles/algo3-tp-2023c1.git\" />\r\n      </UrlAndAccount>\r\n    </option>\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"importingSettings\">\r\n      <MavenImportingSettings>\r\n        <option name=\"workspaceImportEnabled\" value=\"true\" />\r\n      </MavenImportingSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2O7SAvGwywLe6g42t4ADL4pC7FE\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/Mai/IdeaProjects/Biblioteca1&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d7a07a29-3160-4d52-8377-d0897e52492c\" name=\"Changes\" comment=\"\" />\r\n      <created>1680909990201</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1680909990201</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Creo el proyecto\">\r\n      <created>1680910310095</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1680910310095</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Agrego las bases de todas las clases y algunos metodos\">\r\n      <created>1681330099894</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681330099894</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Creo el proyecto\" />\r\n    <MESSAGE value=\"Agrego las bases de todas las clases y algunos metodos\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Agrego las bases de todas las clases y algunos metodos\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 000aabc17bba4b893b00070ce3f0c704fb370db5)
++++ b/.idea/workspace.xml	(date 1681481884302)
+@@ -6,6 +6,12 @@
+   <component name="ChangeListManager">
+     <list default="true" id="d7a07a29-3160-4d52-8377-d0897e52492c" name="Changes" comment="Agrego las bases de todas las clases y algunos metodos">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Calendar.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Event.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/InfiniteRepetition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/InfiniteRepetition.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Repetition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repetition.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Task.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -21,30 +27,28 @@
+     </option>
+   </component>
+   <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="Mai" />
++      </map>
++    </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+-  "lastFilter": {
+-    "state": "OPEN"
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="GithubPullRequestsUISettings">
+     <option name="selectedUrlAndAccountId">
+       <UrlAndAccount>
+-        <option name="accountId" value="11b57802-555e-459a-b9bf-c71d297620c6" />
+-        <option name="url" value="https://github.com/Maiarguelles/algo3-tp-2023c1.git" />
++        <option name="accountId" value="7feae6b9-100c-41b3-bf90-782ac460c4a4" />
++        <option name="url" value="https://github.com/Maiarguelles/algo3-tp-2023c1" />
+       </UrlAndAccount>
+     </option>
+   </component>
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+-  </component>
+-  <component name="MavenImportPreferences">
+-    <option name="importingSettings">
+-      <MavenImportingSettings>
+-        <option name="workspaceImportEnabled" value="true" />
+-      </MavenImportingSettings>
+-    </option>
+   </component>
+   <component name="ProjectId" id="2O7SAvGwywLe6g42t4ADL4pC7FE" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+@@ -95,12 +99,58 @@
+       <option name="project" value="LOCAL" />
+       <updated>1681330099894</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="Modifico un par de cosas en las ocurrencias">
++      <created>1681474747595</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1681474747595</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="RECENT_FILTERS">
++      <map>
++        <entry key="Branch">
++          <value>
++            <list>
++              <RecentGroup>
++                <option name="FILTER_VALUES">
++                  <option value="origin/Cris" />
++                </option>
++              </RecentGroup>
++            </list>
++          </value>
++        </entry>
++      </map>
++    </option>
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State>
++              <option name="FILTERS">
++                <map>
++                  <entry key="branch">
++                    <value>
++                      <list>
++                        <option value="origin/Cris" />
++                      </list>
++                    </value>
++                  </entry>
++                </map>
++              </option>
++            </State>
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Creo el proyecto" />
+     <MESSAGE value="Agrego las bases de todas las clases y algunos metodos" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Agrego las bases de todas las clases y algunos metodos" />
++    <MESSAGE value="Modifico un par de cosas en las ocurrencias" />
++    <option name="LAST_COMMIT_MESSAGE" value="Modifico un par de cosas en las ocurrencias" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/main/java/InfiniteRepetition.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.time.DayOfWeek;\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\n\r\npublic class InfiniteRepetition extends Repetition{\r\n    public InfiniteRepetition(FrequencyType frequencyType,int frequency, ArrayList<DayOfWeek> weekDays){ //INFINITE\r\n        this.repeatType = RepeatType.INFINITE;\r\n        this.frequencyType = frequencyType;\r\n        this.frequency = frequency;\r\n        this.weekDays = weekDays;\r\n    }\r\n\r\n    public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate){ //startdate debe coincidir con una fecha del evento mismo\r\n        var dates = new ArrayList<LocalDateTime>();\r\n\r\n        if(frequencyType == FrequencyType.DAILY){\r\n            for(; startDate.isBefore(endDate); startDate.plusDays(frequency)){\r\n                dates.add(startDate);\r\n            }\r\n        }\r\n\r\n        if(frequencyType == FrequencyType.MONTHLY){\r\n            for(; startDate.isBefore(endDate); startDate.plusMonths(frequency)){\r\n                dates.add(startDate);\r\n            }\r\n        }\r\n\r\n        if(frequencyType == FrequencyType.YEARLY){\r\n            for(; startDate.isBefore(endDate); startDate.plusYears(frequency)){\r\n                dates.add(startDate);\r\n            }\r\n        }\r\n\r\n        if(frequencyType == FrequencyType.WEEKLY){\r\n            for(; startDate.isBefore(endDate); startDate.plusDays(1)){\r\n                if(weekDays.contains(startDate.getDayOfWeek()))\r\n                    dates.add(startDate);\r\n            }\r\n        }\r\n\r\n        return dates;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/InfiniteRepetition.java b/src/main/java/InfiniteRepetition.java
+--- a/src/main/java/InfiniteRepetition.java	(revision 000aabc17bba4b893b00070ce3f0c704fb370db5)
++++ b/src/main/java/InfiniteRepetition.java	(date 1681481500311)
+@@ -13,6 +13,7 @@
+     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate){ //startdate debe coincidir con una fecha del evento mismo
+         var dates = new ArrayList<LocalDateTime>();
+ 
++
+         if(frequencyType == FrequencyType.DAILY){
+             for(; startDate.isBefore(endDate); startDate.plusDays(frequency)){
+                 dates.add(startDate);
+Index: src/main/java/Task.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.time.LocalDate;\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\n\r\npublic class Task {\r\n    private String title;\r\n    private String description;\r\n    private boolean completeDay;\r\n    private boolean completed;\r\n    private LocalDateTime startDate;\r\n    private LocalDateTime expirationDate;\r\n\r\n    private ArrayList<>\r\n\r\n    public void completeTask(){\r\n        completed = true;\r\n    }\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Task.java b/src/main/java/Task.java
+--- a/src/main/java/Task.java	(revision 000aabc17bba4b893b00070ce3f0c704fb370db5)
++++ b/src/main/java/Task.java	(date 1681476971303)
+@@ -10,7 +10,7 @@
+     private LocalDateTime startDate;
+     private LocalDateTime expirationDate;
+ 
+-    private ArrayList<>
++
+ 
+     public void completeTask(){
+         completed = true;
+Index: src/main/java/Repetition.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.time.DayOfWeek;\r\nimport java.time.LocalDate;\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\nimport java.util.Date;\r\n\r\npublic abstract class  Repetition {\r\n\r\n    protected  FrequencyType frequencyType;\r\n    protected  int frequency;\r\n    protected  ArrayList<DayOfWeek> weekDays;\r\n\r\n    protected RepeatType repeatType;\r\n\r\n\r\n    public abstract ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate); //da las fechas del evento entre el startDate y expirationDate\r\n\r\n\r\n    public enum FrequencyType{\r\n        DAILY,\r\n        WEEKLY,\r\n        MONTHLY,\r\n        YEARLY\r\n    }\r\n\r\n    public enum RepeatType{\r\n        INFINITE,\r\n        BY_OCURRENCES,\r\n        BY_DATE\r\n    }\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Repetition.java b/src/main/java/Repetition.java
+--- a/src/main/java/Repetition.java	(revision 000aabc17bba4b893b00070ce3f0c704fb370db5)
++++ b/src/main/java/Repetition.java	(date 1681475433174)
+@@ -7,6 +7,23 @@
+ public abstract class  Repetition {
+ 
+     protected  FrequencyType frequencyType;
++
++    public FrequencyType getFrequencyType() {
++        return frequencyType;
++    }
++
++    public int getFrequency() {
++        return frequency;
++    }
++
++    public ArrayList<DayOfWeek> getWeekDays() {
++        return weekDays;
++    }
++
++    public RepeatType getRepeatType() {
++        return repeatType;
++    }
++
+     protected  int frequency;
+     protected  ArrayList<DayOfWeek> weekDays;
+ 
+Index: src/main/java/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.time.LocalDate;\r\nimport java.time.LocalDateTime;\r\n\r\npublic class Main {\r\n    public static void main(String[] args){\r\n        var calendar = new Calendar();\r\n        var evento1 = new Event(\"algo3\", \"materia\", false, LocalDateTime.of(2023, 4, 15, 15, 0), 3, null);\r\n\r\n\r\n        LocalDateTime date0 =LocalDateTime.of(2023,7,3,10,30);\r\n        var z= date0.toLocalDate();\r\n\r\n        LocalDate date1 = LocalDate.of(2023,9,30);\r\n        LocalDate date2 = LocalDate.of(2023,8,1);\r\n        var x = z.until(date1);\r\n        var c = z.until(date2);\r\n        System.out.println(x.getDays());\r\n        System.out.println(x.getMonths());\r\n\r\n        System.out.println(c.getDays());\r\n        System.out.println(c.getMonths());\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Main.java b/src/main/java/Main.java
+--- a/src/main/java/Main.java	(revision 000aabc17bba4b893b00070ce3f0c704fb370db5)
++++ b/src/main/java/Main.java	(date 1681480856855)
+@@ -1,25 +1,66 @@
++import java.time.DayOfWeek;
+ import java.time.LocalDate;
+ import java.time.LocalDateTime;
++import java.time.Period;
+ 
+ public class Main {
+     public static void main(String[] args){
+-        var calendar = new Calendar();
+-        var evento1 = new Event("algo3", "materia", false, LocalDateTime.of(2023, 4, 15, 15, 0), 3, null);
+ 
+-
+-        LocalDateTime date0 =LocalDateTime.of(2023,7,3,10,30);
+-        var z= date0.toLocalDate();
++        LocalDateTime z =LocalDateTime.of(2023,7,3,10,30);
++        var date0= z.toLocalDate();
+ 
+         LocalDate date1 = LocalDate.of(2023,9,30);
+         LocalDate date2 = LocalDate.of(2023,8,1);
+-        var x = z.until(date1);
+-        var c = z.until(date2);
++        var x = date0.until(date1);
++        var c = date0.until(date2);
++
++        /*
+         System.out.println(x.getDays());
+         System.out.println(x.getMonths());
+ 
++
+         System.out.println(c.getDays());
+         System.out.println(c.getMonths());
+ 
++        System.out.println(date1.getDayOfWeek());
++        System.out.println(date1.plusDays(7*10).getDayOfWeek());
++
++        var t = z.datesUntil(date1, Period.ofDays(6));
++
++        var fin = t.toList();
++
++        for (LocalDate a: fin) {
++            System.out.println(a.toString() + a.getDayOfWeek());
++        }
++        */
++        /*
++        System.out.println(date1.toString());
++        System.out.println(z.toString());
++
++        var f =z.plusDays(x.getDays());
++        f=f.plusMonths(x.getMonths());
++        f=f.plusYears(x.getYears());
++
++        System.out.println(f.toString());
++        */
++
++        /*
++        System.out.println(date0.getDayOfWeek());
++        System.out.println(date1.toString());
++
++        date1=date1.plusDays(1);
++        System.out.println(date1.getDayOfWeek());
++        date1=date1.plusDays(1);
+ 
++
++        System.out.println(date1.getDayOfWeek());
++        System.out.println(date1.toString());
++        */
++        int i=0;
++        while(date0.getDayOfWeek() != date1.getDayOfWeek()){
++            date1= date1.plusDays(i);
++            i++;
++            System.out.println(date1.getDayOfWeek());
++        }
+     }
+ }
+Index: src/main/java/Event.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.time.LocalDate;\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\n\r\npublic class Event {\r\n\r\n    public String getTitle() {\r\n        return title;\r\n    }\r\n\r\n    public String getDescription() {\r\n        return description;\r\n    }\r\n\r\n    public boolean isCompleteDay() {\r\n        return completeDay;\r\n    }\r\n\r\n    public int getDuration() {\r\n        return duration;\r\n    }\r\n\r\n    private String title;\r\n    private String description;\r\n\r\n    private boolean completeDay; //si completeDay es true, la hora de inicio debe ser 00:00\r\n\r\n    public LocalDateTime getStartDate() {\r\n        return startDate;\r\n    }\r\n\r\n    private LocalDateTime startDate;\r\n\r\n    private int duration;\r\n\r\n    public Repetition getRepetition() {\r\n        return repetition;\r\n    }\r\n\r\n    private Repetition repetition;\r\n\r\n    private final ArrayList<Alarm> alarms;\r\n\r\n\r\n    public Event(String title, String description, boolean completeDay, LocalDateTime startDate, int duration, Repetition repetition) {\r\n        this.title = title;\r\n        this.description = description;\r\n        this.completeDay = completeDay;\r\n        this.startDate = startDate;\r\n        this.duration = duration;\r\n        this.repetition = repetition;\r\n        this.alarms = new ArrayList<Alarm>();\r\n\r\n    }\r\n\r\n    public ArrayList<Alarm> getAlarms(){\r\n        return alarms;\r\n    }\r\n    public void addAlarm(){}\r\n\r\n    public void removeAlarm(){}\r\n\r\n    public void setTitle(String title) {\r\n        this.title = title;\r\n    }\r\n\r\n    public void setDescription(String description) {\r\n        this.description = description;\r\n    }\r\n\r\n    public void setCompleteDay(boolean completeDay) {\r\n        this.completeDay = completeDay;\r\n    }\r\n\r\n    public void setStartDate(LocalDateTime startDate) {\r\n        this.startDate = startDate;\r\n    }\r\n\r\n    public void setDuration(int duration) {\r\n        this.duration = duration;\r\n    }\r\n\r\n    public void setRepetition(Repetition repetition) {\r\n        this.repetition = repetition;\r\n    }\r\n\r\n    public ArrayList<LocalDateTime> showDatesOfEvent(LocalDateTime startDate, LocalDateTime endDate){\r\n        return repetition.showDatesOfEvents(startDate, endDate);\r\n    }\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Event.java b/src/main/java/Event.java
+--- a/src/main/java/Event.java	(revision 000aabc17bba4b893b00070ce3f0c704fb370db5)
++++ b/src/main/java/Event.java	(date 1681482116833)
+@@ -1,5 +1,7 @@
++import java.time.DayOfWeek;
+ import java.time.LocalDate;
+ import java.time.LocalDateTime;
++import java.time.Period;
+ import java.util.ArrayList;
+ 
+ public class Event {
+@@ -85,9 +87,13 @@
+     }
+ 
+     public ArrayList<LocalDateTime> showDatesOfEvent(LocalDateTime startDate, LocalDateTime endDate){
++        if (this.startDate.isBefore(startDate)){
++            LocalDate thisStartDateLocal = this.startDate.toLocalDate();
++            LocalDate startDateLocal = startDate.toLocalDate();
++            DayOfWeek
++        }
+         return repetition.showDatesOfEvents(startDate, endDate);
+     }
+ 
+ 
+-
+ }
