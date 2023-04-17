@@ -42,20 +42,21 @@ public class Calendar {
         }
     }
 
+    public boolean existEvent(LocalDateTime date){return false;}
+
+    public boolean existTask(LocalDateTime date){return false;}
 
 
     public ArrayList<Event> showEvents(LocalDateTime date1, LocalDateTime date2){
         var eventsToShow = new ArrayList<Event>();
         var dates = new ArrayList<LocalDateTime>();
         Event event;
-        //sortEvents();
         for(int i = 0; i < events.size(); i++){
             event = events.get(i);
             dates = event.showDatesOfEvent(date1, date2);
             for(int j = 0; j < dates.size(); i++){
-                eventsToShow.add(new Event(event.getTitle(), event.getDescription(), event.isCompleteDay(), dates.get(j), event.getDuration(), null));
+                eventsToShow.add(event.repeatEvent(dates.get(j)));
             }
-
         }
         return eventsToShow;
     }

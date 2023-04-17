@@ -11,7 +11,7 @@ public class InfiniteRepetition extends Repetition{
     }
 
     @Override
-    public boolean isRepeating(){
+    public boolean isRepeating(LocalDateTime date){
         return true;
     }
 

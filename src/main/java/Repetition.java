@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class  Repetition {
-
+    protected  LocalDateTime beginDate;
     protected  FrequencyType frequencyType;
     protected  int frequency;
     protected  ArrayList<DayOfWeek> weekDays;
@@ -28,7 +28,7 @@ public abstract class  Repetition {
 
     protected RepeatType repeatType;
 
-    public abstract boolean isRepeating();
+    public abstract boolean isRepeating(LocalDateTime date);
 
     public abstract ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime startDate, LocalDateTime endDate); //da las fechas del evento entre el startDate y expirationDate
 
