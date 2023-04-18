@@ -53,9 +53,16 @@ public class Calendar {
         Event event;
         for(int i = 0; i < events.size(); i++){
             event = events.get(i);
-            dates = event.showDatesOfEvent(date1, date2);
-            for(int j = 0; j < dates.size(); i++){
-                eventsToShow.add(event.repeatEvent(dates.get(j)));
+            if(!event.isRepeating){
+                var date = event.getStartDate();
+                if(date.isBefore(date2) && date.isAfter(date1))
+                    eventsToShow.add(event);
+            }
+            else {
+                dates = event.showDatesOfEvent(date1, date2);
+                for (int j = 0; j < dates.size(); i++) {
+                    eventsToShow.add(event.repeatEvent(dates.get(j)));
+                }
             }
         }
         return eventsToShow;

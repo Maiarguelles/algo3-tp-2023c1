@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7a07a29-3160-4d52-8377-d0897e52492c" name="Changes" comment="Agrego las bases de todas las clases y algunos metodos" />
+    <list default="true" id="d7a07a29-3160-4d52-8377-d0897e52492c" name="Changes" comment="Hicimos los test de Alarm, y modificamos Event y un constructor de Alarm. Creamos clases de frecuencia">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ByDateEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/DailyStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FrequencyStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/InfiniteEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/MonthlyStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/OcurrencesEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/WeeklyStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/YearlyStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Calendar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DailyFrequency.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frequency.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/InfiniteRepetition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MonthlyFrequency.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/OcurrencesRepetition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repetition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/UpToDateRepetition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/WeeklyFrequency.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/YearlyFrequency.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,10 +34,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="origin/Cris" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -68,6 +93,31 @@
       <recent name="" />
     </key>
   </component>
+  <component name="RunManager" selected="JUnit.AlarmTest">
+    <configuration name="AlarmTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Calendar" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AlarmTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in Calendar" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Calendar" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AlarmTest" />
+        <item itemvalue="JUnit.All in Calendar" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -91,12 +141,23 @@
       <option name="project" value="LOCAL" />
       <updated>1681330099894</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Hicimos los test de Alarm, y modificamos Event y un constructor de Alarm. Creamos clases de frecuencia">
+      <created>1681690241759</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1681690241759</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Creo el proyecto" />
     <MESSAGE value="Agrego las bases de todas las clases y algunos metodos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Agrego las bases de todas las clases y algunos metodos" />
+    <MESSAGE value="Hicimos los test de Alarm, y modificamos Event y un constructor de Alarm. Creamos clases de frecuencia" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hicimos los test de Alarm, y modificamos Event y un constructor de Alarm. Creamos clases de frecuencia" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Calendar$AlarmTest.ic" NAME="AlarmTest Coverage Results" MODIFIED="1681689503070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
