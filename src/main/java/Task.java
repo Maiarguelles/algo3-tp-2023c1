@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Task {
+
     private String title;
     private String description;
     private boolean completeDay;
@@ -32,6 +33,24 @@ public class Task {
         completed = true;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCompleteDay(boolean completeDay) {
+        this.completeDay = completeDay;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
 }

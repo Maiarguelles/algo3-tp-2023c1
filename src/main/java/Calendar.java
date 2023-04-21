@@ -15,11 +15,14 @@ public class Calendar {
         nextAlarm = null;
     }
 
-    public void addEvent(Event event){
+    public boolean addEvent(Event event){
+        if(event == null)
+            return false;
         events.add((event));
         var alarms = event.getAlarms();
         if(alarms != null)
             updateNextAlarm(event.getAlarms());
+        return true;
     }
 
     public void deleteEvent(Event event){

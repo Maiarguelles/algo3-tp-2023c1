@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class InfiniteEvent extends Event{
 
-    public InfiniteEvent(String title, String description, boolean completeDay, LocalDateTime startDate, int duration){
-        super(title, description, completeDay, startDate, duration);
+    public InfiniteEvent(String title, String description, boolean completeDay, LocalDateTime startDate,LocalDateTime endDate){
+        super(title, description, startDate, endDate, completeDay);
         isRepeating = true;
     }
 

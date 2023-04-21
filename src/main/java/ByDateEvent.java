@@ -4,8 +4,8 @@ import java.util.ArrayList;
 public class ByDateEvent extends Event{
 
     private LocalDateTime expirationDate;
-    public ByDateEvent(String title, String description, boolean completeDay, LocalDateTime startDate, int duration, LocalDateTime expirationDate){
-        super(title, description, completeDay, startDate, duration);
+    public ByDateEvent(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay, LocalDateTime expirationDate){
+        super(title, description, startDate, endDate, completeDay);
         isRepeating = true;
         this.expirationDate = expirationDate;
     }
