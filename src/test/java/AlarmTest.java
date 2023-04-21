@@ -76,8 +76,8 @@ public class AlarmTest {
         var alarm1 = new Alarm(0, effect, "Test",eventDate);
         var alarm2 = new Alarm(60, effect, "Test", eventDate);
 
-        LocalDateTime Test1 = alarm1.calculateGoOffTime();
-        LocalDateTime Test2 = alarm2.calculateGoOffTime();
+        LocalDateTime Test1 = alarm1.getGoOffTime();
+        LocalDateTime Test2 = alarm2.getGoOffTime();
 
         assertEquals(eventDate, Test1);
         assertEquals(eventDateMinusSixty, Test2);

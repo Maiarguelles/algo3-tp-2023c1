@@ -18,15 +18,21 @@ public class Calendar {
     public boolean addEvent(Event event){
         if(event == null)
             return false;
-        events.add((event));
+        events.add(event);
         var alarms = event.getAlarms();
         if(alarms != null)
-            updateNextAlarm(event.getAlarms());
+            updateNextAlarm();
         return true;
     }
 
     public void deleteEvent(Event event){
-        events.remove(event);
+        if(event.getAlarms().contains(nextAlarm)){
+            nextAlarm = null;
+            events.remove(event);
+            updateNextAlarm();
+        }
+        else
+            events.remove(event);
     }
 
     public void addTask(Task task){
@@ -37,17 +43,79 @@ public class Calendar {
         tasks.remove(task);
     }
 
-    private void updateNextAlarm(ArrayList<Alarm> alarms){
-        for(int i = 0; i < alarms.size(); i++){
-            var alarm = alarms.get(i);
-            if(nextAlarm.calculateGoOffTime().isAfter(alarm.calculateGoOffTime()))
-                nextAlarm = alarm;
+    private void updateNextAlarm(){
+        Event event = null;
+        Alarm alarm = null;
+        for(int i = 0; i < events.size(); i++){
+            event = events.get(i);
+            for(int j = 0; j < event.getAlarms().size(); j++){
+                alarm = event.getAlarms().get(j);
+                if(nextAlarm == null)
+                    nextAlarm = alarm;
+                else if(alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()))
+                    nextAlarm = alarm;
+            }
         }
     }
 
-    public boolean existEvent(LocalDateTime date){return false;}
+    public LocalDateTime nextAlarm(){
+        return nextAlarm.getGoOffTime();
+    }
 
-    public boolean existTask(LocalDateTime date){return false;}
+    private Event searchEvent(Event event){
+        Event searchedEvent = null;
+        for(int i = 0; i < events.size();i++){
+            searchedEvent = events.get(i);
+            if(searchedEvent.equals(event))
+                return searchedEvent;
+        }
+        return searchedEvent;
+    }
+
+    private Task searchTask(Task task){
+        Task searchedTask = null;
+        for(int i = 0; i < tasks.size();i++){
+            searchedTask = tasks.get(i);
+            if(searchedTask.equals(task))
+                return searchedTask;
+        }
+        return searchedTask;
+    }
+
+
+    public boolean addAlarmToExistentEvent(Event event, Alarm alarm){
+        if(event == null)
+            return false;
+
+        Event existentEvent = searchEvent(event);
+
+        if(existentEvent != null) {
+            updateNextAlarm();
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean existEvent(LocalDate date){
+        Event event = null;
+        for (Event value : events) {
+            event = value;
+            if (date.isEqual(event.getStartDate().toLocalDate()))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean existTask(LocalDateTime date){
+        Task task = null;
+        for (Task value : tasks) {
+            task = value;
+            if (date.isEqual(task.getStartDate()))
+                return true;
+        }
+        return false;
+    }
 
 
     public ArrayList<Event> showEvents(LocalDateTime date1, LocalDateTime date2){

@@ -11,6 +11,8 @@ public class Task {
     private LocalDateTime startDate;
     private LocalDateTime expirationDate;
 
+    private ArrayList<Alarm> alarms;
+
     public Task(String title, String description, LocalDateTime startDate){
         this.completed = false;
         this.title = title;
@@ -31,6 +33,9 @@ public class Task {
 
     public void completeTask(){
         completed = true;
+    }
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
     public void setTitle(String title) {
