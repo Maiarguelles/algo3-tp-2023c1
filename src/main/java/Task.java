@@ -10,6 +10,24 @@ public class Task {
     private LocalDateTime startDate;
     private LocalDateTime expirationDate;
 
+    public Task(String title, String description, LocalDateTime startDate){
+        this.completed = false;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.completeDay = true;
+        this.expirationDate = null;
+    }
+
+    public Task(String title, String description, LocalDateTime startDate,  LocalDateTime expirationDate){
+        this.completed = false;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.completeDay = false;
+        this.expirationDate = expirationDate;
+    }
+
     public void completeTask(){
         completed = true;
     }
