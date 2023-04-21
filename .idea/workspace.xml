@@ -5,26 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d7a07a29-3160-4d52-8377-d0897e52492c" name="Changes" comment="Hicimos los test de Alarm, y modificamos Event y un constructor de Alarm. Creamos clases de frecuencia">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ByDateEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/DailyStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FrequencyStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/InfiniteEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/MonthlyStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/OcurrencesEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/WeeklyStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/YearlyStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Changes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Changes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_4_2023_09_16__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_4_2023_09_16__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_4_2023_11_45__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_4_2023_11_45__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Calendar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DailyFrequency.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Frequency.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/InfiniteRepetition.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MonthlyFrequency.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/OcurrencesRepetition.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Repetition.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/UpToDateRepetition.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/WeeklyFrequency.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/YearlyFrequency.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/CalendarTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/CalendarTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/EventTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/EventTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Etapa-1" />
+        <entry key="$PROJECT_DIR$" value="Mai" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -111,10 +100,42 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="EventTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Calendar" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="EventTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EventTest.Event" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Calendar" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="EventTest" />
+      <option name="METHOD_NAME" value="Event" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EventTest.getDuration" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Calendar" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="EventTest" />
+      <option name="METHOD_NAME" value="getDuration" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.AlarmTest" />
         <item itemvalue="JUnit.All in Calendar" />
+        <item itemvalue="JUnit.EventTest.getDuration" />
+        <item itemvalue="JUnit.EventTest" />
+        <item itemvalue="JUnit.EventTest.Event" />
       </list>
     </recent_temporary>
   </component>
@@ -151,6 +172,17 @@
     <option name="localTasksCounter" value="4" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Creo el proyecto" />
     <MESSAGE value="Agrego las bases de todas las clases y algunos metodos" />
@@ -158,6 +190,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Hicimos los test de Alarm, y modificamos Event y un constructor de Alarm. Creamos clases de frecuencia" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/algo3_tp_2023c1$EventTest.ic" NAME="EventTest Coverage Results" MODIFIED="1682109663811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Calendar$AlarmTest.ic" NAME="AlarmTest Coverage Results" MODIFIED="1681689503070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/algo3_tp_2023c1$All_in_Calendar.ic" NAME="All in Calendar Coverage Results" MODIFIED="1682109832337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/algo3_tp_2023c1$AlarmTest.ic" NAME="AlarmTest Coverage Results" MODIFIED="1682109850711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/algo3_tp_2023c1$EventTest_getDuration.ic" NAME="EventTest.getDuration Coverage Results" MODIFIED="1682109784200" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
