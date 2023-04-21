@@ -5,7 +5,6 @@ import java.time.temporal.ChronoUnit;
 public class Alarm {
     private final String title; //debe ser el mismo titulo que un evento o tarea existente
 
-
     private final LocalDateTime goOffTime;
     private final LocalDateTime eventDate;
     private final int minBefore;

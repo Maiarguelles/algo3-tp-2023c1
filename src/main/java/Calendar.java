@@ -11,7 +11,7 @@ public class Calendar {
 
     public Calendar(){
         events = new ArrayList<Event>();
-        tasks = new ArrayList<Task>();;
+        tasks = new ArrayList<Task>();
         nextAlarm = null;
     }
 
@@ -59,15 +59,20 @@ public class Calendar {
     }
 
     public LocalDateTime nextAlarm(){
-        return nextAlarm.getGoOffTime();
+        if(nextAlarm != null)
+            return nextAlarm.getGoOffTime();
+        else
+            return null;
     }
 
     private Event searchEvent(Event event){
         Event searchedEvent = null;
+
         for(int i = 0; i < events.size();i++){
-            searchedEvent = events.get(i);
-            if(searchedEvent.equals(event))
+            if(events.get(i).equals(event)) {
+                searchedEvent = event;
                 return searchedEvent;
+            }
         }
         return searchedEvent;
     }
@@ -76,8 +81,10 @@ public class Calendar {
         Task searchedTask = null;
         for(int i = 0; i < tasks.size();i++){
             searchedTask = tasks.get(i);
-            if(searchedTask.equals(task))
+            if(searchedTask.equals(task)){
+                searchedTask = task;
                 return searchedTask;
+            }
         }
         return searchedTask;
     }
@@ -90,6 +97,7 @@ public class Calendar {
         Event existentEvent = searchEvent(event);
 
         if(existentEvent != null) {
+            existentEvent.addAlarm(alarm);
             updateNextAlarm();
             return true;
         }
