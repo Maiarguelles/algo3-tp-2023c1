@@ -22,6 +22,16 @@ public class DailyStrategy implements FrequencyStrategy{
         return null;
     }
 
+    public LocalDateTime lastDateWithOcurrences(int ocurrences, LocalDateTime startDate){
+        LocalDateTime lastDate = null;
+        for(int i = 0; i < ocurrences; i++){
+            lastDate = lastDate.plusDays(frequency);
+        }
+
+        return lastDate;
+    }
+
+
 
 
 }

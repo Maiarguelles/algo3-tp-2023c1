@@ -65,6 +65,7 @@ public class Calendar {
             return null;
     }
 
+
     private Event searchEvent(Event event){
         Event searchedEvent = null;
 
@@ -104,6 +105,8 @@ public class Calendar {
 
         return false;
     }
+
+
 
     public boolean existEvent(LocalDate date){
         Event event = null;

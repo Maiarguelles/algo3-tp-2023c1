@@ -7,4 +7,6 @@ public class OcurrencesEvent extends Event{
         isRepeating = true;
         this.ocurrences = ocurrences;
     }
+
+
 }

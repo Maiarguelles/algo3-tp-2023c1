@@ -58,4 +58,9 @@ public class Task {
         this.expirationDate = expirationDate;
     }
 
+    public void addAlarm(Alarm alarm){
+        alarms.add(alarm);
+    }
+
+
 }
