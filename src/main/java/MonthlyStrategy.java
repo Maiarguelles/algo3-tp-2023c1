@@ -1,20 +1,45 @@
+import java.nio.channels.ClosedChannelException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MonthlyStrategy implements FrequencyStrategy{
 
     @Override
-    public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime date1, LocalDateTime finalDate, LocalDateTime eventDate){
-        return null;
+    public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime date1, LocalDateTime date2, LocalDateTime eventDate){
+        if(eventDate.isAfter(date2))
+            return null;
+
+        var dates = new ArrayList<LocalDateTime>();
+
+        LocalDateTime repetition  = getFirstRepetitionWithinTwoDates(date1, date2, eventDate);
+
+        while(repetition.isBefore(date2)){
+            dates.add(repetition);
+            repetition = repetition.plusMonths(1);
+        }
+
+        return dates;
+
     }
 
     @Override
     public LocalDateTime lastDateWithOcurrences(int ocurrences, LocalDateTime starDate) {
-        LocalDateTime lastPossibleDay = null;
+        LocalDateTime lastPossibleDay = starDate;
         for (int i=0; i<ocurrences; i++){
-            lastPossibleDay =starDate.plusMonths(1);
+            lastPossibleDay =lastPossibleDay.plusMonths(1);
         }
         return lastPossibleDay;
+    }
+
+    @Override
+    public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
+        LocalDateTime firstRepetition = startDate;
+
+        while(firstRepetition.isBefore(date1)) {
+            firstRepetition = firstRepetition.plusMonths(1);
+        }
+
+        return firstRepetition;
     }
 
 }
