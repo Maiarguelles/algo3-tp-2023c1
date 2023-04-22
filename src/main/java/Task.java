@@ -13,6 +13,7 @@ public class Task {
 
     private ArrayList<Alarm> alarms;
 
+    /*
     public Task(String title, String description, LocalDateTime startDate){
         this.completed = false;
         this.title = title;
@@ -29,6 +30,17 @@ public class Task {
         this.startDate = startDate;
         this.completeDay = false;
         this.expirationDate = expirationDate;
+    }
+    */
+
+
+    public Task(String title, String description, LocalDateTime startDate,  LocalDateTime expirationDate, boolean isCompleteDay){
+        this.completed = false;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.completeDay = isCompleteDay;
+        this.expirationDate = (isCompleteDay) ? startDate.plusDays(1) : expirationDate;
     }
 
     public void completeTask(){
@@ -58,8 +70,19 @@ public class Task {
         this.expirationDate = expirationDate;
     }
 
+    public LocalDateTime getExpirationDate(){
+        return this.getExpirationDate();
+    }
     public void addAlarm(Alarm alarm){
         alarms.add(alarm);
+    }
+
+    public void removeAlarm(Alarm alarm){
+        alarms.remove(alarm);
+    }
+
+    public ArrayList<Alarm> getAlarms(){
+        return alarms;
     }
 
 

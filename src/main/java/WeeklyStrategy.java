@@ -41,6 +41,7 @@ public class WeeklyStrategy implements FrequencyStrategy{
         return lastPossibleDay;
     }
 
+
     @Override
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
         LocalDateTime firstRepetition = date1;

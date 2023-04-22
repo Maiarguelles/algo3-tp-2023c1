@@ -11,15 +11,18 @@ public class DailyStrategy implements FrequencyStrategy{
     }
 
     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime date1, LocalDateTime date2, LocalDateTime eventDate){
-        long days = eventDate.until(date1, ChronoUnit.DAYS);
+        if (eventDate.isAfter(date2))
+            return null;
 
-        long numberOfOcurrences = days/frequency;
-        if(days%frequency != 0)
-            numberOfOcurrences++;
+        ArrayList<LocalDateTime> dates = new ArrayList<>();
+        LocalDateTime repetition = getFirstRepetitionWithinTwoDates(date1, date2, eventDate);
 
-        var correctDate = eventDate.plusDays(frequency*numberOfOcurrences);
+        while (repetition.isBefore(date2)){
+            dates.add(repetition);
+            repetition.plusDays(frequency);
+        }
 
-        return null;
+        return dates;
     }
 
     public LocalDateTime lastDateWithOcurrences(int ocurrences, LocalDateTime startDate){
@@ -34,7 +37,10 @@ public class DailyStrategy implements FrequencyStrategy{
 
     @Override
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
-        if (date1.isBefore())
-        return null;
+        LocalDateTime firstRepetition = startDate;
+        while(firstRepetition.isBefore(date1)){
+            firstRepetition = firstRepetition.plusDays(frequency);
+        }
+        return firstRepetition;
     }
 }

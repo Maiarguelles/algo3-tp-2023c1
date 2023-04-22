@@ -36,12 +36,24 @@ public class Calendar {
             events.remove(event);
     }
 
-    public void addTask(Task task){
+    public boolean addTask(Task task){
+        if(task == null)
+            return false;
         tasks.add(task);
+        var alarms = task.getAlarms();
+        if(alarms != null)
+            updateNextAlarm();
+        return true;
     }
 
     public void deleteTask(Task task){
-        tasks.remove(task);
+        if(task.getAlarms().contains(nextAlarm)){
+            nextAlarm = null;
+            tasks.remove(task);
+            updateNextAlarm();
+        }
+        else
+            tasks.remove(task);
     }
 
     private void updateNextAlarm(){
@@ -51,6 +63,17 @@ public class Calendar {
             event = events.get(i);
             for(int j = 0; j < event.getAlarms().size(); j++){
                 alarm = event.getAlarms().get(j);
+                if(nextAlarm == null)
+                    nextAlarm = alarm;
+                else if(alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()))
+                    nextAlarm = alarm;
+            }
+        }
+        Task task = null;
+        for(int i = 0; i < tasks.size(); i++){
+            task = tasks.get(i);
+            for(int j = 0; j < task.getAlarms().size(); j++){
+                alarm = task.getAlarms().get(j);
                 if(nextAlarm == null)
                     nextAlarm = alarm;
                 else if(alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()))
@@ -106,7 +129,20 @@ public class Calendar {
 
         return false;
     }
+    public boolean addAlarmToExistentTask(Task task, Alarm alarm){
+        if(task == null)
+            return false;
 
+        Task existentTask = searchTask(task);
+
+        if(existentTask != null) {
+            existentTask.addAlarm(alarm);
+            updateNextAlarm();
+            return true;
+        }
+
+        return false;
+    }
 
 
     public boolean existEvent(LocalDate date){
@@ -151,7 +187,19 @@ public class Calendar {
         return eventsToShow;
     }
 
+    public ArrayList<Task> showTasks(LocalDateTime date1, LocalDateTime date2){
+        var taskToShow = new ArrayList<Task>();
+        for (var task : this.tasks){
+            LocalDateTime taskStartDate = task.getStartDate();
+            LocalDateTime taskExpiretionDate = task.getExpirationDate();
+            if ((taskStartDate.isAfter(date1) && taskStartDate.isBefore(date2))
+                    || taskExpiretionDate.isAfter(date1) && taskExpiretionDate.isBefore(date2)){
+                taskToShow.add(task);
 
+            }
+        }
+        return taskToShow;
+    }
 
 
 }
