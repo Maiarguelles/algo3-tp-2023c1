@@ -1,8 +1,47 @@
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 
 public class Event {
+    protected LocalDateTime startDate;
+
+    protected LocalDateTime endDate;
+    private String title;
+    private String description;
+    private boolean completeDay; //si completeDay es true, la hora de inicio debe ser 00:00
+    private final ArrayList<Alarm> alarms;
+    protected boolean isRepeating;
+    protected FrequencyStrategy frequencyStrategy;
+
+
+    public Event(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay){
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.alarms = new ArrayList<Alarm>();
+        this.isRepeating = false;
+        this.frequencyStrategy = null;
+        this.completeDay = completeDay;
+        if(completeDay)
+            this.endDate = startDate.plusHours(24);
+        else
+            this.endDate = endDate;
+
+    }
+
+
+    public Event repeatEvent(LocalDateTime startDate){
+        var eventDuration = this.getDuration();
+        var eventRepetition = new Event(title, description, startDate, startDate.plusMinutes(eventDuration), isCompleteDay());
+        for (Alarm alarm : alarms) {
+            eventRepetition.addAlarm(alarm.cloneAlarm(startDate));
+        }
+        return eventRepetition;
+    }
 
     public String getTitle() {
         return title;
@@ -12,53 +51,34 @@ public class Event {
         return description;
     }
 
+    public int getDuration(){
+        if(isCompleteDay())
+            return 1440;
+        else
+            return (int)this.startDate.until(endDate, ChronoUnit.MINUTES);
+    }
+
     public boolean isCompleteDay() {
         return completeDay;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    private String title;
-    private String description;
-
-    private boolean completeDay; //si completeDay es true, la hora de inicio debe ser 00:00
 
     public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    private LocalDateTime startDate;
-
-    private int duration;
-
-    public Repetition getRepetition() {
-        return repetition;
-    }
-
-    private Repetition repetition;
-
-    private final ArrayList<Alarm> alarms;
-
-
-    public Event(String title, String description, boolean completeDay, LocalDateTime startDate, int duration, Repetition repetition) {
-        this.title = title;
-        this.description = description;
-        this.completeDay = completeDay;
-        this.startDate = startDate;
-        this.duration = duration;
-        this.repetition = repetition;
-        this.alarms = new ArrayList<Alarm>();
-
-    }
 
     public ArrayList<Alarm> getAlarms(){
         return alarms;
     }
-    public void addAlarm(){}
 
-    public void removeAlarm(){}
+    public void addAlarm(Alarm alarm){
+        alarms.add(alarm);
+    }
+
+    public void removeAlarm(Alarm alarm){
+        alarms.remove(alarm);
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -76,19 +96,49 @@ public class Event {
         this.startDate = startDate;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+
+
+    public boolean isRepeating() {
+        return isRepeating;
     }
 
-    public void setRepetition(Repetition repetition) {
-        this.repetition = repetition;
+    public boolean addDailyFrequency(int frequency){
+        if(isRepeating) {
+            frequencyStrategy = new DailyStrategy(frequency);
+            return true;
+        }
+        return false;
+    }
+    public boolean addWeeklyFrequency(ArrayList<DayOfWeek> weekDays){
+        if(isRepeating) {
+            frequencyStrategy = new WeeklyStrategy(weekDays);
+            return true;
+        }
+        return false;
     }
 
-    public ArrayList<LocalDateTime> showDatesOfEvent(LocalDateTime startDate, LocalDateTime endDate){
-        return repetition.showDatesOfEvents(startDate, endDate);
+    public boolean addMonthlyFrequency(){
+        if(isRepeating) {
+            frequencyStrategy = new MonthlyStrategy();
+            return true;
+        }
+        return false;
     }
 
+    public boolean addYearlyFrequency(){
+        if(isRepeating) {
+            frequencyStrategy = new YearlyStrategy();
+            return true;
+        }
+        return false;
+    }
 
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+    public ArrayList<LocalDateTime> showDatesOfEvent(LocalDateTime date1, LocalDateTime date2){
+        return null;
+    }
 
 
 }
