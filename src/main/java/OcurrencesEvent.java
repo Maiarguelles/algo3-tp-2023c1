@@ -9,7 +9,8 @@ public class OcurrencesEvent extends Event{
         this.ocurrences = ocurrences;
     }
 
-    public ArrayList<LocalDateTime> showDatesOfEvent(LocalDateTime date1, LocalDateTime date2){
+    @Override
+    public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         LocalDateTime lastPossibleDay= frequencyStrategy.lastDateWithOcurrences(ocurrences, this.startDate);
         if (lastPossibleDay.isBefore((date2)))
             return frequencyStrategy.showDatesOfEvents(date1, lastPossibleDay, startDate);

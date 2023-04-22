@@ -11,7 +11,7 @@ public class ByDateEvent extends Event{
     }
 
     @Override
-    public ArrayList<LocalDateTime> showDatesOfEvent(LocalDateTime date1, LocalDateTime date2){
+    public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         var dates = new ArrayList<LocalDateTime>();
         if(expirationDate.isBefore(date1))
             return null;
