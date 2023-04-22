@@ -16,11 +16,8 @@ public class ByDateEvent extends Event{
         if(expirationDate.isBefore(date1))
             return null;
 
-        else if(expirationDate.isBefore(date2) && expirationDate.isAfter(date1))
-            dates = frequencyStrategy.showDatesOfEvents(date1, expirationDate, startDate);
-        else
-            dates = frequencyStrategy.showDatesOfEvents(date1, date2, startDate);
-
+        LocalDateTime endDate = (expirationDate.isBefore(date2)) ? expirationDate : date2;
+        dates = frequencyStrategy.showDatesOfEvents(date1, endDate, this.startDate);
         return dates;
     }
 }

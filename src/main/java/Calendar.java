@@ -25,6 +25,7 @@ public class Calendar {
         return true;
     }
 
+
     public void deleteEvent(Event event){
         if(event.getAlarms().contains(nextAlarm)){
             nextAlarm = null;
