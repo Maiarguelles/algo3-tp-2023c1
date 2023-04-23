@@ -144,7 +144,97 @@ public class CalendarTest {
     }
 
 
+    @Test
+    public void setNoTitle(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
+        var event = new Event("test", "test", date1, null, true);
+
+        calendar.addReminder(event);
+        event.setTitle("");
+        assertEquals("No Title", event.getTitle());
+    }
+
+    @Test
+    public void updateEventAfterAddingRepetition(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
+        var event1 = new Event("test", "test", date1, null, true);
+        var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
+
+        var date3 = date2.plusDays(7);
+
+        var event2 = new Event("test", "test", date1, date2, false);
+
+        var event3 = new Event("test", "test", date2, date3, false);
+
+        var frequencyStrategy = new DailyStrategy(3);
 
 
+        calendar.addReminder(event1);
+        calendar.addReminder(event2);
+        calendar.addReminder(event3);
+
+        calendar.addInfiniteRepetitionToExistentEvent(event1, frequencyStrategy);
+        assertEquals(false,calendar.searchReminder(event1));
+
+        calendar.addOcurrencesRepetitionToExistentEvent(event2, 20, frequencyStrategy);
+        assertEquals(false, calendar.searchReminder(event2));
+
+        calendar.addRepetitionByDateToExistentEvent(event3,date3.plusMonths(1), frequencyStrategy);
+        assertEquals(false, calendar.searchReminder(event3));
+
+    }
+
+    @Test
+    public void addRepetitionToAnNonExistentEvent(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
+        var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
+
+        var event= new Event("test", "test", date1, date2, false);
+
+        var frequencyStrategy = new DailyStrategy(3);
+
+        assertEquals(null, calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy));
+        assertEquals(null, calendar.addOcurrencesRepetitionToExistentEvent(event, 20, frequencyStrategy));
+        assertEquals(null, calendar.addRepetitionByDateToExistentEvent(event, date2.plusDays(50), frequencyStrategy));
+    }
+
+    @Test
+    public void yearlyRepeatedReminderInThreeYears(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
+        var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
+
+        var starDate = LocalDateTime.of(2023, 1, 1, 0,0);
+        var endDate = LocalDateTime.of(2026, 1,1,0,0);
+
+        var event = new Event("title", "test", date1, date2, false);
+        var frequencyStrategy = new YearlyStrategy();
+        calendar.addReminder(event);
+        var repeatedEvent = calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+
+        int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
+        assertEquals(3, actual);
+    }
+
+    @Test
+    public void monthlyRepeatedReminderInThreeMonths(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
+        var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
+
+        var starDate = LocalDateTime.of(2023, 4, 1, 0,0);
+        var endDate = LocalDateTime.of(2023, 7,1,0,0);
+
+        var event = new Event("title", "test", date1, date2, false);
+        var frequencyStrategy = new MonthlyStrategy();
+        calendar.addReminder(event);
+        var repeatedEvent = calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+
+        int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
+        assertEquals(3, actual);
+    }
 
 }

@@ -6,12 +6,12 @@ public class MonthlyStrategy implements FrequencyStrategy{
 
     @Override
     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime date1, LocalDateTime date2, LocalDateTime eventDate){
-        if(eventDate.isAfter(date2))
-            return null;
 
         var dates = new ArrayList<LocalDateTime>();
 
         LocalDateTime repetition  = getFirstRepetitionWithinTwoDates(date1, date2, eventDate);
+        if (repetition == null)
+            return null;
 
         while(repetition.isBefore(date2)){
             dates.add(repetition);
@@ -33,13 +33,24 @@ public class MonthlyStrategy implements FrequencyStrategy{
 
     @Override
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
-        LocalDateTime firstRepetition = startDate;
+        LocalDateTime firstRepetition = null;
 
-        while(firstRepetition.isBefore(date1)) {
-            firstRepetition = firstRepetition.plusMonths(1);
+        if (startDate.isAfter(date2)){
+            return null;
+        }
+        else if (startDate.isAfter(date1) && startDate.isBefore(date2))
+            return startDate;
+        else{
+            firstRepetition = startDate;
+            while(firstRepetition.isBefore(date1)) {
+                firstRepetition = firstRepetition.plusMonths(1);
+            }
+            if (firstRepetition.isBefore(date2))
+                return firstRepetition;
+            else
+                return null;
         }
 
-        return firstRepetition;
     }
 
 }

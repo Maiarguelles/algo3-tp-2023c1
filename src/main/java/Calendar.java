@@ -57,15 +57,15 @@ public class Calendar {
     }
 
 
-    private Reminder searchReminder(Reminder reminder){
+    public boolean searchReminder(Reminder reminder){
         Reminder searchedReminder = null;
         for (Reminder existentReminder : reminders) {
             if (existentReminder.equals(reminder)) {
                 searchedReminder = existentReminder;
-                break;
+                return true;
             }
         }
-        return searchedReminder;
+        return false;
     }
 
 
@@ -122,12 +122,11 @@ public class Calendar {
         return true;
     }
 
-    public boolean addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy){
-        var searchedReminder = searchReminder(reminder);
-        if(searchedReminder == null)
-            return false;
-        var newReminder = searchedReminder.addInfiniteRepetition(frequencyStrategy);
-        reminders.remove(reminder);
+    public Event addInfiniteRepetitionToExistentEvent(Event event, FrequencyStrategy frequencyStrategy) {
+        if (!searchReminder(event))
+            return null;
+        var newReminder = event.addInfiniteRepetition(frequencyStrategy);
+        reminders.remove(event);
         reminders.add(newReminder);
         return true;
     }

@@ -11,6 +11,7 @@ public class Event extends Reminder{
     protected FrequencyStrategy frequencyStrategy;
 
 
+
     public Event(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay){
         super(title, description, completeDay, startDate);
         isRepeating = false;
@@ -85,8 +86,8 @@ public class Event extends Reminder{
         return event;
     }
 
-    @Override
-    public Reminder addRepetitionByDate(LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy) {
+
+    public Event addRepetitionByDate(LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy) {
         Event event = new ByDateEvent(title, description, startDate, endDate, completeDay, expirationDate);
         event.addFrequency(frequencyStrategy);
         return event;

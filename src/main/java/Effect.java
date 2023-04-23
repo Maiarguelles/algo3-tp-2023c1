@@ -1,3 +1,10 @@
 public interface Effect {
-    public void produceEffect();
+    public typeOfEffect produceEffect();
+
+    public enum typeOfEffect{
+        NOTIFICATION,
+        EMAIL,
+        SOUND,
+    }
+
 }

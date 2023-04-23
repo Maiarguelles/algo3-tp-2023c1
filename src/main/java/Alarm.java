@@ -56,8 +56,8 @@ public class Alarm {
         return (date.isEqual(this.goOffTime));
     }
 
-    public void trigger(){
-        effect.produceEffect();
+    public Effect.typeOfEffect  trigger(){
+       return  effect.produceEffect();
     }
 
 
