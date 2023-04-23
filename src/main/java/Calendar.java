@@ -70,7 +70,7 @@ public class Calendar {
 
 
 
-    public boolean addAlarmToExistentEvent(Reminder reminder, Alarm alarm){
+    public boolean addAlarmToExistentReminder(Reminder reminder, Alarm alarm){
         if(reminder == null)
             return false;
 
@@ -83,6 +83,41 @@ public class Calendar {
         }
 
         return false;
+    }
+
+    public void changeReminderTitle(Reminder reminder, String name){
+        searchReminder(reminder).setTitle(name);
+    }
+
+    public void changeReminderDescription(Reminder reminder, String description){
+        searchReminder(reminder).setDescription(description);
+    }
+
+    public void changeReminderCompleteDay(Reminder reminder, LocalDateTime newEndDate){
+        searchReminder(reminder).changeCompleteDay(newEndDate);
+    }
+
+    public void makeReminderCompleteDay(Reminder reminder){
+        searchReminder(reminder).makeReminderCompleteDay();
+    }
+
+
+    public void addRepetitionByDate(Reminder reminder, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
+        var newReminder = searchReminder(reminder).addRepetitionByDate(reminder, expirationDate, frequencyStrategy);
+        reminders.remove(reminder);
+        reminders.add(newReminder);
+    }
+
+    public void addOcurrencesRepetition(Reminder reminder, int ocurrences, FrequencyStrategy frequencyStrategy){
+        var newReminder = searchReminder(reminder).addOcurrencesRepetition(reminder, ocurrences, frequencyStrategy);
+        reminders.remove(reminder);
+        reminders.add(newReminder);
+    }
+
+    public void addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy){
+        var newReminder = searchReminder(reminder).addInfiniteRepetition(reminder, frequencyStrategy);
+        reminders.remove(reminder);
+        reminders.add(newReminder);
     }
 
 

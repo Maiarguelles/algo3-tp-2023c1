@@ -1,3 +1,4 @@
+import javax.swing.border.EmptyBorder;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
@@ -5,8 +6,9 @@ import java.util.ArrayList;
 
 public class Event extends Reminder{
 
-    protected LocalDateTime endDate;
     protected boolean isRepeating;
+
+    protected LocalDateTime endDate;
     protected FrequencyStrategy frequencyStrategy;
 
 
@@ -35,6 +37,7 @@ public class Event extends Reminder{
     }
 
 
+
     public int getDuration(){
         if(isCompleteDay()){
             LocalDateTime date1= LocalDateTime.of(startDate.toLocalDate(), LocalTime.of(0,0));
@@ -55,7 +58,7 @@ public class Event extends Reminder{
         return isRepeating;
     }
 
-    public boolean addDailyFrequency(int frequency){
+    /*public boolean addDailyFrequency(int frequency){
         if(isRepeating) {
             frequencyStrategy = new DailyStrategy(frequency);
             return true;
@@ -84,7 +87,46 @@ public class Event extends Reminder{
             return true;
         }
         return false;
+    }*/
+
+
+    public void addFrequency(FrequencyStrategy frequencyStrategy){
+        this.frequencyStrategy = frequencyStrategy;
     }
+
+
+    public void changeCompleteDay(LocalDateTime endDate){
+        completeDay = false;
+        this.endDate = endDate;
+    }
+
+    public void makeReminderCompleteDay(){
+        completeDay = true;
+        this.endDate = LocalDateTime.of(this.endDate.plusDays(1).toLocalDate(), LocalTime.of(0,0));
+    }
+
+
+    public Event addOcurrencesRepetition(Reminder reminder, int ocurrences, FrequencyStrategy frequencyStrategy){
+        var event = new OcurrencesEvent(reminder.getTitle(), reminder.getDescription(), reminder.getStartDate(), reminder.getEndDate(), reminder.isCompleteDay(), ocurrences);
+        event.addFrequency(frequencyStrategy);
+        return event;
+    }
+
+
+    public Event addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy) {
+        var event = new InfiniteEvent(reminder.getTitle(), reminder.getDescription(), reminder.isCompleteDay(), reminder.getStartDate(), reminder.getEndDate());
+        event.addFrequency(frequencyStrategy);
+        return event;
+    }
+
+    @Override
+    public Reminder addRepetitionByDate(Reminder reminder, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy) {
+        var event = new ByDateEvent(reminder.getTitle(), reminder.getDescription(), reminder.getStartDate(), reminder.getEndDate(), reminder.isCompleteDay(), expirationDate);
+        event.addFrequency(frequencyStrategy);
+        return event;
+    }
+
+
 
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         ArrayList<LocalDateTime> dates = new ArrayList<>();

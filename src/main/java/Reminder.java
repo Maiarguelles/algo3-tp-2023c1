@@ -68,7 +68,18 @@ public abstract class Reminder{
         return startDate;
     }
 
+    abstract public void makeReminderCompleteDay();
+
+    abstract public void changeCompleteDay(LocalDateTime endDate);
+
     abstract public  Reminder repeatReminder(LocalDateTime startDate);
+
+    abstract public Reminder addRepetitionByDate(Reminder reminder, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy);
+
+    abstract public Reminder addOcurrencesRepetition(Reminder reminder, int ocurrences, FrequencyStrategy frequencyStrategy);
+
+    abstract public Reminder addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy);
+
     abstract public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2);
 
 
