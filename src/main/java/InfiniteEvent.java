@@ -9,6 +9,11 @@ public class InfiniteEvent extends Event{
     }
 
     @Override
+    public void addFrequency(FrequencyStrategy frequencyStrategy){
+        this.frequencyStrategy = frequencyStrategy;
+    }
+
+    @Override
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         return frequencyStrategy.showDatesOfEvents(date1, date2, startDate);
     }

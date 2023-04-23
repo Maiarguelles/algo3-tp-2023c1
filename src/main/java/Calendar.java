@@ -102,22 +102,34 @@ public class Calendar {
     }
 
 
-    public void addRepetitionByDate(Reminder reminder, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
-        var newReminder = searchReminder(reminder).addRepetitionByDate(reminder, expirationDate, frequencyStrategy);
+    public boolean addRepetitionByDate(Reminder reminder, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
+        var searchedReminder = searchReminder(reminder);
+        if(searchedReminder == null)
+            return false;
+        var newReminder = searchedReminder.addRepetitionByDate(expirationDate, frequencyStrategy);
         reminders.remove(reminder);
         reminders.add(newReminder);
+        return true;
     }
 
-    public void addOcurrencesRepetition(Reminder reminder, int ocurrences, FrequencyStrategy frequencyStrategy){
-        var newReminder = searchReminder(reminder).addOcurrencesRepetition(reminder, ocurrences, frequencyStrategy);
+    public boolean addOcurrencesRepetition(Reminder reminder, int ocurrences, FrequencyStrategy frequencyStrategy){
+        var searchedReminder = searchReminder(reminder);
+        if(searchedReminder == null)
+            return false;
+        var newReminder = searchedReminder.addOcurrencesRepetition(ocurrences, frequencyStrategy);
         reminders.remove(reminder);
         reminders.add(newReminder);
+        return true;
     }
 
-    public void addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy){
-        var newReminder = searchReminder(reminder).addInfiniteRepetition(reminder, frequencyStrategy);
+    public boolean addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy){
+        var searchedReminder = searchReminder(reminder);
+        if(searchedReminder == null)
+            return false;
+        var newReminder = searchedReminder.addInfiniteRepetition(frequencyStrategy);
         reminders.remove(reminder);
         reminders.add(newReminder);
+        return true;
     }
 
 

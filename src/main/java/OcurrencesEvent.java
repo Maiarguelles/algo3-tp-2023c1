@@ -9,6 +9,12 @@ public class OcurrencesEvent extends Event{
         this.ocurrences = ocurrences;
     }
 
+
+    @Override
+    public void addFrequency(FrequencyStrategy frequencyStrategy){
+        this.frequencyStrategy = frequencyStrategy;
+    }
+
     @Override
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         LocalDateTime lastPossibleDay= frequencyStrategy.lastDateWithOcurrences(ocurrences, this.startDate);

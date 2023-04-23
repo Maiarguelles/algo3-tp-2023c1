@@ -9,7 +9,6 @@ public class Task extends Reminder{
     public Task(String title, String description, LocalDateTime startDate, boolean completeDay){
         super(title, description, completeDay, startDate);
         this.completed = false;
-        isRepeating = false;
     }
 
     public void completeTask(){
@@ -33,16 +32,16 @@ public class Task extends Reminder{
         completeDay = true;
     }
 
-    public Reminder addRepetitionByDate(Reminder reminder, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
-        return reminder;
+    public Reminder addRepetitionByDate(LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
+        return null;
     }
 
-    public Reminder addOcurrencesRepetition(Reminder reminder, int ocurrences, FrequencyStrategy frequencyStrategy){
-        return reminder;
+    public Reminder addOcurrencesRepetition(int ocurrences, FrequencyStrategy frequencyStrategy){
+        return null;
     }
 
     public Reminder addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy){
-        return reminder;
+        return null;
     }
 
 

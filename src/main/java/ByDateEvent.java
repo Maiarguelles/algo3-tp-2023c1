@@ -11,6 +11,11 @@ public class ByDateEvent extends Event{
     }
 
     @Override
+    public void addFrequency(FrequencyStrategy frequencyStrategy){
+        this.frequencyStrategy = frequencyStrategy;
+    }
+
+    @Override
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         var dates = new ArrayList<LocalDateTime>();
         if(expirationDate.isBefore(date1))

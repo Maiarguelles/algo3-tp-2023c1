@@ -74,11 +74,11 @@ public abstract class Reminder{
 
     abstract public  Reminder repeatReminder(LocalDateTime startDate);
 
-    abstract public Reminder addRepetitionByDate(Reminder reminder, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy);
+    abstract public Reminder addRepetitionByDate(LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy);
 
-    abstract public Reminder addOcurrencesRepetition(Reminder reminder, int ocurrences, FrequencyStrategy frequencyStrategy);
+    abstract public Reminder addOcurrencesRepetition(int ocurrences, FrequencyStrategy frequencyStrategy);
 
-    abstract public Reminder addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy);
+    abstract public Reminder addInfiniteRepetition(FrequencyStrategy frequencyStrategy);
 
     abstract public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2);
 
