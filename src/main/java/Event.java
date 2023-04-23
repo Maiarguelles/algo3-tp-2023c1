@@ -1,12 +1,9 @@
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 
-public class Event extends  Reminder{
+public class Event extends Reminder{
 
     protected LocalDateTime endDate;
     protected boolean isRepeating;
@@ -17,12 +14,18 @@ public class Event extends  Reminder{
         super(title, description, completeDay, startDate);
         isRepeating = false;
         frequencyStrategy = null;
-        this.endDate= endDate;
+        if(completeDay && (endDate==(null))){
+            LocalDate realDate = startDate.plusDays(1).toLocalDate();
+            this.endDate = LocalDateTime.of(realDate, LocalTime.of(0,0)); // no es lo mas lindo pero bueno
+
+        }
+        else
+            this.endDate= endDate;
 
     }
 
 
-    public Reminder repeatReminder(LocalDateTime startDate){
+    public Event repeatReminder(LocalDateTime startDate){
         var eventDuration = this.getDuration();
         var eventRepetition = new Event(title, description, startDate, startDate.plusMinutes(eventDuration), isCompleteDay());
         for (Alarm alarm : alarms) {
@@ -33,16 +36,20 @@ public class Event extends  Reminder{
 
 
     public int getDuration(){
-        if(isCompleteDay())
-            return 1440;
+        if(isCompleteDay()){
+            LocalDateTime date1= LocalDateTime.of(startDate.toLocalDate(), LocalTime.of(0,0));
+            LocalDateTime date2 = LocalDateTime.of(endDate.toLocalDate(), LocalTime.of(0,0));
+            return (int) date1.until(date2, ChronoUnit.MINUTES);
+        }
+
         else
             return (int)this.startDate.until(endDate, ChronoUnit.MINUTES);
     }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
 
+    public LocalDateTime getEndDate(){
+        return this.endDate;
+    }
 
     public boolean isRepeating() {
         return isRepeating;

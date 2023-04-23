@@ -20,9 +20,9 @@ public class CalendarTest {
 
 
 
-        boolean nullEvent = calendar.addEvent(null);
-        boolean completeevent = calendar.addEvent(completeEvent);
-        boolean eventtest = calendar.addEvent(eventTest);
+        boolean nullEvent = calendar.addReminder(null);
+        boolean completeevent = calendar.addReminder(completeEvent);
+        boolean eventtest = calendar.addReminder(eventTest);
 
         assertEquals(nullEvent, false);
         assertEquals(completeevent, true);
@@ -45,7 +45,7 @@ public class CalendarTest {
         var event1 = new Event("test", "test", date1, null, true);
         var alarm1 = new Alarm(30, null, "minutosantes", date1);
 
-        calendar.addEvent(event1);
+        calendar.addReminder(event1);
         calendar.addAlarmToExistentEvent(event1, alarm1);
         assertEquals(date1.minusMinutes(30), calendar.nextAlarm());
     }
@@ -62,8 +62,8 @@ public class CalendarTest {
         var event1 = new Event("test", "test", date1, null, true);
         var event2 = new Event("test", "test", date1, date2, false);
 
-        calendar.addEvent(event1);
-        calendar.addEvent(event2);
+        calendar.addReminder(event1);
+        calendar.addReminder(event2);
         calendar.addAlarmToExistentEvent(event1, alarm1);
         calendar.addAlarmToExistentEvent(event2, alarm2);
 
@@ -83,13 +83,13 @@ public class CalendarTest {
         var event1 = new Event("test", "test", date1, null, true);
         var event2 = new Event("test", "test", date1, date2, false);
 
-        calendar.addEvent(event1);
-        calendar.addEvent(event2);
+        calendar.addReminder(event1);
+        calendar.addReminder(event2);
 
         calendar.addAlarmToExistentEvent(event1, alarm1);
         calendar.addAlarmToExistentEvent(event2, alarm2);
 
-        calendar.deleteEvent(event1);
+        calendar.deleteReminder(event1);
 
         assertEquals(date2, calendar.nextAlarm());
 
@@ -103,13 +103,13 @@ public class CalendarTest {
 
 
         var event1 = new Event("test", "test", date1, null, true);
-        calendar.addEvent(event1);
+        calendar.addReminder(event1);
         var alarm1 = new Alarm(30, null, "minutosantes", date1);
         calendar.addAlarmToExistentEvent(event1, alarm1);
 
 
         var event2 = new Event("test", "test", date1, date2, false);
-        calendar.addEvent(event2);
+        calendar.addReminder(event2);
 
         assertEquals(date1.minusMinutes(30), calendar.nextAlarm());
 
@@ -126,9 +126,9 @@ public class CalendarTest {
         var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
 
         var event1 = new Event("test", "test", date1, null, true);
-        calendar.addEvent(event1);
+        calendar.addReminder(event1);
 
-        assertEquals(true, calendar.existEvent(date1.toLocalDate()));
+        assertEquals(true, calendar.existReminder(date1.toLocalDate()));
     }
 
     @Test
@@ -138,9 +138,9 @@ public class CalendarTest {
         var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
 
         var event1 = new Event("test", "test", date1, null, true);
-        calendar.addEvent(event1);
+        calendar.addReminder(event1);
 
-        assertEquals(false, calendar.existEvent(date2.toLocalDate()));
+        assertEquals(false, calendar.existReminder(date2.toLocalDate()));
     }
 
 

@@ -12,8 +12,6 @@ public abstract class Reminder{
     protected final ArrayList<Alarm> alarms;
 
 
-
-
     protected LocalDateTime startDate;
 
 
@@ -70,6 +68,8 @@ public abstract class Reminder{
         return startDate;
     }
 
-    public abstract Reminder repeatReminder(LocalDateTime startDate);
+    abstract public  Reminder repeatReminder(LocalDateTime startDate);
     abstract public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2);
+
+
 }
