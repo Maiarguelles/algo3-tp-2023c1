@@ -80,7 +80,7 @@ public class Event extends Reminder{
 
 
     public Event addInfiniteRepetition(FrequencyStrategy frequencyStrategy) {
-        Event event = new InfiniteEvent(title, description, completeDay,getStartDate(), endDate);
+        Event event = new InfiniteEvent(title, description, completeDay,startDate, endDate);
         event.addFrequency(frequencyStrategy);
         return event;
     }

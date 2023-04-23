@@ -36,11 +36,13 @@ public class Task extends Reminder{
         return null;
     }
 
+
+
     public Reminder addOcurrencesRepetition(int ocurrences, FrequencyStrategy frequencyStrategy){
         return null;
     }
 
-    public Reminder addInfiniteRepetition(Reminder reminder, FrequencyStrategy frequencyStrategy){
+    public Reminder addInfiniteRepetition(FrequencyStrategy frequencyStrategy){
         return null;
     }
 
