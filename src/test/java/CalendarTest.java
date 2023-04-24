@@ -303,7 +303,7 @@ public class CalendarTest {
         assertEquals(9, actual);
 
     }
-/*
+
     @Test
     public void noRemindersBetweenTwoDates(){
         var calendar = new Calendar();
@@ -324,6 +324,6 @@ public class CalendarTest {
         assertEquals(0, actual);
     }
 
-*/
+
 
 }
