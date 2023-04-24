@@ -13,8 +13,13 @@ public class MonthlyStrategy implements FrequencyStrategy{
         if (repetition == null)
             return null;
 
+        long day = repetition.getDayOfMonth();
         while(repetition.isBefore(date2)){
             dates.add(repetition);
+            if(repetition.plusMonths(1).getDayOfMonth() != day){
+                repetition = repetition.plusMonths(2);
+                continue;
+            }
             repetition = repetition.plusMonths(1);
         }
 
@@ -42,9 +47,15 @@ public class MonthlyStrategy implements FrequencyStrategy{
             return startDate;
         else{
             firstRepetition = startDate;
+            long day = startDate.getDayOfMonth();
             while(firstRepetition.isBefore(date1)) {
+                if (firstRepetition.plusMonths(1).getDayOfMonth() != day){
+                    firstRepetition = firstRepetition.plusMonths(2);
+                    continue;
+                }
                 firstRepetition = firstRepetition.plusMonths(1);
             }
+
             if (firstRepetition.isBefore(date2))
                 return firstRepetition;
             else

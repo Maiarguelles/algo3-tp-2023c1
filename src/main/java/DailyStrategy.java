@@ -19,7 +19,7 @@ public class DailyStrategy implements FrequencyStrategy{
 
         while (repetition.isBefore(date2)){
             dates.add(repetition);
-            repetition.plusDays(frequency);
+            repetition = repetition.plusDays(frequency);
         }
 
         return dates;
@@ -39,6 +39,8 @@ public class DailyStrategy implements FrequencyStrategy{
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
         LocalDateTime firstRepetition = startDate;
         while(firstRepetition.isBefore(date1)){
+            i++;
+            System.out.println(i);
             firstRepetition = firstRepetition.plusDays(frequency);
         }
         return firstRepetition;

@@ -44,10 +44,16 @@ public class YearlyStrategy implements FrequencyStrategy{
             return startDate;
         else{
             firstRepetition = startDate;
+            long day = startDate.getDayOfMonth();
             while(firstRepetition.isBefore(date1)) {
+                if (firstRepetition.plusYears(1).getDayOfMonth() != day){
+                    firstRepetition = firstRepetition.plusYears(4);
+                    continue;
+                }
                 firstRepetition = firstRepetition.plusYears(1);
             }
-            if (firstRepetition.isAfter(date1) && firstRepetition.isBefore(date2))
+
+            if (firstRepetition.isBefore(date2))
                 return firstRepetition;
             else
                 return null;

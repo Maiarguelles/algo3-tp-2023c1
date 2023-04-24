@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
 
-public class YearlyStrategyTest {
+public class MonthlyStrategyTest {
 
     @Test
-    public void noRepetitionBetweenTheTwoDates(){
-        //assert
-        LocalDateTime date1 = LocalDateTime.of(2023,10,3,10,50);
-        LocalDateTime date2 = LocalDateTime.of(2024,2,3,10,50);
-        LocalDateTime eventDate = LocalDateTime.of(2022,9,3,10,50);
-        YearlyStrategy test = new YearlyStrategy();
-        LocalDateTime expected = null;
+    public void getCorrectFirstRepetitionIfDay31(){
+        //arrange
+        LocalDateTime date1 = LocalDateTime.of(2023,4,10,10,0);
+        LocalDateTime date2 = LocalDateTime.of(2023,8,31,10,0);
+        LocalDateTime eventDate = LocalDateTime.of(2023,3,31,10,0);
+        var test = new MonthlyStrategy();
+        LocalDateTime expected = LocalDateTime.of(2023,5,31,10,0);;
 
         //act
         LocalDateTime result = test.getFirstRepetitionWithinTwoDates(date1,date2,eventDate);
@@ -22,15 +22,14 @@ public class YearlyStrategyTest {
         assertEquals(expected,result);
     }
 
-
     @Test
     public void firstRepetitionAfterOnMonthFromStartDate(){
         //assert
-        LocalDateTime date1 = LocalDateTime.of(2023,8,3,10,50);
+        LocalDateTime date1 = LocalDateTime.of(2022,9,3,10,50);
         LocalDateTime date2 = LocalDateTime.of(2025,10,3,10,50);
-        LocalDateTime eventDate = LocalDateTime.of(2022,9,3,10,50);
-        YearlyStrategy test = new YearlyStrategy();
-        LocalDateTime expected = eventDate.plusYears(1);
+        LocalDateTime eventDate = LocalDateTime.of(2022,8,3,10,50);
+        MonthlyStrategy test = new MonthlyStrategy();
+        LocalDateTime expected = eventDate.plusMonths(1);
 
         //act
         LocalDateTime result = test.getFirstRepetitionWithinTwoDates(date1,date2,eventDate);
@@ -46,7 +45,7 @@ public class YearlyStrategyTest {
         LocalDateTime date1 = LocalDateTime.of(2023,8,3,10,50);
         LocalDateTime date2 = LocalDateTime.of(2025,10,3,10,50);
         LocalDateTime eventDate = LocalDateTime.of(2023,9,3,10,50);
-        YearlyStrategy test = new YearlyStrategy();
+        MonthlyStrategy test = new MonthlyStrategy();
         LocalDateTime expected = eventDate;
 
         //act
@@ -60,9 +59,9 @@ public class YearlyStrategyTest {
     public void startDateIsAfterTheTwoDates(){
         //assert
         LocalDateTime date1 = LocalDateTime.of(2023,8,3,10,50);
-        LocalDateTime date2 = LocalDateTime.of(2025,10,3,10,50);
+        LocalDateTime date2 = LocalDateTime.of(2023,10,3,10,50);
         LocalDateTime eventDate = LocalDateTime.of(2026,9,3,10,50);
-        YearlyStrategy test = new YearlyStrategy();
+        MonthlyStrategy test = new MonthlyStrategy();
         LocalDateTime expected = null;
 
         //act
@@ -78,7 +77,7 @@ public class YearlyStrategyTest {
         //assert
 
         LocalDateTime eventDate = LocalDateTime.of(2022,9,3,10,50);
-        YearlyStrategy test = new YearlyStrategy();
+        MonthlyStrategy test = new MonthlyStrategy();
         LocalDateTime expected = eventDate;
 
         //act
@@ -93,8 +92,8 @@ public class YearlyStrategyTest {
         //assert
 
         LocalDateTime eventDate = LocalDateTime.of(2022,9,3,10,50);
-        YearlyStrategy test = new YearlyStrategy();
-        LocalDateTime expected = eventDate.plusYears(1);
+        MonthlyStrategy test = new MonthlyStrategy();
+        LocalDateTime expected = eventDate.plusMonths(1);
 
         //act
         LocalDateTime result = test.lastDateWithOcurrences(1, eventDate);
@@ -109,8 +108,8 @@ public class YearlyStrategyTest {
         //assert
 
         LocalDateTime eventDate = LocalDateTime.of(2022,9,3,10,50);
-        YearlyStrategy test = new YearlyStrategy();
-        LocalDateTime expected = eventDate.plusYears(4);
+        MonthlyStrategy test = new MonthlyStrategy();
+        LocalDateTime expected = eventDate.plusMonths(4);
 
         //act
         LocalDateTime result = test.lastDateWithOcurrences(4, eventDate);
@@ -119,20 +118,5 @@ public class YearlyStrategyTest {
         assertEquals(expected,result);
     }
 
-    @Test
-    public void getCorrectFirstRepetitionIfDay29(){
-        //arrange
-        LocalDateTime date1 = LocalDateTime.of(2020,3,1,10,0);
-        LocalDateTime date2 = LocalDateTime.of(2025,8,31,10,0);
-        LocalDateTime eventDate = LocalDateTime.of(2020,2,29,10,0);
-        var test = new YearlyStrategy();
-        LocalDateTime expected = LocalDateTime.of(2024,2,29,10,0);;
-
-        //act
-        LocalDateTime result = test.getFirstRepetitionWithinTwoDates(date1,date2,eventDate);
-
-        //assert
-        assertEquals(expected,result);
-    }
 
 }
