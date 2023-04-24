@@ -23,7 +23,7 @@ public class WeeklyStrategy implements FrequencyStrategy{
         while(repetition.isBefore(date2)){
             if(weekDays.contains(repetition.getDayOfWeek()))
                 dates.add(repetition);
-            repetition = repetition.plusDays(1);
+                repetition = repetition.plusDays(1);
         }
 
         return dates;

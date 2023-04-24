@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-import javax.security.auth.login.AccountExpiredException;
+
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -223,7 +223,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, date2, false);
         var frequencyStrategy = new YearlyStrategy();
         calendar.addReminder(event);
-        var repeatedEvent = calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
         assertEquals(3, actual);
@@ -241,7 +241,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, date2, false);
         var frequencyStrategy = new MonthlyStrategy();
         calendar.addReminder(event);
-        var repeatedEvent = calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
         assertEquals(3, actual);
@@ -258,7 +258,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, null, true);
         var frequencyStrategy = new DailyStrategy(3);
         calendar.addReminder(event);
-        var repeatedEvent = calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
 
@@ -317,11 +317,14 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, null, true);
         var task = new Task("title", "test", date2, true);
 
+        calendar.addReminder(event);
+        calendar.addReminder(task);
         var frequencyStrategy = new DailyStrategy(3);
         calendar.addRepetitionByDateToExistentEvent(event ,date1.plusDays(15), frequencyStrategy);
-        int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
 
-        assertEquals(0, actual);
+        var eventtest = new ArrayList<Event>();
+
+        assertEquals(eventtest, calendar.remindersBetweenTwoDates(starDate, endDate));
     }
 
 

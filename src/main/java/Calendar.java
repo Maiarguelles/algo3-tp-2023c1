@@ -126,6 +126,8 @@ public class Calendar {
         var dates = new ArrayList<LocalDateTime>();
         for (Reminder reminder : this.reminders){
             dates = reminder.showDatesOfReminder(date1, date2);
+            if (dates == null)
+                continue;
             for (int i = 0; i< dates.size(); i++){
                 reminders.add(reminder.repeatReminder(dates.get(i)));
 
