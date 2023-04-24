@@ -11,8 +11,8 @@ public class Task extends Reminder{
         this.completed = false;
     }
 
-    public void completeTask(){
-        completed = true;
+    public void setCompleteTask(boolean completeTask){
+        completed = completeTask;
     }
 
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
@@ -32,19 +32,6 @@ public class Task extends Reminder{
         completeDay = true;
     }
 
-    public Reminder addRepetitionByDate(LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
-        return null;
-    }
-
-
-
-    public Reminder addOcurrencesRepetition(int ocurrences, FrequencyStrategy frequencyStrategy){
-        return null;
-    }
-
-    public Reminder addInfiniteRepetition(FrequencyStrategy frequencyStrategy){
-        return null;
-    }
 
 
     public Reminder repeatReminder(LocalDateTime startDate){

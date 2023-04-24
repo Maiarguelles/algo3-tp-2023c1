@@ -11,12 +11,14 @@ public abstract class Reminder{
 
     protected final ArrayList<Alarm> alarms;
 
-
     protected LocalDateTime startDate;
 
 
     protected Reminder(String title, String description, boolean completeDay, LocalDateTime startDate) {
-        this.title = title;
+        if(title == "")
+            this.title = "No Title";
+        else
+            this.title = title;
         this.description = description;
         this.completeDay = completeDay;
         this.alarms = new ArrayList<>();
@@ -49,7 +51,10 @@ public abstract class Reminder{
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if(title == "")
+            this.title = "No Title";
+        else
+            this.title = title;
     }
 
     public void setDescription(String description) {
@@ -73,12 +78,6 @@ public abstract class Reminder{
     abstract public void changeCompleteDay(LocalDateTime endDate);
 
     abstract public  Reminder repeatReminder(LocalDateTime startDate);
-
-    abstract public Reminder addRepetitionByDate(LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy);
-
-    abstract public Reminder addOcurrencesRepetition(int ocurrences, FrequencyStrategy frequencyStrategy);
-
-    abstract public Reminder addInfiniteRepetition(FrequencyStrategy frequencyStrategy);
 
     abstract public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2);
 

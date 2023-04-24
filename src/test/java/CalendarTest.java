@@ -1,6 +1,9 @@
 import org.junit.Test;
 
+import javax.security.auth.login.AccountExpiredException;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -115,6 +118,13 @@ public class CalendarTest {
 
 
     }
+
+    @Test
+    public void noAlarm(){
+        var calendar = new Calendar();
+        assertEquals(null, calendar.nextAlarm());
+    }
+
 
     //Exist Event:
     // El evento existe
@@ -236,5 +246,84 @@ public class CalendarTest {
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
         assertEquals(3, actual);
     }
+
+    @Test
+    public void dailyRepeatedReminderinAMonth(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 2, 20, 30);
+
+        var starDate = LocalDateTime.of(2023, 4, 1, 0,0);
+        var endDate = LocalDateTime.of(2023, 5,1,0,0);
+
+        var event = new Event("title", "test", date1, null, true);
+        var frequencyStrategy = new DailyStrategy(3);
+        calendar.addReminder(event);
+        var repeatedEvent = calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+
+        int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
+
+        assertEquals(10, actual);
+    }
+
+    @Test
+    public void dailyRepeatedTaskinAMonth(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 2, 20, 30);
+
+        var starDate = LocalDateTime.of(2023, 4, 1, 0,0);
+        var endDate = LocalDateTime.of(2023, 5,1,0,0);
+
+        var task = new Task("title", "test", date1, true);
+        calendar.addReminder(task);
+
+        int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
+
+        assertEquals(1, actual);
+    }
+
+    @Test
+    public void weeklyRepeatedEventinAMonth() {
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 1, 20, 30);
+
+        var starDate = LocalDateTime.of(2023, 4, 1, 0, 0);
+        var endDate = LocalDateTime.of(2023, 5, 1, 0, 0);
+
+        var event = new Event("title", "test", date1, null, true);
+        calendar.addReminder(event);
+        var weekDays = new ArrayList<DayOfWeek>();
+        weekDays.add(DayOfWeek.THURSDAY);
+        weekDays.add(DayOfWeek.SUNDAY);
+        var frequencyStrategy = new WeeklyStrategy(weekDays);
+
+        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+
+        int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
+
+        assertEquals(9, actual);
+
+    }
+/*
+    @Test
+    public void noRemindersBetweenTwoDates(){
+        var calendar = new Calendar();
+        var date1 = LocalDateTime.of(2023, 4, 1, 20, 30);
+        var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
+
+
+        var starDate = LocalDateTime.of(2023, 5, 1, 0, 0);
+        var endDate = LocalDateTime.of(2023, 5, 10, 0, 0);
+
+        var event = new Event("title", "test", date1, null, true);
+        var task = new Task("title", "test", date2, true);
+
+        var frequencyStrategy = new DailyStrategy(3);
+        calendar.addRepetitionByDateToExistentEvent(event ,date1.plusDays(15), frequencyStrategy);
+        int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
+
+        assertEquals(0, actual);
+    }
+
+*/
 
 }

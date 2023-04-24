@@ -11,11 +11,11 @@ public class DailyStrategy implements FrequencyStrategy{
     }
 
     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime date1, LocalDateTime date2, LocalDateTime eventDate){
-        if (eventDate.isAfter(date2))
-            return null;
 
         ArrayList<LocalDateTime> dates = new ArrayList<>();
         LocalDateTime repetition = getFirstRepetitionWithinTwoDates(date1, date2, eventDate);
+        if(repetition == null)
+            return null;
 
         while (repetition.isBefore(date2)){
             dates.add(repetition);
@@ -37,12 +37,19 @@ public class DailyStrategy implements FrequencyStrategy{
 
     @Override
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
+        if (startDate.isAfter(date2))
+            return null;
+
         LocalDateTime firstRepetition = startDate;
+        int i = 0;
         while(firstRepetition.isBefore(date1)){
             i++;
             System.out.println(i);
             firstRepetition = firstRepetition.plusDays(frequency);
         }
-        return firstRepetition;
+        if(firstRepetition.isBefore(date2))
+            return firstRepetition;
+        else
+            return null;
     }
 }
