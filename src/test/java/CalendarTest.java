@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

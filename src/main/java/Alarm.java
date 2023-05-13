@@ -1,3 +1,8 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -60,5 +65,28 @@ public class Alarm {
        return  effect.produceEffect();
     }
 
+    public void writeAlarm(){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+
+
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+
+
+
+        String path = "/src/main/prueba.json";
+
+        try (PrintWriter out = new PrintWriter(new FileWriter("text"))) {
+
+            Gson gson = gsonBuilder.setPrettyPrinting().create();
+            final String representasionJson = gson.toJson(this);
+            System.out.println(representasionJson);
+            out.write(representasionJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

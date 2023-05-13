@@ -1,3 +1,6 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.swing.border.EmptyBorder;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -102,5 +105,19 @@ public class Event extends Reminder{
             dates.add(startDate);
 
         return dates;
+    }
+
+    public void writeEvent(){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+
+
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        final String representasionJson = gson.toJson(this);
+        System.out.println(representasionJson);
     }
 }
