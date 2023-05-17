@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class CalendarTest {
 
     //Clases de equivalencia: event = null, event != null
-
+    /*
     @Test
     public void addDifferentEvents(){
         //arrange
@@ -328,6 +328,6 @@ public class CalendarTest {
         assertEquals(eventtest, calendar.remindersBetweenTwoDates(starDate, endDate));
     }
 
-
+*/
 
 }

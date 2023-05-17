@@ -8,13 +8,32 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        Alarm alarm = new Alarm(LocalDateTime.of(1234,2,3,10,4),new Notification(), "gola", LocalDateTime.of(1000,2,3,10,4));
-        Alarm alarm2 = new Alarm(LocalDateTime.of(1234,2,3,10,4),new Notification(), "gola2", LocalDateTime.of(1000,2,3,10,4));
+        Alarm alarm = new Alarm(LocalDateTime.of(1234,2,3,10,4),null, "gola", LocalDateTime.of(1000,2,3,10,4));
+        Alarm alarm2 = new Alarm(LocalDateTime.of(1234,2,3,10,4),null, "gola2", LocalDateTime.of(1000,2,3,10,4));
 
         Event event = new Event("hola" , "holaaa", LocalDateTime.now(), LocalDateTime.now(), true);
         event.addAlarm(alarm);
         event.addAlarm(alarm2);
+        Event event2 = new Event("hola" , "holaaa", LocalDateTime.now(), LocalDateTime.now(), false);
+        event2.addAlarm(alarm2);
 
-        alarm.writeAlarm();
+        Task task1 = new Task("xd", "xd", LocalDateTime.now(), false);
+        Calendar calendar = new Calendar();
+        calendar.addReminder(event);
+        System.out.println(event.getID());
+        calendar.addReminder(event2);
+        System.out.println(event2.getID());
+        calendar.addReminder(task1);
+
+        calendar.serialize();
+        Calendar copy = calendar.deSerialize();
+
+        System.out.println();
+        System.out.println();
+
+        Alarm alarm3 = new Alarm(LocalDateTime.of(1000,2,3,10,4),null, "gola3", LocalDateTime.of(1000,2,3,10,4));
+        copy.addAlarmToExistentReminder(1, alarm3);
+        copy.serialize();
+
     }
 }

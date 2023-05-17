@@ -1,8 +1,14 @@
-import java.net.InetSocketAddress;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class Calendar {
 
@@ -18,6 +24,8 @@ public class Calendar {
         if(reminder == null)
             return false;
         reminders.add(reminder);
+
+
         var alarms = reminder.getAlarms();
         if(alarms != null)
             updateNextAlarm();
@@ -82,11 +90,14 @@ public class Calendar {
         return false;
     }
 
-    public Event addRepetitionByDateToExistentEvent(Event event, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
-        if(!searchReminder(event))
+    //PRE: El ID debe ser de un evento
+
+    public Event addRepetitionByDateToExistentEvent(long ID, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
+        var searchedReminder =  (Event) searchReminder(ID);
+        if( searchedReminder == null)
             return null;
-        var newReminder = event.addRepetitionByDate(expirationDate, frequencyStrategy);
-        reminders.remove(event);
+        var newReminder = searchedReminder.addRepetitionByDate(expirationDate, frequencyStrategy);
+        reminders.remove(ID);
         reminders.add(newReminder);
         return newReminder;
     }
@@ -100,11 +111,13 @@ public class Calendar {
         return newReminder;
     }
 
-    public Event addInfiniteRepetitionToExistentEvent(Event event, FrequencyStrategy frequencyStrategy) {
-        if (!searchReminder(event))
+    public Event addInfiniteRepetitionToExistentEvent(long ID, FrequencyStrategy frequencyStrategy) {
+        var searchedReminder = (Event) searchReminder(ID);
+        if(searchedReminder == null)
             return null;
-        var newReminder = event.addInfiniteRepetition(frequencyStrategy);
-        reminders.remove(event);
+
+        var newReminder = searchedReminder.addInfiniteRepetition(frequencyStrategy);
+        reminders.remove(searchedReminder);
         reminders.add(newReminder);
         return newReminder;
     }
@@ -136,6 +149,51 @@ public class Calendar {
         return reminders;
     }
 
+    public void serialize(){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        gsonBuilder.registerTypeAdapter(Reminder.class, new Adapter());
+
+        //String path = "/src/main/prueba.json";
+
+        try (PrintWriter out = new PrintWriter(new FileWriter("text.json"))) {
+
+            Gson gson = gsonBuilder.setPrettyPrinting().create();
+            final String representationJson = gson.toJson(this);
+            System.out.println(representationJson);
+            out.write(representationJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Calendar deSerialize(){
+        try {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+            gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+            gsonBuilder.registerTypeAdapter(Reminder.class, new Adapter());
+            Gson gson = gsonBuilder.setPrettyPrinting().create();
+            // create a reader
+            Reader reader = Files.newBufferedReader(Paths.get("text.json"));
+
+            // convert a JSON string to a User object
+            Calendar user = gson.fromJson(reader,Calendar.class);
+
+            // print user object
+            System.out.println(user);
+
+            // close reader
+            reader.close();
+            return user;
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
 }
 

@@ -5,6 +5,12 @@ import java.util.ArrayList;
 public abstract class Reminder{
     protected String title;
 
+
+    public long getID() {
+        return ID;
+    }
+
+    protected long ID;
     protected String description;
 
     protected boolean completeDay;
@@ -23,7 +29,7 @@ public abstract class Reminder{
         this.completeDay = completeDay;
         this.alarms = new ArrayList<>();
         this.startDate = startDate;
-
+        this.ID = 0;
     }
 
     public String getTitle(){
@@ -81,5 +87,7 @@ public abstract class Reminder{
 
     abstract public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2);
 
-
+    public void setID(long ID) {
+        this.ID = ID;
+    }
 }

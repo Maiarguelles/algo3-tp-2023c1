@@ -3,7 +3,6 @@ import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -78,7 +77,7 @@ public class Alarm {
 
         String path = "/src/main/prueba.json";
 
-        try (PrintWriter out = new PrintWriter(new FileWriter("text"))) {
+        try (PrintWriter out = new PrintWriter(new FileWriter("text.json"))) {
 
             Gson gson = gsonBuilder.setPrettyPrinting().create();
             final String representasionJson = gson.toJson(this);

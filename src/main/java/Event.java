@@ -1,10 +1,8 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javax.swing.border.EmptyBorder;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 
 public class Event extends Reminder{
