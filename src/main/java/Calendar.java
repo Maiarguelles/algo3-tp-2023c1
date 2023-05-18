@@ -97,8 +97,14 @@ public class Calendar {
         if( searchedReminder == null)
             return null;
         var newReminder = searchedReminder.addRepetitionByDate(expirationDate, frequencyStrategy);
-        reminders.remove(ID);
-        reminders.add(newReminder);
+        var alarms = searchedReminder.getAlarms();
+
+        deleteReminder((int)ID);
+        newReminder.setID(ID);
+        addReminder(newReminder);
+
+        addAlarms(ID, alarms);
+
         return newReminder;
     }
 
@@ -116,8 +122,13 @@ public class Calendar {
         if(searchedReminder == null)
             return null;
 
+
         var newReminder = searchedReminder.addInfiniteRepetition(frequencyStrategy);
-        reminders.remove(searchedReminder);
+
+        var alarms = searchedReminder.getAlarms();
+        reminders.remove(ID);
+
+
         reminders.add(newReminder);
         return newReminder;
     }
@@ -149,17 +160,21 @@ public class Calendar {
         return reminders;
     }
 
-    public void serialize(){
+    public void writeCalendar(String path){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gsonBuilder.registerTypeAdapter(Reminder.class, new Adapter());
+        gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new Adapter());
+        gsonBuilder.registerTypeAdapter(Effect.class, new Adapter());
 
-        //String path = "/src/main/prueba.json";
+        if(path == null)
+            path = "Calendar.json";
 
         try (PrintWriter out = new PrintWriter(new FileWriter("text.json"))) {
 
             Gson gson = gsonBuilder.setPrettyPrinting().create();
+
             final String representationJson = gson.toJson(this);
             System.out.println(representationJson);
             out.write(representationJson);
@@ -168,15 +183,17 @@ public class Calendar {
         }
     }
 
-    public Calendar deSerialize(){
+    public Calendar readCalendar(String path){
         try {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
             gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
             gsonBuilder.registerTypeAdapter(Reminder.class, new Adapter());
+            gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new Adapter());
+            gsonBuilder.registerTypeAdapter(Effect.class, new Adapter());
             Gson gson = gsonBuilder.setPrettyPrinting().create();
             // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get("text.json"));
+            Reader reader = Files.newBufferedReader(Paths.get(path));
 
             // convert a JSON string to a User object
             Calendar user = gson.fromJson(reader,Calendar.class);

@@ -2,7 +2,7 @@ import java.nio.channels.ClosedChannelException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class MonthlyStrategy implements FrequencyStrategy{
+public class MonthlyStrategy implements FrequencyStrategy, Adaptable{
 
     @Override
     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime date1, LocalDateTime date2, LocalDateTime eventDate){
