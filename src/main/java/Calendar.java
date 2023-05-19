@@ -42,6 +42,10 @@ public class Calendar {
             reminders.remove(reminder);
     }
 
+    //hola
+    private void setID(Reminder reminder){
+        reminder.setID(reminders.size());
+    }
 
     private void updateNextAlarm(){
         Alarm alarm = null;

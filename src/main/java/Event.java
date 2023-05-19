@@ -68,6 +68,7 @@ public class Event extends Reminder{
         this.endDate = endDate;
     }
 
+    //hola
     public void makeReminderCompleteDay(){
         completeDay = true;
         this.endDate = LocalDateTime.of(this.endDate.plusDays(1).toLocalDate(), LocalTime.of(0,0));
