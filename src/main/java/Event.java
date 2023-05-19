@@ -96,7 +96,6 @@ public class Event extends Reminder{
     }
 
 
-
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         ArrayList<LocalDateTime> dates = new ArrayList<>();
         if ((startDate.isBefore(date2) && startDate.isAfter(date1))

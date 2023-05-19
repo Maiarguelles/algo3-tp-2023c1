@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Calendar {
+public class Calendar implements Serializable{
 
     private ArrayList<Reminder> reminders;
     private Alarm nextAlarm;
@@ -23,7 +23,14 @@ public class Calendar {
     public boolean addReminder(Reminder reminder){
         if(reminder == null)
             return false;
-        reminders.add(reminder);
+
+        if(reminder.getID() == -1) {
+            setID(reminder);
+            reminders.add(reminder);
+        }
+        else
+            reminders.add((int)reminder.getID(), reminder);
+
 
 
         var alarms = reminder.getAlarms();
@@ -32,7 +39,8 @@ public class Calendar {
         return true;
     }
 
-    public void deleteReminder(Reminder reminder){
+    public void deleteReminder(int ID){
+        var reminder = searchReminder(ID);
         if(reminder.getAlarms().contains(nextAlarm)){
             nextAlarm = null;
             reminders.remove(reminder);
@@ -69,29 +77,36 @@ public class Calendar {
     }
 
 
-    public boolean searchReminder(Reminder reminder){
+    public Reminder searchReminder(long ID){
         Reminder searchedReminder = null;
         for (Reminder existentReminder : reminders) {
-            if (existentReminder.equals(reminder)) {
+            if (existentReminder.getID() == ID) {
                 searchedReminder = existentReminder;
-                return true;
+                return searchedReminder;
             }
         }
-        return false;
+        return searchedReminder;
     }
 
 
-    public boolean addAlarmToExistentReminder(Reminder reminder, Alarm alarm){
+    public boolean addAlarmToExistentReminder(long ID, Alarm alarm){
+        var reminder =  searchReminder(ID);
+
         if(reminder == null)
             return false;
 
-        if(searchReminder(reminder)) {
-            reminder.addAlarm(alarm);
-            updateNextAlarm();
-            return true;
-        }
+        reminder.addAlarm(alarm);
+        updateNextAlarm();
+        return true;
 
-        return false;
+    }
+
+    private void addAlarms(long ID, ArrayList<Alarm> alarms){
+        var reminder =  searchReminder(ID);
+
+        for(int i = 0; i < alarms.size();i++){
+            reminder.addAlarm(alarms.get(i));
+        }
     }
 
     //PRE: El ID debe ser de un evento
@@ -112,12 +127,18 @@ public class Calendar {
         return newReminder;
     }
 
-    public Event addOcurrencesRepetitionToExistentEvent(Event event, int ocurrences, FrequencyStrategy frequencyStrategy){
-        if(!searchReminder(event))
+    public Event addOcurrencesRepetitionToExistentEvent(long ID, int ocurrences, FrequencyStrategy frequencyStrategy){
+        var searchedReminder = (Event) searchReminder(ID);
+        if(searchedReminder == null)
             return null;
-        var newReminder = event.addOcurrencesRepetition(ocurrences, frequencyStrategy);
-        reminders.remove(event);
+        var newReminder = searchedReminder.addOcurrencesRepetition(ocurrences, frequencyStrategy);
+        var alarms = searchedReminder.getAlarms();
+        reminders.remove(ID);
+        newReminder.setID(ID);
         reminders.add(newReminder);
+
+        addAlarms(ID, alarms);
+
         return newReminder;
     }
 
@@ -134,6 +155,8 @@ public class Calendar {
 
 
         reminders.add(newReminder);
+        newReminder.setID(ID);
+        addAlarms(ID, alarms);
         return newReminder;
     }
 
@@ -175,7 +198,7 @@ public class Calendar {
         if(path == null)
             path = "Calendar.json";
 
-        try (PrintWriter out = new PrintWriter(new FileWriter("text.json"))) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
 
             Gson gson = gsonBuilder.setPrettyPrinting().create();
 
@@ -196,6 +219,9 @@ public class Calendar {
             gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new Adapter());
             gsonBuilder.registerTypeAdapter(Effect.class, new Adapter());
             Gson gson = gsonBuilder.setPrettyPrinting().create();
+
+            if(path == null)
+                path = "Calendar.json";
             // create a reader
             Reader reader = Files.newBufferedReader(Paths.get(path));
 

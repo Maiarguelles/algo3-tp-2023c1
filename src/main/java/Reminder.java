@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public abstract class Reminder{
+public abstract class Reminder implements Adaptable{
     protected String title;
 
 
@@ -29,7 +29,7 @@ public abstract class Reminder{
         this.completeDay = completeDay;
         this.alarms = new ArrayList<>();
         this.startDate = startDate;
-        this.ID = 0;
+        this.ID = -1;
     }
 
     public String getTitle(){
@@ -78,6 +78,7 @@ public abstract class Reminder{
     public LocalDateTime getStartDate() {
         return startDate;
     }
+
 
     abstract public void makeReminderCompleteDay();
 
