@@ -26,4 +26,3 @@ public class Adapter implements JsonSerializer<Adaptable>, JsonDeserializer<Adap
         }
 }
 
-//hola

@@ -32,8 +32,6 @@ public class Task extends Reminder{
         completeDay = true;
     }
 
-
-
     public Reminder repeatReminder(LocalDateTime startDate){
         var taskRepetition = new Task(title, description, startDate, isCompleteDay());
         for (Alarm alarm : alarms) {

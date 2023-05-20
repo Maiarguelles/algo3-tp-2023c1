@@ -92,4 +92,4 @@ public abstract class Reminder implements Adaptable{
         this.ID = ID;
     }
 }
-//hola
+

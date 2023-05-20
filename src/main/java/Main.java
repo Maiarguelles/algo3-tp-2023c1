@@ -2,10 +2,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.jdi.ArrayReference;
 
+import javax.swing.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,19 +25,26 @@ public class Main {
         Calendar calendar = new Calendar();
 
         calendar.addReminder(event);
-        System.out.println(event.getID());
         calendar.addReminder(event2);
-        System.out.println(event2.getID());
         calendar.addReminder(task1);
 
         calendar.addInfiniteRepetitionToExistentEvent(0, new DailyStrategy(2));
-        var dias = new ArrayList<DayOfWeek>();
+        var dias = new HashSet<DayOfWeek>();
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
         calendar.addOcurrencesRepetitionToExistentEvent(1, 10, new WeeklyStrategy(dias));
 
-        calendar.writeCalendar(null);
-        Calendar copy = calendar.readCalendar(null);
+        String path = null;
+        /*JFileChooser fc = new JFileChooser("src/clasefile");
+        fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            path = fc.getSelectedFile().getPath();
+        }*/
+
+        calendar.writeCalendar(path);
+        Calendar copy = calendar.readCalendar(path);
 
         System.out.println();
         System.out.println();
@@ -46,4 +56,3 @@ public class Main {
     }
 }
 
-//hola

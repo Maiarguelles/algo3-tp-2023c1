@@ -6,18 +6,16 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Calendar implements Serializable{
+public class Calendar {
 
     private ArrayList<Reminder> reminders;
-    private Alarm nextAlarm;
+    //private Alarm nextAlarm;
 
     public Calendar(){
         this.reminders = new ArrayList<Reminder>();
-        nextAlarm = null;
     }
 
     public boolean addReminder(Reminder reminder){
@@ -32,21 +30,11 @@ public class Calendar implements Serializable{
             reminders.add((int)reminder.getID(), reminder);
 
 
-
-        var alarms = reminder.getAlarms();
-        if(alarms != null)
-            updateNextAlarm();
         return true;
     }
 
     public void deleteReminder(int ID){
         var reminder = searchReminder(ID);
-        if(reminder.getAlarms().contains(nextAlarm)){
-            nextAlarm = null;
-            reminders.remove(reminder);
-            updateNextAlarm();
-        }
-        else
             reminders.remove(reminder);
     }
 
@@ -55,8 +43,9 @@ public class Calendar implements Serializable{
         reminder.setID(reminders.size());
     }
 
-    private void updateNextAlarm(){
+    private Alarm getNextAlarm(){
         Alarm alarm = null;
+        Alarm nextAlarm = null;
         for (Reminder reminder : reminders) {
             for (int j = 0; j < reminder.getAlarms().size(); j++) {
                 alarm = reminder.getAlarms().get(j);
@@ -66,10 +55,13 @@ public class Calendar implements Serializable{
                     nextAlarm = alarm;
             }
         }
-
+        return nextAlarm;
     }
 
+
+
     public LocalDateTime nextAlarm(){
+        var nextAlarm = getNextAlarm();
         if(nextAlarm != null)
             return nextAlarm.getGoOffTime();
         else
@@ -96,7 +88,7 @@ public class Calendar implements Serializable{
             return false;
 
         reminder.addAlarm(alarm);
-        updateNextAlarm();
+
         return true;
 
     }
@@ -107,10 +99,10 @@ public class Calendar implements Serializable{
         for(int i = 0; i < alarms.size();i++){
             reminder.addAlarm(alarms.get(i));
         }
+
     }
 
     //PRE: El ID debe ser de un evento
-
     public Event addRepetitionByDateToExistentEvent(long ID, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
         var searchedReminder =  (Event) searchReminder(ID);
         if( searchedReminder == null)
@@ -133,10 +125,10 @@ public class Calendar implements Serializable{
             return null;
         var newReminder = searchedReminder.addOcurrencesRepetition(ocurrences, frequencyStrategy);
         var alarms = searchedReminder.getAlarms();
-        reminders.remove(ID);
-        newReminder.setID(ID);
-        reminders.add(newReminder);
 
+        deleteReminder((int)ID);
+        newReminder.setID(ID);
+        addReminder(newReminder);
         addAlarms(ID, alarms);
 
         return newReminder;
@@ -151,24 +143,14 @@ public class Calendar implements Serializable{
         var newReminder = searchedReminder.addInfiniteRepetition(frequencyStrategy);
 
         var alarms = searchedReminder.getAlarms();
-        reminders.remove(ID);
 
-
-        reminders.add(newReminder);
+        deleteReminder((int)ID);
         newReminder.setID(ID);
+        addReminder(newReminder);
+
         addAlarms(ID, alarms);
+
         return newReminder;
-    }
-
-
-    public boolean existReminder(LocalDate date){
-        Reminder reminder = null;
-        for (Reminder value : reminders) {
-            reminder = value;
-            if (date.isEqual(reminder.getStartDate().toLocalDate()))
-                return true;
-        }
-        return false;
     }
 
 
@@ -203,7 +185,7 @@ public class Calendar implements Serializable{
             Gson gson = gsonBuilder.setPrettyPrinting().create();
 
             final String representationJson = gson.toJson(this);
-            System.out.println(representationJson);
+            //System.out.println(representationJson);
             out.write(representationJson);
         } catch (Exception e) {
             e.printStackTrace();
@@ -229,7 +211,7 @@ public class Calendar implements Serializable{
             Calendar user = gson.fromJson(reader,Calendar.class);
 
             // print user object
-            System.out.println(user);
+            //System.out.println(user);
 
             // close reader
             reader.close();

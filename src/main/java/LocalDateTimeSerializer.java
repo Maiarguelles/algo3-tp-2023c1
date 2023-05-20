@@ -18,4 +18,3 @@ class LocalDateTimeSerializer implements JsonSerializer<LocalDateTime> {
 
     }
 }
-//hola

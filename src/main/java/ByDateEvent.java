@@ -27,4 +27,3 @@ public class ByDateEvent extends Event{
     }
 }
 
-//hola

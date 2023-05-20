@@ -27,7 +27,6 @@ public class Event extends Reminder{
 
     }
 
-
     public Event repeatReminder(LocalDateTime startDate){
         var eventDuration = this.getDuration();
         var eventRepetition = new Event(title, description, startDate, startDate.plusMinutes(eventDuration), isCompleteDay());
@@ -68,7 +67,6 @@ public class Event extends Reminder{
         this.endDate = endDate;
     }
 
-    //hola
     public void makeReminderCompleteDay(){
         completeDay = true;
         this.endDate = LocalDateTime.of(this.endDate.plusDays(1).toLocalDate(), LocalTime.of(0,0));
@@ -105,17 +103,5 @@ public class Event extends Reminder{
         return dates;
     }
 
-    public void writeEvent(){
-        GsonBuilder gsonBuilder = new GsonBuilder();
 
-
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-
-
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
-
-        Gson gson = gsonBuilder.setPrettyPrinting().create();
-        final String representasionJson = gson.toJson(this);
-        System.out.println(representasionJson);
-    }
 }
