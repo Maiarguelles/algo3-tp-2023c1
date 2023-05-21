@@ -328,7 +328,167 @@ public class CalendarTest {
 
         assertEquals(eventtest, calendar.remindersBetweenTwoDates(starDate, endDate));
     }
+    @Test
+    public void calendarWrittenProperly(){
+        //Arrange
+        Alarm alarm = new Alarm(LocalDateTime.of(1234,2,3,10,4),new Notification(), "gola", LocalDateTime.of(1000,2,3,10,4));
+        Alarm alarm2 = new Alarm(LocalDateTime.of(1234,2,3,10,4), new Sound(), "gola2", LocalDateTime.of(1000,2,3,10,4));
 
+        Event event = new Event("hola" , "holaaa",LocalDateTime.of(1234,2,3,10,4), LocalDateTime.of(1234,2,3,10,4), true);
+        event.addAlarm(alarm);
+        event.addAlarm(alarm2);
+        Event event2 = new Event("hola" , "holaaa", LocalDateTime.of(1234,2,3,10,4),LocalDateTime.of(1234,2,3,10,4), false);
+        event2.addAlarm(alarm2);
+
+        Task task1 = new Task("xd", "xd", LocalDateTime.of(1234,2,3,10,4), false);
+        Calendar calendar = new Calendar();
+
+        calendar.addReminder(event);
+        calendar.addReminder(event2);
+        calendar.addReminder(task1);
+
+        calendar.addInfiniteRepetitionToExistentEvent(0, new DailyStrategy(2));
+        var dias = new HashSet<DayOfWeek>();
+
+        dias.add(DayOfWeek.MONDAY);
+        calendar.addOcurrencesRepetitionToExistentEvent(1, 10, new WeeklyStrategy(dias));
+
+
+        Alarm alarm3 = new Alarm(LocalDateTime.of(1000,2,3,10,4),null, "gola3", LocalDateTime.of(1000,2,3,10,4));
+        calendar.addAlarmToExistentReminder(1, alarm3);
+
+
+        //Act
+        String expected = "{\n" +
+                "  \"reminders\": [\n" +
+                "    {\n" +
+                "      \"type\": \"InfiniteEvent\",\n" +
+                "      \"properties\": {\n" +
+                "        \"isRepeating\": true,\n" +
+                "        \"endDate\": \"03/02/1234 10:04:00\",\n" +
+                "        \"frequencyStrategy\": {\n" +
+                "          \"type\": \"DailyStrategy\",\n" +
+                "          \"properties\": {\n" +
+                "            \"frequency\": 2\n" +
+                "          }\n" +
+                "        },\n" +
+                "        \"title\": \"hola\",\n" +
+                "        \"ID\": 0,\n" +
+                "        \"description\": \"holaaa\",\n" +
+                "        \"completeDay\": true,\n" +
+                "        \"alarms\": [\n" +
+                "          {\n" +
+                "            \"description\": \"gola\",\n" +
+                "            \"goOffTime\": \"03/02/1234 10:04:00\",\n" +
+                "            \"minBefore\": -123072480,\n" +
+                "            \"effect\": {\n" +
+                "              \"type\": \"Notification\",\n" +
+                "              \"properties\": {}\n" +
+                "            }\n" +
+                "          },\n" +
+                "          {\n" +
+                "            \"description\": \"gola2\",\n" +
+                "            \"goOffTime\": \"03/02/1234 10:04:00\",\n" +
+                "            \"minBefore\": -123072480,\n" +
+                "            \"effect\": {\n" +
+                "              \"type\": \"Sound\",\n" +
+                "              \"properties\": {}\n" +
+                "            }\n" +
+                "          }\n" +
+                "        ],\n" +
+                "        \"startDate\": \"03/02/1234 10:04:00\"\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"type\": \"OcurrencesEvent\",\n" +
+                "      \"properties\": {\n" +
+                "        \"ocurrences\": 10,\n" +
+                "        \"isRepeating\": true,\n" +
+                "        \"endDate\": \"03/02/1234 10:04:00\",\n" +
+                "        \"frequencyStrategy\": {\n" +
+                "          \"type\": \"WeeklyStrategy\",\n" +
+                "          \"properties\": {\n" +
+                "            \"weekDays\": [\n" +
+                "              \"MONDAY\"\n" +
+                "            ]\n" +
+                "          }\n" +
+                "        },\n" +
+                "        \"title\": \"hola\",\n" +
+                "        \"ID\": 1,\n" +
+                "        \"description\": \"holaaa\",\n" +
+                "        \"completeDay\": false,\n" +
+                "        \"alarms\": [\n" +
+                "          {\n" +
+                "            \"description\": \"gola2\",\n" +
+                "            \"goOffTime\": \"03/02/1234 10:04:00\",\n" +
+                "            \"minBefore\": -123072480,\n" +
+                "            \"effect\": {\n" +
+                "              \"type\": \"Sound\",\n" +
+                "              \"properties\": {}\n" +
+                "            }\n" +
+                "          },\n" +
+                "          {\n" +
+                "            \"description\": \"gola3\",\n" +
+                "            \"goOffTime\": \"03/02/1000 10:04:00\",\n" +
+                "            \"minBefore\": 0\n" +
+                "          }\n" +
+                "        ],\n" +
+                "        \"startDate\": \"03/02/1234 10:04:00\"\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"type\": \"Task\",\n" +
+                "      \"properties\": {\n" +
+                "        \"completed\": false,\n" +
+                "        \"title\": \"xd\",\n" +
+                "        \"ID\": 2,\n" +
+                "        \"description\": \"xd\",\n" +
+                "        \"completeDay\": false,\n" +
+                "        \"alarms\": [],\n" +
+                "        \"startDate\": \"03/02/1234 10:04:00\"\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+        var checkCalendar = calendar.writeCalendar(null);
+
+        //assert
+        assertEquals(expected, checkCalendar);
+    }
+
+
+    @Test
+    public void calendarReadProperly(){
+        //Arrange
+        Alarm alarm = new Alarm(LocalDateTime.of(1234,2,3,10,4),new Notification(), "gola", LocalDateTime.of(1000,2,3,10,4));
+        Alarm alarm2 = new Alarm(LocalDateTime.of(1234,2,3,10,4), new Sound(), "gola2", LocalDateTime.of(1000,2,3,10,4));
+
+        Event event = new Event("hola" , "holaaa",LocalDateTime.of(1234,2,3,10,4), LocalDateTime.of(1234,2,3,10,4), true);
+        event.addAlarm(alarm);
+        event.addAlarm(alarm2);
+        Event event2 = new Event("hola" , "holaaa", LocalDateTime.of(1234,2,3,10,4),LocalDateTime.of(1234,2,3,10,4), false);
+        event2.addAlarm(alarm2);
+
+        Task task1 = new Task("xd", "xd", LocalDateTime.of(1234,2,3,10,4), false);
+        Calendar expected = new Calendar();
+
+        expected.addReminder(event);
+        expected.addReminder(event2);
+        expected.addReminder(task1);
+
+        expected.addInfiniteRepetitionToExistentEvent(0, new DailyStrategy(2));
+
+        Alarm alarm3 = new Alarm(LocalDateTime.of(1000,2,3,10,4),null, "gola3", LocalDateTime.of(1000,2,3,10,4));
+        expected.addAlarmToExistentReminder(1, alarm3);
+        String first = expected.writeCalendar(null);
+
+        //Act
+        var calendar2 = Calendar.readCalendar(null);
+        String second = calendar2.writeCalendar(null); //si escribe lo mismo es porque lo leyo bien
+        //assert
+        assertEquals(first, second);
+    }
 
 
 }

@@ -169,7 +169,7 @@ public class Calendar {
         return reminders;
     }
 
-    public void writeCalendar(String path){
+    public String writeCalendar(String path){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
@@ -187,12 +187,14 @@ public class Calendar {
             final String representationJson = gson.toJson(this);
             //System.out.println(representationJson);
             out.write(representationJson);
+            return representationJson;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public Calendar readCalendar(String path){
+    public static Calendar readCalendar(String path){
         try {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
