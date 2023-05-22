@@ -173,9 +173,10 @@ public class Calendar {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        gsonBuilder.registerTypeAdapter(Reminder.class, new Adapter());
-        gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new Adapter());
-        gsonBuilder.registerTypeAdapter(Effect.class, new Adapter());
+        gsonBuilder.registerTypeAdapter(Reminder.class, new ReminderAdapter());
+        gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new FrequencyAdapter());
+        gsonBuilder.registerTypeAdapter(Effect.class, new EffectAdapter());
+
 
         if(path == null)
             path = "Calendar.json";
@@ -199,9 +200,10 @@ public class Calendar {
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
             gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-            gsonBuilder.registerTypeAdapter(Reminder.class, new Adapter());
-            gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new Adapter());
-            gsonBuilder.registerTypeAdapter(Effect.class, new Adapter());
+            gsonBuilder.registerTypeAdapter(Reminder.class, new ReminderAdapter());
+            gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new FrequencyAdapter());
+            gsonBuilder.registerTypeAdapter(Effect.class, new EffectAdapter());
+            //gsonBuilder.registerTypeAdapter(Event.class, new EventAdapter());
             Gson gson = gsonBuilder.setPrettyPrinting().create();
 
             if(path == null)

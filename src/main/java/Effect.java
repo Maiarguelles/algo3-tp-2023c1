@@ -1,4 +1,4 @@
-public interface Effect extends Adaptable {
+public interface Effect {
     public typeOfEffect produceEffect();
 
     public enum typeOfEffect{
