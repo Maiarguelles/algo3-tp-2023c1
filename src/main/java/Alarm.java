@@ -61,29 +61,6 @@ public class Alarm {
        return  effect.produceEffect();
     }
 
-    public void writeAlarm(){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-
-
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
-
-
-
-        String path = "/src/main/prueba.json";
-
-        try (PrintWriter out = new PrintWriter(new FileWriter("text.json"))) {
-
-            Gson gson = gsonBuilder.setPrettyPrinting().create();
-            final String representasionJson = gson.toJson(this);
-            System.out.println(representasionJson);
-            out.write(representasionJson);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }
-//hola
+
