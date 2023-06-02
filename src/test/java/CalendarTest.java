@@ -336,20 +336,15 @@ public class CalendarTest {
         String second = null;
 
         String path = "Calendar.json";
-        Calendar calendar2 = null;
+        //Calendar calendar2 = null;
 
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(path))) {
             first = expected.writeCalendar(path, writer);
-
-            try {
-                Reader reader = Files.newBufferedReader(Paths.get(path));
-                calendar2 = Calendar.readCalendar(null, reader);
-                second = calendar2.writeCalendar(path, writer); //si escribe lo mismo es porque lo leyo bien
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            Reader reader = Files.newBufferedReader(Paths.get(path));
+            var calendar2 = Calendar.readCalendar(path, reader);
+            second = calendar2.writeCalendar(null, writer); //si escribe lo mismo es porque lo leyo bien
+            assertEquals(first, second);
 
 
 
@@ -360,7 +355,6 @@ public class CalendarTest {
             //Act
 
             //assert
-            assertEquals(first, second);
         }
 
     }

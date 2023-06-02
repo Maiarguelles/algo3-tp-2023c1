@@ -3,8 +3,12 @@ import com.google.gson.GsonBuilder;
 import com.sun.jdi.ArrayReference;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +18,7 @@ import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
-        /*Alarm alarm = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Notification(), "gola", LocalDateTime.of(1000, 2, 3, 10, 4));
+        Alarm alarm = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Notification(), "gola", LocalDateTime.of(1000, 2, 3, 10, 4));
         Alarm alarm2 = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Sound(), "gola2", LocalDateTime.of(1000, 2, 3, 10, 4));
 
         Event event = new Event("hola", "holaaa", LocalDateTime.of(1234, 2, 3, 10, 4), LocalDateTime.of(1234, 2, 3, 10, 4), true);
@@ -42,11 +46,13 @@ public class Main {
         String output = null;
 
         try (PrintWriter writer = new PrintWriter(new FileWriter("Calendar.json"))) {
+            Reader reader = Files.newBufferedReader(Paths.get("Calendar.json"));
             output = calendar.writeCalendar("Calendar.json", writer);
-            System.out.println(output);
+
+            var calendar2 = Calendar.readCalendar("Calendar.json", reader);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
 

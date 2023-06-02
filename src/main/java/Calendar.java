@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Calendar {
 
@@ -151,6 +152,7 @@ public class Calendar {
         gsonBuilder.registerTypeAdapter(Reminder.class, new ReminderAdapter());
         gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new FrequencyAdapter());
         gsonBuilder.registerTypeAdapter(Effect.class, new EffectAdapter());
+        gsonBuilder.registerTypeAdapter(HashMap.class, new MapAdapter());
         return gsonBuilder;
     }
 
@@ -158,15 +160,13 @@ public class Calendar {
         try {
             var gsonBuilder = setBuilder();
             Gson gson = gsonBuilder.setPrettyPrinting().create();
-
             if(path == null)
                 path = "Calendar.json";
             // create a reader
-            //Reader reader = Files.newBufferedReader(Paths.get(path));
 
             // convert a JSON string to a User object
             Calendar user = gson.fromJson(reader,Calendar.class);
-
+            System.out.println(user);
             // close reader
             reader.close();
             return user;
