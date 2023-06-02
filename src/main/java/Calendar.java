@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Calendar {
 
@@ -29,7 +30,6 @@ public class Calendar {
         return true;
     }
     public void deleteReminder(int ID){
-            var reminder = reminders.get(ID);
             reminders.remove(ID);
     }
 
@@ -37,12 +37,10 @@ public class Calendar {
     public Alarm getNextAlarm(LocalDateTime actual){
         Alarm alarm = null;
         Alarm nextAlarm = null;
-        Reminder reminder = null;
-        for (int i = 0; i < reminders.size(); i++) {
-            reminder = reminders.get(i);
+        for (Reminder reminder : reminders.values()){
             for (int j = 0; j < reminder.getAlarms().size(); j++) {
                 alarm = reminder.getAlarms().get(j);
-                if ((alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()) && alarm.getGoOffTime().isAfter(actual)) || nextAlarm == null)
+                if (nextAlarm == null ||(alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()) && alarm.getGoOffTime().isAfter(actual)))
                     nextAlarm = alarm;
             }
         }

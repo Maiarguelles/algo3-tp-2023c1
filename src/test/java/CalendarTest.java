@@ -1,4 +1,3 @@
-import jdk.internal.access.JavaIOFileDescriptorAccess;
 import org.junit.Test;
 
 
@@ -57,8 +56,8 @@ public class CalendarTest {
         var alarm1 = new Alarm(30, null, "minutosantes", date1);
 
         calendar.addReminder(event1);
-        calendar.addAlarmToExistentReminder(0, alarm1);
-        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
+        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
     }
 
     @Test
@@ -75,12 +74,12 @@ public class CalendarTest {
 
         calendar.addReminder(event1);
         calendar.addReminder(event2);
-        calendar.addAlarmToExistentReminder(0, alarm1);
-        calendar.addAlarmToExistentReminder(1, alarm2);
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
+        calendar.addAlarmToExistentReminder(event2.hashCode(), alarm2);
 
-        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
-        calendar.addAlarmToExistentReminder(1, alarm3);
-        assertEquals(LocalDateTime.of(2023, 4, 16, 10, 0), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
+        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
+        calendar.addAlarmToExistentReminder(event2.hashCode(), alarm3);
+        assertEquals(LocalDateTime.of(2023, 4, 16, 10, 0), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
     }
 
     @Test
@@ -97,12 +96,12 @@ public class CalendarTest {
         calendar.addReminder(event1);
         calendar.addReminder(event2);
 
-        calendar.addAlarmToExistentReminder(0, alarm1);
-        calendar.addAlarmToExistentReminder(1, alarm2);
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
+        calendar.addAlarmToExistentReminder(event2.hashCode(), alarm2);
 
-        calendar.deleteReminder(0);
+        calendar.deleteReminder(event1.hashCode());
 
-        assertEquals(date2, calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
+        assertEquals(date2, calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
 
     }
 
@@ -116,13 +115,13 @@ public class CalendarTest {
         var event1 = new Event("test", "test", date1, null, true);
         calendar.addReminder(event1);
         var alarm1 = new Alarm(30, null, "minutosantes", date1);
-        calendar.addAlarmToExistentReminder(0, alarm1);
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
 
 
         var event2 = new Event("test", "test", date1, date2, false);
         calendar.addReminder(event2);
 
-        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
+        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
 
 
     }
@@ -165,14 +164,14 @@ public class CalendarTest {
         calendar.addReminder(event2);
         calendar.addReminder(event3);
 
-        calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy);
-        assertEquals(false,calendar.getReminder(0).equals(event1));
+        calendar.addInfiniteRepetitionToExistentEvent(event1.hashCode(), frequencyStrategy);
+        assertEquals(false,calendar.getReminder(event1.hashCode()).equals(event1));
 
-        calendar.addOcurrencesRepetitionToExistentEvent(1, 20, frequencyStrategy);
-        assertEquals(false, calendar.getReminder(1).equals(event2));
+        calendar.addOcurrencesRepetitionToExistentEvent(event2.hashCode(), 20, frequencyStrategy);
+        assertEquals(false, calendar.getReminder(event2.hashCode()).equals(event2));
 
-        calendar.addRepetitionByDateToExistentEvent(2,date3.plusMonths(1), frequencyStrategy);
-        assertEquals(false, calendar.getReminder(2).equals(event3));
+        calendar.addRepetitionByDateToExistentEvent(event3.hashCode(),date3.plusMonths(1), frequencyStrategy);
+        assertEquals(false, calendar.getReminder(event3.hashCode()).equals(event3));
 
     }
 
@@ -203,7 +202,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, date2, false);
         var frequencyStrategy = new YearlyStrategy();
         calendar.addReminder(event);
-        calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
         assertEquals(3, actual);
@@ -221,7 +220,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, date2, false);
         var frequencyStrategy = new MonthlyStrategy();
         calendar.addReminder(event);
-        calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
         assertEquals(3, actual);
@@ -238,7 +237,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, null, true);
         var frequencyStrategy = new DailyStrategy(3);
         calendar.addReminder(event);
-        calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
 
@@ -276,7 +275,7 @@ public class CalendarTest {
         weekDays.add(DayOfWeek.SUNDAY);
         var frequencyStrategy = new WeeklyStrategy(weekDays);
 
-        calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
 
@@ -300,153 +299,17 @@ public class CalendarTest {
         calendar.addReminder(event);
         calendar.addReminder(task);
         var frequencyStrategy = new DailyStrategy(3);
-        calendar.addRepetitionByDateToExistentEvent(0 ,date1.plusDays(15), frequencyStrategy);
+        calendar.addRepetitionByDateToExistentEvent(event.hashCode() ,date1.plusDays(15), frequencyStrategy);
 
         var eventtest = new ArrayList<Event>();
 
         assertEquals(eventtest, calendar.remindersBetweenTwoDates(starDate, endDate));
     }
-    @Test
-    public void calendarWrittenProperly() {
-        //Arrange
-        Alarm alarm = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Notification(), "gola", LocalDateTime.of(1000, 2, 3, 10, 4));
-        Alarm alarm2 = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Sound(), "gola2", LocalDateTime.of(1000, 2, 3, 10, 4));
 
-        Event event = new Event("hola", "holaaa", LocalDateTime.of(1234, 2, 3, 10, 4), LocalDateTime.of(1234, 2, 3, 10, 4), true);
-        event.addAlarm(alarm);
-        event.addAlarm(alarm2);
-        Event event2 = new Event("hola", "holaaa", LocalDateTime.of(1234, 2, 3, 10, 4), LocalDateTime.of(1234, 2, 3, 10, 4), false);
-        event2.addAlarm(alarm2);
-
-        Task task1 = new Task("xd", "xd", LocalDateTime.of(1234, 2, 3, 10, 4), false);
-        Calendar calendar = new Calendar();
-
-        calendar.addReminder(event);
-        calendar.addReminder(event2);
-        calendar.addReminder(task1);
-
-        calendar.addInfiniteRepetitionToExistentEvent(0, new DailyStrategy(2));
-        var dias = new HashSet<DayOfWeek>();
-
-        dias.add(DayOfWeek.MONDAY);
-        calendar.addOcurrencesRepetitionToExistentEvent(1, 10, new WeeklyStrategy(dias));
-
-
-        Alarm alarm3 = new Alarm(LocalDateTime.of(1000, 2, 3, 10, 4), null, "gola3", LocalDateTime.of(1000, 2, 3, 10, 4));
-        calendar.addAlarmToExistentReminder(1, alarm3);
-
-
-        //Act
-        String expected = "{\n" +
-                "  \"reminders\": [\n" +
-                "    {\n" +
-                "      \"type\": \"InfiniteEvent\",\n" +
-                "      \"properties\": {\n" +
-                "        \"isRepeating\": true,\n" +
-                "        \"endDate\": \"03/02/1234 10:04:00\",\n" +
-                "        \"frequencyStrategy\": {\n" +
-                "          \"type\": \"DailyStrategy\",\n" +
-                "          \"properties\": {\n" +
-                "            \"frequency\": 2\n" +
-                "          }\n" +
-                "        },\n" +
-                "        \"title\": \"hola\",\n" +
-                "        \"ID\": 0,\n" +
-                "        \"description\": \"holaaa\",\n" +
-                "        \"completeDay\": true,\n" +
-                "        \"alarms\": [\n" +
-                "          {\n" +
-                "            \"description\": \"gola\",\n" +
-                "            \"goOffTime\": \"03/02/1234 10:04:00\",\n" +
-                "            \"minBefore\": -123072480,\n" +
-                "            \"effect\": {\n" +
-                "              \"type\": \"Notification\",\n" +
-                "              \"properties\": {}\n" +
-                "            }\n" +
-                "          },\n" +
-                "          {\n" +
-                "            \"description\": \"gola2\",\n" +
-                "            \"goOffTime\": \"03/02/1234 10:04:00\",\n" +
-                "            \"minBefore\": -123072480,\n" +
-                "            \"effect\": {\n" +
-                "              \"type\": \"Sound\",\n" +
-                "              \"properties\": {}\n" +
-                "            }\n" +
-                "          }\n" +
-                "        ],\n" +
-                "        \"startDate\": \"03/02/1234 10:04:00\"\n" +
-                "      }\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"type\": \"OcurrencesEvent\",\n" +
-                "      \"properties\": {\n" +
-                "        \"ocurrences\": 10,\n" +
-                "        \"isRepeating\": true,\n" +
-                "        \"endDate\": \"03/02/1234 10:04:00\",\n" +
-                "        \"frequencyStrategy\": {\n" +
-                "          \"type\": \"WeeklyStrategy\",\n" +
-                "          \"properties\": {\n" +
-                "            \"weekDays\": [\n" +
-                "              \"MONDAY\"\n" +
-                "            ]\n" +
-                "          }\n" +
-                "        },\n" +
-                "        \"title\": \"hola\",\n" +
-                "        \"ID\": 1,\n" +
-                "        \"description\": \"holaaa\",\n" +
-                "        \"completeDay\": false,\n" +
-                "        \"alarms\": [\n" +
-                "          {\n" +
-                "            \"description\": \"gola2\",\n" +
-                "            \"goOffTime\": \"03/02/1234 10:04:00\",\n" +
-                "            \"minBefore\": -123072480,\n" +
-                "            \"effect\": {\n" +
-                "              \"type\": \"Sound\",\n" +
-                "              \"properties\": {}\n" +
-                "            }\n" +
-                "          },\n" +
-                "          {\n" +
-                "            \"description\": \"gola3\",\n" +
-                "            \"goOffTime\": \"03/02/1000 10:04:00\",\n" +
-                "            \"minBefore\": 0\n" +
-                "          }\n" +
-                "        ],\n" +
-                "        \"startDate\": \"03/02/1234 10:04:00\"\n" +
-                "      }\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"type\": \"Task\",\n" +
-                "      \"properties\": {\n" +
-                "        \"completed\": false,\n" +
-                "        \"title\": \"xd\",\n" +
-                "        \"ID\": 2,\n" +
-                "        \"description\": \"xd\",\n" +
-                "        \"completeDay\": false,\n" +
-                "        \"alarms\": [],\n" +
-                "        \"startDate\": \"03/02/1234 10:04:00\"\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-
-
-        String path = "Calendar.json";
-        String checkCalendar = null;
-        try(PrintWriter writer = new PrintWriter(new FileWriter(path))){
-            checkCalendar = calendar.writeCalendar(path, writer);
-
-        }catch (Exception e) {
-            e.printStackTrace();
-
-
-            //assert
-            assertEquals(expected, checkCalendar);
-        }
-    }
 
 
     @Test
-    public void calendarReadProperly() {
+    public void calendarReadWriteProperly() {
         //Arrange
         Alarm alarm = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Notification(), "gola", LocalDateTime.of(1000, 2, 3, 10, 4));
         Alarm alarm2 = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Sound(), "gola2", LocalDateTime.of(1000, 2, 3, 10, 4));
@@ -467,24 +330,29 @@ public class CalendarTest {
         expected.addInfiniteRepetitionToExistentEvent(0, new DailyStrategy(2));
 
         Alarm alarm3 = new Alarm(LocalDateTime.of(1000, 2, 3, 10, 4), null, "gola3", LocalDateTime.of(1000, 2, 3, 10, 4));
-        expected.addAlarmToExistentReminder(1, alarm3);
+        expected.addAlarmToExistentReminder(event2.hashCode(), alarm3);
 
         String first = null;
         String second = null;
 
         String path = "Calendar.json";
         Calendar calendar2 = null;
+
+
         try (PrintWriter writer = new PrintWriter(new FileWriter(path))) {
             first = expected.writeCalendar(path, writer);
-            second = calendar2.writeCalendar(path, writer); //si escribe lo mismo es porque lo leyo bien
-
 
             try {
                 Reader reader = Files.newBufferedReader(Paths.get(path));
                 calendar2 = Calendar.readCalendar(null, reader);
+                second = calendar2.writeCalendar(path, writer); //si escribe lo mismo es porque lo leyo bien
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
 
