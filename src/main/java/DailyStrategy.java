@@ -1,5 +1,4 @@
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class DailyStrategy implements FrequencyStrategy{
@@ -27,9 +26,7 @@ public class DailyStrategy implements FrequencyStrategy{
 
     public LocalDateTime lastDateWithOcurrences(int ocurrences, LocalDateTime startDate){
         LocalDateTime lastDate = null;
-        for(int i = 0; i < ocurrences; i++){
-            lastDate = lastDate.plusDays(frequency);
-        }
+        for(int i = 0; i < ocurrences; i++) lastDate = lastDate.plusDays(frequency);
 
         return lastDate;
     }

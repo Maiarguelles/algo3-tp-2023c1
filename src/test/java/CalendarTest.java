@@ -1,15 +1,12 @@
 import org.junit.Test;
 
 
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
 import java.util.HashSet;
 
 import static org.junit.Assert.*;
@@ -34,9 +31,9 @@ public class CalendarTest {
         boolean completeevent = calendar.addReminder(completeEvent);
         boolean eventtest = calendar.addReminder(eventTest);
 
-        assertEquals(nullEvent, false);
-        assertEquals(completeevent, true);
-        assertEquals(eventtest, true);
+        assertFalse(nullEvent);
+        assertTrue(completeevent);
+        assertTrue(eventtest);
     }
 
     @Test
@@ -129,7 +126,7 @@ public class CalendarTest {
     @Test
     public void noAlarm(){
         var calendar = new Calendar();
-        assertEquals(null, calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
+        assertNull(calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
     }
 
 
@@ -165,29 +162,29 @@ public class CalendarTest {
         calendar.addReminder(event3);
 
         calendar.addInfiniteRepetitionToExistentEvent(event1.hashCode(), frequencyStrategy);
-        assertEquals(false,calendar.getReminder(event1.hashCode()).equals(event1));
+        assertNotEquals(calendar.getReminder(event1.hashCode()), event1);
 
         calendar.addOcurrencesRepetitionToExistentEvent(event2.hashCode(), 20, frequencyStrategy);
-        assertEquals(false, calendar.getReminder(event2.hashCode()).equals(event2));
+        assertNotEquals(calendar.getReminder(event2.hashCode()), event2);
 
         calendar.addRepetitionByDateToExistentEvent(event3.hashCode(),date3.plusMonths(1), frequencyStrategy);
-        assertEquals(false, calendar.getReminder(event3.hashCode()).equals(event3));
+        assertNotEquals(calendar.getReminder(event3.hashCode()), event3);
 
     }
 
     @Test
     public void addRepetitionToAnNonExistentEvent(){
         var calendar = new Calendar();
-        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
+
         var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
 
-        var event= new Event("test", "test", date1, date2, false);
+
 
         var frequencyStrategy = new DailyStrategy(3);
 
-        assertEquals(null, calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy));
-        assertEquals(null, calendar.addOcurrencesRepetitionToExistentEvent(0, 20, frequencyStrategy));
-        assertEquals(null, calendar.addRepetitionByDateToExistentEvent(0, date2.plusDays(50), frequencyStrategy));
+        assertNull(calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy));
+        assertNull(calendar.addOcurrencesRepetitionToExistentEvent(0, 20, frequencyStrategy));
+        assertNull(calendar.addRepetitionByDateToExistentEvent(0, date2.plusDays(50), frequencyStrategy));
     }
 
     @Test
@@ -309,7 +306,7 @@ public class CalendarTest {
 
 
     @Test
-    public void calendarReadWriteProperly() {
+    public void calendarReadWriteProperly() throws Exception{
         //Arrange
         Alarm alarm = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Notification(), "gola", LocalDateTime.of(1000, 2, 3, 10, 4));
         Alarm alarm2 = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Sound(), "gola2", LocalDateTime.of(1000, 2, 3, 10, 4));
@@ -332,30 +329,19 @@ public class CalendarTest {
         Alarm alarm3 = new Alarm(LocalDateTime.of(1000, 2, 3, 10, 4), null, "gola3", LocalDateTime.of(1000, 2, 3, 10, 4));
         expected.addAlarmToExistentReminder(event2.hashCode(), alarm3);
 
-        String first = null;
-        String second = null;
+        var writer = new StringWriter(); //Para que el test no me cree un archivo, uso un StringWriter para simular un archivo de texto
+        var first = expected.writeCalendar(writer);
+        writer.close();
+        var reader = new StringReader(first);
+        var calendar2 = Calendar.readCalendar(reader);
+        reader.close();
+        var writer2 = new StringWriter();
 
-        String path = "Calendar.json";
-        //Calendar calendar2 = null;
+        assert calendar2 != null;
+        var second = calendar2.writeCalendar(writer2); //si escribe lo mismo es porque lo leyo bien
+        writer2.close();
+        assertEquals(first, second);
 
-
-        try (PrintWriter writer = new PrintWriter(new FileWriter(path))) {
-            first = expected.writeCalendar(path, writer);
-            Reader reader = Files.newBufferedReader(Paths.get(path));
-            var calendar2 = Calendar.readCalendar(path, reader);
-            second = calendar2.writeCalendar(null, writer); //si escribe lo mismo es porque lo leyo bien
-            assertEquals(first, second);
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-
-            //Act
-
-            //assert
-        }
 
     }
 }

@@ -1,23 +1,19 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class Calendar {
 
-    private HashMap<Integer, Reminder> reminders;
+    private final HashMap<Integer, Reminder> reminders;
 
     public Calendar(){
-        this.reminders = new HashMap<Integer, Reminder>();
+        this.reminders = new HashMap<>();
     }
+
 
     public boolean addReminder(Reminder reminder){
         if(reminder == null)
@@ -25,18 +21,16 @@ public class Calendar {
 
         int key = reminder.hashCode();
 
-        if(reminders.putIfAbsent(key,reminder) != null)
-            return false;
-
-        return true;
+        return reminders.putIfAbsent(key, reminder) == null;
     }
+
     public void deleteReminder(int ID){
             reminders.remove(ID);
     }
 
 
     public Alarm getNextAlarm(LocalDateTime actual){
-        Alarm alarm = null;
+        Alarm alarm;
         Alarm nextAlarm = null;
         for (Reminder reminder : reminders.values()){
             for (int j = 0; j < reminder.getAlarms().size(); j++) {
@@ -66,8 +60,8 @@ public class Calendar {
     private void addAlarms(int ID, ArrayList<Alarm> alarms){
         var reminder =  getReminder(ID);
 
-        for(int i = 0; i < alarms.size();i++){
-            reminder.addAlarm(alarms.get(i));
+        for (Alarm alarm : alarms) {
+            reminder.addAlarm(alarm);
         }
 
     }
@@ -119,30 +113,21 @@ public class Calendar {
             dates = reminder.showDatesOfReminder(date1, date2);
             if (dates == null)
                 continue;
-            for(int i = 0; i < dates.size(); i++){
-                toReturn.add(reminder.repeatReminder(dates.get(i)));
+            for (LocalDateTime date : dates) {
+                toReturn.add(reminder.repeatReminder(date));
             }
         }
 
         return toReturn;
     }
 
-    public String writeCalendar(String path, Writer out){
+    public String writeCalendar(Writer out) throws Exception{
         var gsonBuilder = setBuilder();
-
-        if(path == null)
-            path = "Calendar.json";
-
         Gson gson = gsonBuilder.setPrettyPrinting().create();
 
         final String representationJson = gson.toJson(this);
-        try {
-            out.write(representationJson);
-            return representationJson;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        out.write(representationJson);
+        return representationJson;
     }
 
     private static GsonBuilder setBuilder(){
@@ -152,30 +137,14 @@ public class Calendar {
         gsonBuilder.registerTypeAdapter(Reminder.class, new ReminderAdapter());
         gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new FrequencyAdapter());
         gsonBuilder.registerTypeAdapter(Effect.class, new EffectAdapter());
-        gsonBuilder.registerTypeAdapter(HashMap.class, new MapAdapter());
         return gsonBuilder;
     }
 
-    public static Calendar readCalendar(String path, Reader reader){
-        try {
-            var gsonBuilder = setBuilder();
-            Gson gson = gsonBuilder.setPrettyPrinting().create();
-            if(path == null)
-                path = "Calendar.json";
-            // create a reader
+    public static Calendar readCalendar(Reader reader) throws Exception{
+        var gsonBuilder = setBuilder();
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        return gson.fromJson(reader,Calendar.class);
 
-            // convert a JSON string to a User object
-            Calendar user = gson.fromJson(reader,Calendar.class);
-            System.out.println(user);
-            // close reader
-            reader.close();
-            return user;
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
     }
 
 }

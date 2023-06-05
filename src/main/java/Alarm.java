@@ -1,8 +1,3 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -37,8 +32,7 @@ public class Alarm {
         return minBefore;
     }
     public Alarm cloneAlarm(LocalDateTime eventDate){
-        Alarm alarm = new Alarm(minBefore, effect, description, eventDate);
-        return alarm;
+        return new Alarm(minBefore, effect, description, eventDate);
     }
 
     public LocalDateTime getGoOffTime() {
