@@ -124,10 +124,16 @@ public class Calendar {
     public String writeCalendar(Writer out) throws Exception{
         var gsonBuilder = setBuilder();
         Gson gson = gsonBuilder.setPrettyPrinting().create();
-
         final String representationJson = gson.toJson(this);
         out.write(representationJson);
         return representationJson;
+    }
+
+    public static Calendar readCalendar(Reader reader) throws RuntimeException{
+        var gsonBuilder = setBuilder();
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        return gson.fromJson(reader,Calendar.class);
+
     }
 
     private static GsonBuilder setBuilder(){
@@ -139,14 +145,6 @@ public class Calendar {
         gsonBuilder.registerTypeAdapter(Effect.class, new EffectAdapter());
         return gsonBuilder;
     }
-
-    public static Calendar readCalendar(Reader reader) throws Exception{
-        var gsonBuilder = setBuilder();
-        Gson gson = gsonBuilder.setPrettyPrinting().create();
-        return gson.fromJson(reader,Calendar.class);
-
-    }
-
 }
 
 
