@@ -1,12 +1,13 @@
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class WeeklyStrategy implements FrequencyStrategy{
 
-    private ArrayList<DayOfWeek> weekDays;
+    private Set<DayOfWeek> weekDays;
 
-    public WeeklyStrategy( ArrayList<DayOfWeek> weekDays){
+    public WeeklyStrategy( Set<DayOfWeek> weekDays){
         this.weekDays = weekDays;
     }
 

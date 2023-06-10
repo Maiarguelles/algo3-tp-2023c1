@@ -1,10 +1,13 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public abstract class Reminder{
+public abstract class Reminder {
     protected String title;
 
+
+
+
+    //protected long ID;
     protected String description;
 
     protected boolean completeDay;
@@ -23,7 +26,6 @@ public abstract class Reminder{
         this.completeDay = completeDay;
         this.alarms = new ArrayList<>();
         this.startDate = startDate;
-
     }
 
     public String getTitle(){
@@ -73,6 +75,7 @@ public abstract class Reminder{
         return startDate;
     }
 
+
     abstract public void makeReminderCompleteDay();
 
     abstract public void changeCompleteDay(LocalDateTime endDate);
@@ -81,5 +84,5 @@ public abstract class Reminder{
 
     abstract public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2);
 
-
 }
+

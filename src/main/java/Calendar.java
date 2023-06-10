@@ -1,142 +1,150 @@
-import java.net.InetSocketAddress;
-import java.time.LocalDate;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.Reader;
+import java.io.Writer;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Timer;
+import java.util.HashMap;
 
 public class Calendar {
 
-    private ArrayList<Reminder> reminders;
-    private Alarm nextAlarm;
+    private final HashMap<Integer, Reminder> reminders;
 
     public Calendar(){
-        this.reminders = new ArrayList<Reminder>();
-        nextAlarm = null;
+        this.reminders = new HashMap<>();
     }
+
 
     public boolean addReminder(Reminder reminder){
         if(reminder == null)
             return false;
-        reminders.add(reminder);
-        var alarms = reminder.getAlarms();
-        if(alarms != null)
-            updateNextAlarm();
-        return true;
+
+        int key = reminder.hashCode();
+
+        return reminders.putIfAbsent(key, reminder) == null;
     }
 
-    public void deleteReminder(Reminder reminder){
-        if(reminder.getAlarms().contains(nextAlarm)){
-            nextAlarm = null;
-            reminders.remove(reminder);
-            updateNextAlarm();
-        }
-        else
-            reminders.remove(reminder);
+    public void deleteReminder(int ID){
+            reminders.remove(ID);
     }
 
 
-    private void updateNextAlarm(){
-        Alarm alarm = null;
-        for (Reminder reminder : reminders) {
+    public Alarm getNextAlarm(LocalDateTime actual){
+        Alarm alarm;
+        Alarm nextAlarm = null;
+        for (Reminder reminder : reminders.values()){
             for (int j = 0; j < reminder.getAlarms().size(); j++) {
                 alarm = reminder.getAlarms().get(j);
-                if (nextAlarm == null)
-                    nextAlarm = alarm;
-                else if (alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()))
+                if (nextAlarm == null ||(alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()) && alarm.getGoOffTime().isAfter(actual)))
                     nextAlarm = alarm;
             }
         }
-
-    }
-
-    public LocalDateTime nextAlarm(){
-        if(nextAlarm != null)
-            return nextAlarm.getGoOffTime();
-        else
-            return null;
+        return nextAlarm;
     }
 
 
-    public boolean searchReminder(Reminder reminder){
-        Reminder searchedReminder = null;
-        for (Reminder existentReminder : reminders) {
-            if (existentReminder.equals(reminder)) {
-                searchedReminder = existentReminder;
-                return true;
-            }
-        }
-        return false;
+
+    public Reminder getReminder(int ID){
+        return reminders.get(ID);
     }
 
+    public int getID(Reminder reminder){
+        return reminder.hashCode();
+    }
 
-    public boolean addAlarmToExistentReminder(Reminder reminder, Alarm alarm){
-        if(reminder == null)
-            return false;
+    public void addAlarmToExistentReminder(int ID, Alarm alarm){
+        var reminder = getReminder(ID);
+        reminder.addAlarm(alarm);
+    }
 
-        if(searchReminder(reminder)) {
+    private void addAlarms(int ID, ArrayList<Alarm> alarms){
+        var reminder =  getReminder(ID);
+
+        for (Alarm alarm : alarms) {
             reminder.addAlarm(alarm);
-            updateNextAlarm();
-            return true;
         }
 
-        return false;
     }
 
-    public Event addRepetitionByDateToExistentEvent(Event event, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
-        if(!searchReminder(event))
+    private void replaceReminder(Reminder newReminder,int ID){
+        reminders.replace(ID, newReminder);
+        var alarms = newReminder.getAlarms();
+        addAlarms(ID, alarms);
+    }
+
+    //PRE: El ID debe ser de un evento
+    public Event addRepetitionByDateToExistentEvent(int ID, LocalDateTime expirationDate, FrequencyStrategy frequencyStrategy){
+        var searchedReminder =  (Event) getReminder(ID);
+        if( searchedReminder == null)
             return null;
-        var newReminder = event.addRepetitionByDate(expirationDate, frequencyStrategy);
-        reminders.remove(event);
-        reminders.add(newReminder);
+        var newReminder = searchedReminder.addRepetitionByDate(expirationDate, frequencyStrategy);
+        replaceReminder(newReminder, ID);
         return newReminder;
     }
 
-    public Event addOcurrencesRepetitionToExistentEvent(Event event, int ocurrences, FrequencyStrategy frequencyStrategy){
-        if(!searchReminder(event))
+    public Event addOcurrencesRepetitionToExistentEvent(int ID, int ocurrences, FrequencyStrategy frequencyStrategy){
+        var searchedReminder = (Event) getReminder(ID);
+        if(searchedReminder == null)
             return null;
-        var newReminder = event.addOcurrencesRepetition(ocurrences, frequencyStrategy);
-        reminders.remove(event);
-        reminders.add(newReminder);
+        var newReminder = searchedReminder.addOcurrencesRepetition(ocurrences, frequencyStrategy);
+        replaceReminder(newReminder, ID);
+
         return newReminder;
     }
 
-    public Event addInfiniteRepetitionToExistentEvent(Event event, FrequencyStrategy frequencyStrategy) {
-        if (!searchReminder(event))
+    public Event addInfiniteRepetitionToExistentEvent(int ID, FrequencyStrategy frequencyStrategy) {
+        var searchedReminder = (Event) getReminder(ID);
+        if(searchedReminder == null)
             return null;
-        var newReminder = event.addInfiniteRepetition(frequencyStrategy);
-        reminders.remove(event);
-        reminders.add(newReminder);
+
+        var newReminder = searchedReminder.addInfiniteRepetition(frequencyStrategy);
+
+        replaceReminder(newReminder, ID);
+
         return newReminder;
-    }
-
-
-    public boolean existReminder(LocalDate date){
-        Reminder reminder = null;
-        for (Reminder value : reminders) {
-            reminder = value;
-            if (date.isEqual(reminder.getStartDate().toLocalDate()))
-                return true;
-        }
-        return false;
     }
 
 
     public ArrayList<Reminder> remindersBetweenTwoDates(LocalDateTime date1, LocalDateTime date2){
-        var reminders = new ArrayList<Reminder>();
+        var toReturn = new ArrayList<Reminder>();
         var dates = new ArrayList<LocalDateTime>();
-        for (Reminder reminder : this.reminders){
+
+        for(Reminder reminder : reminders.values()){
             dates = reminder.showDatesOfReminder(date1, date2);
             if (dates == null)
                 continue;
-            for (int i = 0; i< dates.size(); i++){
-                reminders.add(reminder.repeatReminder(dates.get(i)));
-
+            for (LocalDateTime date : dates) {
+                toReturn.add(reminder.repeatReminder(date));
             }
         }
-        return reminders;
+
+        return toReturn;
     }
 
+    public String writeCalendar(Writer out) throws Exception{
+        var gsonBuilder = setBuilder();
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        final String representationJson = gson.toJson(this);
+        out.write(representationJson);
+        return representationJson;
+    }
 
+    public static Calendar readCalendar(Reader reader) throws RuntimeException{
+        var gsonBuilder = setBuilder();
+        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        return gson.fromJson(reader,Calendar.class);
+
+    }
+
+    private static GsonBuilder setBuilder(){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        gsonBuilder.registerTypeAdapter(Reminder.class, new ReminderAdapter());
+        gsonBuilder.registerTypeAdapter(FrequencyStrategy.class, new FrequencyAdapter());
+        gsonBuilder.registerTypeAdapter(Effect.class, new EffectAdapter());
+        return gsonBuilder;
+    }
 }
 
 

@@ -1,34 +1,30 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Alarm {
-    private final String title; //debe ser el mismo titulo que un evento o tarea existente
+    private final String description;
 
     private final LocalDateTime goOffTime;
-    private final LocalDateTime eventDate;
     private final int minBefore;
     private final Effect effect;
 
     //PRE: goOffTime es anterior a eventDate
-    public Alarm(LocalDateTime goOffTime, Effect effect, String title, LocalDateTime eventDate){
-        this.title = title;
+    public Alarm(LocalDateTime goOffTime, Effect effect, String description, LocalDateTime eventDate){
+        this.description = description;
         this.goOffTime = goOffTime;
         this.effect = effect;
-        this.eventDate = eventDate;
-        this.minBefore = calculateMinBefore();
+        this.minBefore = calculateMinBefore(eventDate);
 
     }
 
-    public Alarm(int minBefore, Effect effect, String title, LocalDateTime eventDate){
-        this.title = title;
+    public Alarm(int minBefore, Effect effect, String description, LocalDateTime eventDate){
+        this.description = description;
         this.minBefore = minBefore;
         this.effect = effect;
-        this.eventDate = eventDate;
-        this.goOffTime = calculateGoOffTime();
+        this.goOffTime = calculateGoOffTime(eventDate);
     }
 
-    private int calculateMinBefore(){
+    private int calculateMinBefore(LocalDateTime eventDate){
         return (int)this.goOffTime.until(eventDate, ChronoUnit.MINUTES);
     }
 
@@ -36,16 +32,15 @@ public class Alarm {
         return minBefore;
     }
     public Alarm cloneAlarm(LocalDateTime eventDate){
-        Alarm alarm = new Alarm(minBefore, effect, title, eventDate);
-        return alarm;
+        return new Alarm(minBefore, effect, description, eventDate);
     }
 
     public LocalDateTime getGoOffTime() {
         return goOffTime;
     }
 
-    private LocalDateTime calculateGoOffTime(){
-        return this.eventDate.minusMinutes(this.minBefore);
+    private LocalDateTime calculateGoOffTime(LocalDateTime eventDate){
+        return eventDate.minusMinutes(this.minBefore);
     }
 
     public boolean shouldTrigger(){
@@ -62,3 +57,4 @@ public class Alarm {
 
 
 }
+

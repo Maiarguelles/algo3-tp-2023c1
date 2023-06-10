@@ -35,7 +35,7 @@ public class YearlyStrategy implements FrequencyStrategy{
 
     @Override
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
-        LocalDateTime firstRepetition = null;
+        LocalDateTime firstRepetition;
 
         if (startDate.isAfter(date2)){
             return null;

@@ -1,9 +1,13 @@
 import org.junit.Test;
 
 
+import java.io.*;
+
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
@@ -27,9 +31,9 @@ public class CalendarTest {
         boolean completeevent = calendar.addReminder(completeEvent);
         boolean eventtest = calendar.addReminder(eventTest);
 
-        assertEquals(nullEvent, false);
-        assertEquals(completeevent, true);
-        assertEquals(eventtest, true);
+        assertFalse(nullEvent);
+        assertTrue(completeevent);
+        assertTrue(eventtest);
     }
 
     @Test
@@ -49,8 +53,8 @@ public class CalendarTest {
         var alarm1 = new Alarm(30, null, "minutosantes", date1);
 
         calendar.addReminder(event1);
-        calendar.addAlarmToExistentReminder(event1, alarm1);
-        assertEquals(date1.minusMinutes(30), calendar.nextAlarm());
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
+        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
     }
 
     @Test
@@ -67,12 +71,12 @@ public class CalendarTest {
 
         calendar.addReminder(event1);
         calendar.addReminder(event2);
-        calendar.addAlarmToExistentReminder(event1, alarm1);
-        calendar.addAlarmToExistentReminder(event2, alarm2);
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
+        calendar.addAlarmToExistentReminder(event2.hashCode(), alarm2);
 
-        assertEquals(date1.minusMinutes(30), calendar.nextAlarm());
-        calendar.addAlarmToExistentReminder(event2, alarm3);
-        assertEquals(LocalDateTime.of(2023, 4, 16, 10, 0), calendar.nextAlarm());
+        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
+        calendar.addAlarmToExistentReminder(event2.hashCode(), alarm3);
+        assertEquals(LocalDateTime.of(2023, 4, 16, 10, 0), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
     }
 
     @Test
@@ -89,12 +93,12 @@ public class CalendarTest {
         calendar.addReminder(event1);
         calendar.addReminder(event2);
 
-        calendar.addAlarmToExistentReminder(event1, alarm1);
-        calendar.addAlarmToExistentReminder(event2, alarm2);
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
+        calendar.addAlarmToExistentReminder(event2.hashCode(), alarm2);
 
-        calendar.deleteReminder(event1);
+        calendar.deleteReminder(event1.hashCode());
 
-        assertEquals(date2, calendar.nextAlarm());
+        assertEquals(date2, calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
 
     }
 
@@ -108,13 +112,13 @@ public class CalendarTest {
         var event1 = new Event("test", "test", date1, null, true);
         calendar.addReminder(event1);
         var alarm1 = new Alarm(30, null, "minutosantes", date1);
-        calendar.addAlarmToExistentReminder(event1, alarm1);
+        calendar.addAlarmToExistentReminder(event1.hashCode(), alarm1);
 
 
         var event2 = new Event("test", "test", date1, date2, false);
         calendar.addReminder(event2);
 
-        assertEquals(date1.minusMinutes(30), calendar.nextAlarm());
+        assertEquals(date1.minusMinutes(30), calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)).getGoOffTime());
 
 
     }
@@ -122,35 +126,7 @@ public class CalendarTest {
     @Test
     public void noAlarm(){
         var calendar = new Calendar();
-        assertEquals(null, calendar.nextAlarm());
-    }
-
-
-    //Exist Event:
-    // El evento existe
-    // El evento no existe
-
-    @Test
-    public void existsEvent(){
-        var calendar = new Calendar();
-        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
-
-        var event1 = new Event("test", "test", date1, null, true);
-        calendar.addReminder(event1);
-
-        assertEquals(true, calendar.existReminder(date1.toLocalDate()));
-    }
-
-    @Test
-    public void doesntExistEvent(){
-        var calendar = new Calendar();
-        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
-        var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
-
-        var event1 = new Event("test", "test", date1, null, true);
-        calendar.addReminder(event1);
-
-        assertEquals(false, calendar.existReminder(date2.toLocalDate()));
+        assertNull(calendar.getNextAlarm(LocalDateTime.of(2023, 1, 1, 0, 0)));
     }
 
 
@@ -185,30 +161,30 @@ public class CalendarTest {
         calendar.addReminder(event2);
         calendar.addReminder(event3);
 
-        calendar.addInfiniteRepetitionToExistentEvent(event1, frequencyStrategy);
-        assertEquals(false,calendar.searchReminder(event1));
+        calendar.addInfiniteRepetitionToExistentEvent(event1.hashCode(), frequencyStrategy);
+        assertNotEquals(calendar.getReminder(event1.hashCode()), event1);
 
-        calendar.addOcurrencesRepetitionToExistentEvent(event2, 20, frequencyStrategy);
-        assertEquals(false, calendar.searchReminder(event2));
+        calendar.addOcurrencesRepetitionToExistentEvent(event2.hashCode(), 20, frequencyStrategy);
+        assertNotEquals(calendar.getReminder(event2.hashCode()), event2);
 
-        calendar.addRepetitionByDateToExistentEvent(event3,date3.plusMonths(1), frequencyStrategy);
-        assertEquals(false, calendar.searchReminder(event3));
+        calendar.addRepetitionByDateToExistentEvent(event3.hashCode(),date3.plusMonths(1), frequencyStrategy);
+        assertNotEquals(calendar.getReminder(event3.hashCode()), event3);
 
     }
 
     @Test
     public void addRepetitionToAnNonExistentEvent(){
         var calendar = new Calendar();
-        var date1 = LocalDateTime.of(2023, 4, 17, 20, 30);
+
         var date2 = LocalDateTime.of(2023, 4, 18, 10, 0);
 
-        var event= new Event("test", "test", date1, date2, false);
+
 
         var frequencyStrategy = new DailyStrategy(3);
 
-        assertEquals(null, calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy));
-        assertEquals(null, calendar.addOcurrencesRepetitionToExistentEvent(event, 20, frequencyStrategy));
-        assertEquals(null, calendar.addRepetitionByDateToExistentEvent(event, date2.plusDays(50), frequencyStrategy));
+        assertNull(calendar.addInfiniteRepetitionToExistentEvent(0, frequencyStrategy));
+        assertNull(calendar.addOcurrencesRepetitionToExistentEvent(0, 20, frequencyStrategy));
+        assertNull(calendar.addRepetitionByDateToExistentEvent(0, date2.plusDays(50), frequencyStrategy));
     }
 
     @Test
@@ -223,7 +199,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, date2, false);
         var frequencyStrategy = new YearlyStrategy();
         calendar.addReminder(event);
-        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
         assertEquals(3, actual);
@@ -241,7 +217,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, date2, false);
         var frequencyStrategy = new MonthlyStrategy();
         calendar.addReminder(event);
-        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
         assertEquals(3, actual);
@@ -258,7 +234,7 @@ public class CalendarTest {
         var event = new Event("title", "test", date1, null, true);
         var frequencyStrategy = new DailyStrategy(3);
         calendar.addReminder(event);
-        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
 
@@ -291,12 +267,12 @@ public class CalendarTest {
 
         var event = new Event("title", "test", date1, null, true);
         calendar.addReminder(event);
-        var weekDays = new ArrayList<DayOfWeek>();
+        var weekDays = new HashSet<DayOfWeek>();
         weekDays.add(DayOfWeek.THURSDAY);
         weekDays.add(DayOfWeek.SUNDAY);
         var frequencyStrategy = new WeeklyStrategy(weekDays);
 
-        calendar.addInfiniteRepetitionToExistentEvent(event, frequencyStrategy);
+        calendar.addInfiniteRepetitionToExistentEvent(event.hashCode(), frequencyStrategy);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
 
@@ -320,7 +296,7 @@ public class CalendarTest {
         calendar.addReminder(event);
         calendar.addReminder(task);
         var frequencyStrategy = new DailyStrategy(3);
-        calendar.addRepetitionByDateToExistentEvent(event ,date1.plusDays(15), frequencyStrategy);
+        calendar.addRepetitionByDateToExistentEvent(event.hashCode() ,date1.plusDays(15), frequencyStrategy);
 
         var eventtest = new ArrayList<Event>();
 
@@ -329,4 +305,43 @@ public class CalendarTest {
 
 
 
+    @Test
+    public void calendarReadWriteProperly() throws Exception{
+        //Arrange
+        Alarm alarm = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Notification(), "gola", LocalDateTime.of(1000, 2, 3, 10, 4));
+        Alarm alarm2 = new Alarm(LocalDateTime.of(1234, 2, 3, 10, 4), new Sound(), "gola2", LocalDateTime.of(1000, 2, 3, 10, 4));
+
+        Event event = new Event("hola", "holaaa", LocalDateTime.of(1234, 2, 3, 10, 4), LocalDateTime.of(1234, 2, 3, 10, 4), true);
+        event.addAlarm(alarm);
+        event.addAlarm(alarm2);
+        Event event2 = new Event("hola", "holaaa", LocalDateTime.of(1234, 2, 3, 10, 4), LocalDateTime.of(1234, 2, 3, 10, 4), false);
+        event2.addAlarm(alarm2);
+
+        Task task1 = new Task("xd", "xd", LocalDateTime.of(1234, 2, 3, 10, 4), false);
+        Calendar expected = new Calendar();
+
+        expected.addReminder(event);
+        expected.addReminder(event2);
+        expected.addReminder(task1);
+
+        expected.addInfiniteRepetitionToExistentEvent(0, new DailyStrategy(2));
+
+        Alarm alarm3 = new Alarm(LocalDateTime.of(1000, 2, 3, 10, 4), null, "gola3", LocalDateTime.of(1000, 2, 3, 10, 4));
+        expected.addAlarmToExistentReminder(event2.hashCode(), alarm3);
+
+        var writer = new StringWriter(); //Para que el test no me cree un archivo, uso un StringWriter para simular un archivo de texto
+        var first = expected.writeCalendar(writer);
+        writer.close();
+        var reader = new StringReader(first);
+        var calendar2 = Calendar.readCalendar(reader);
+        reader.close();
+        var writer2 = new StringWriter();
+
+        assert calendar2 != null;
+        var second = calendar2.writeCalendar(writer2); //si escribe lo mismo es porque lo leyo bien
+        writer2.close();
+        assertEquals(first, second);
+
+
+    }
 }

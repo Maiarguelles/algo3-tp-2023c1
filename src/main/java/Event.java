@@ -1,7 +1,5 @@
-import javax.swing.border.EmptyBorder;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 
 public class Event extends Reminder{
@@ -25,7 +23,6 @@ public class Event extends Reminder{
             this.endDate= endDate;
 
     }
-
 
     public Event repeatReminder(LocalDateTime startDate){
         var eventDuration = this.getDuration();
@@ -94,7 +91,6 @@ public class Event extends Reminder{
     }
 
 
-
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         ArrayList<LocalDateTime> dates = new ArrayList<>();
         if ((startDate.isBefore(date2) && startDate.isAfter(date1))
@@ -103,4 +99,6 @@ public class Event extends Reminder{
 
         return dates;
     }
+
+
 }
