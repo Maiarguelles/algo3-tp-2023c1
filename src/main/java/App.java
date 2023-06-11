@@ -2,23 +2,24 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
-        AddReminderController a = fxmlloader.getController();
+
+        Controlador controlador = new Controlador()
+        Calendar calendar = new Calendar(); //Modelo
+
+        //Scene scene = new Scene(fxmlloader.load());
+        Parent root = (Parent) fxmlloader.load();
+        AddReminderView a = fxmlloader.getController(); //Vista de la creación de eventos
+        a.setView(stage, root);
 
 
-        Parent root = fxmlloader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+
     }
     public static void main(String[] args){
         launch();

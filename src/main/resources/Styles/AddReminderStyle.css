@@ -9,7 +9,7 @@
 
 
 .check-box-custom {
-    -fx-skin: "com.sun.javafx.scene.control.skin.CheckBoxSkin";
+
     -fx-text-fill: #333333;
     -fx-font-weight: bold;
     -fx-font-size: 1.2em;

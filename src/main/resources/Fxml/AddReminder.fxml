@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/AddReminderStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddReminderController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/AddReminderStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddReminderView">
    <children>
       <TitledPane prefHeight="400.0" prefWidth="602.0">
          <content>
@@ -17,7 +17,7 @@
                <children>
                   <HBox styleClass="hbox-title">
                      <children>
-                        <TextField alignment="CENTER" prefHeight="25.0" prefWidth="409.0" promptText="Inserte nombre del evento" styleClass="text-field-custom">
+                        <TextField fx:id="eventName" alignment="CENTER" prefHeight="25.0" prefWidth="409.0" promptText="Inserte nombre del evento" styleClass="text-field-custom">
                            <VBox.margin>
                               <Insets right="250.0" />
                            </VBox.margin>
@@ -34,9 +34,9 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="0.0" prefWidth="580.0" styleClass="datesSelector">
                      <children>
-                        <DatePicker prefHeight="37.0" prefWidth="140.0" />
+                        <DatePicker fx:id="datePicker1" prefHeight="37.0" prefWidth="140.0" />
 
-                        <MenuButton popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
+                        <MenuButton fx:id="hour1" popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
                           <items>
                             <MenuItem mnemonicParsing="false" text="12:00am" />
                             <MenuItem mnemonicParsing="false" text="12:15am" />
@@ -143,7 +143,7 @@
                            <font>
                               <Font size="22.0" />
                            </font></Text>
-                        <MenuButton mnemonicParsing="false" onTouchPressed="#handleButtonAction" popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
+                        <MenuButton fx:id="hour2" mnemonicParsing="false" onTouchPressed="#handleButtonAction" popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
                            <items>
                               <MenuItem mnemonicParsing="false" text="12:00am" />
                               <MenuItem mnemonicParsing="false" text="12:15am" />
@@ -243,18 +243,18 @@
                               <MenuItem mnemonicParsing="false" text="11:45pm" />
                            </items>
                         </MenuButton>
-                        <DatePicker prefHeight="37.0" prefWidth="140.0" />
+                        <DatePicker fx:id="datePicker2" prefHeight="37.0" prefWidth="140.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="36.0" prefWidth="580.0" styleClass="hbox-title">
                      <children>
-                        <CheckBox mnemonicParsing="false" prefHeight="22.0" prefWidth="406.0" text="Todo el día">
+                        <CheckBox fx:id="allDay" mnemonicParsing="false" prefHeight="22.0" prefWidth="406.0" text="Todo el día">
                            <styleClass>
                               <String fx:value="check-box-custom" />
                               <String fx:value="hbox-title" />
                            </styleClass>
                         </CheckBox>
-                        <MenuButton mnemonicParsing="false" text="No se repite">
+                        <MenuButton fx:id="repetition" mnemonicParsing="false" text="No se repite">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Todos los dias" />
                               <MenuItem mnemonicParsing="false" text="Dias habiles" />
@@ -276,15 +276,14 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="580.0">
                            <children>
-                              <ChoiceBox fx:id="alarma" prefWidth="150.0" />
-                              <MenuButton mnemonicParsing="false" text="Ninguna">
+                              <MenuButton fx:id="alarm" mnemonicParsing="false" text="Ninguna">
                                 <items>
                                   <MenuItem mnemonicParsing="false" text="Notificación" />
                                   <MenuItem mnemonicParsing="false" text="Sonido" />
                                 </items>
                               </MenuButton>
-                              <TextField prefHeight="25.0" prefWidth="108.0" />
-                              <MenuButton mnemonicParsing="false" text="Minutos">
+                              <TextField fx:id="timeBefore" prefHeight="25.0" prefWidth="108.0" />
+                              <MenuButton fx:id="timeFormat" mnemonicParsing="false" text="Minutos">
                                 <items>
                                   <MenuItem mnemonicParsing="false" text="Horas" />
                                     <MenuItem mnemonicParsing="false" text="Días" />
@@ -296,7 +295,7 @@
                               <Insets />
                            </opaqueInsets>
                         </HBox>
-                        <ColorPicker prefHeight="25.0" prefWidth="216.0">
+                        <ColorPicker fx:id="color" prefHeight="25.0" prefWidth="216.0">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -305,7 +304,7 @@
                   </HBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Agregar descripción del evento" />
+                        <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Agregar descripción del evento" />
                      </children>
                   </VBox>
                </children>
