@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/AddReminderStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddReminderController">
+   <children>
+      <TitledPane prefHeight="400.0" prefWidth="602.0">
+         <content>
+            <VBox prefHeight="72.0" prefWidth="600.0" styleClass="main" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox styleClass="hbox-title">
+                     <children>
+                        <TextField alignment="CENTER" prefHeight="25.0" prefWidth="409.0" promptText="Inserte nombre del evento" styleClass="text-field-custom">
+                           <VBox.margin>
+                              <Insets right="250.0" />
+                           </VBox.margin>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="guardar" mnemonicParsing="false" text="Guardar">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="580.0" styleClass="datesSelector">
+                     <children>
+                        <DatePicker prefHeight="37.0" prefWidth="140.0" />
+
+                        <MenuButton popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="12:00am" />
+                            <MenuItem mnemonicParsing="false" text="12:15am" />
+                             <MenuItem mnemonicParsing="false" text="12:30am" />
+                             <MenuItem mnemonicParsing="false" text="12:45am" />
+                             <MenuItem mnemonicParsing="false" text="01:00am" />
+                             <MenuItem mnemonicParsing="false" text="01:15am" />
+                             <MenuItem mnemonicParsing="false" text="01:30am" />
+                             <MenuItem mnemonicParsing="false" text="01:45am" />
+                             <MenuItem mnemonicParsing="false" text="02:00am" />
+                             <MenuItem mnemonicParsing="false" text="02:15am" />
+                             <MenuItem mnemonicParsing="false" text="02:30am" />
+                             <MenuItem mnemonicParsing="false" text="02:45am" />
+                             <MenuItem mnemonicParsing="false" text="03:00am" />
+                             <MenuItem mnemonicParsing="false" text="03:15am" />
+                             <MenuItem mnemonicParsing="false" text="03:30am" />
+                             <MenuItem mnemonicParsing="false" text="03:45am" />
+                             <MenuItem mnemonicParsing="false" text="04:00am" />
+                             <MenuItem mnemonicParsing="false" text="04:15am" />
+                             <MenuItem mnemonicParsing="false" text="04:30am" />
+                             <MenuItem mnemonicParsing="false" text="04:45am" />
+                             <MenuItem mnemonicParsing="false" text="05:00am" />
+                             <MenuItem mnemonicParsing="false" text="05:15am" />
+                             <MenuItem mnemonicParsing="false" text="05:30am" />
+                             <MenuItem mnemonicParsing="false" text="05:45am" />
+                             <MenuItem mnemonicParsing="false" text="06:00am" />
+                              <MenuItem mnemonicParsing="false" text="06:15am" />
+                              <MenuItem mnemonicParsing="false" text="06:30am" />
+                              <MenuItem mnemonicParsing="false" text="06:45am" />
+                              <MenuItem mnemonicParsing="false" text="07:00am" />
+                              <MenuItem mnemonicParsing="false" text="07:15am" />
+                              <MenuItem mnemonicParsing="false" text="07:30am" />
+                              <MenuItem mnemonicParsing="false" text="07:45am" />
+                              <MenuItem mnemonicParsing="false" text="08:00am" />
+                              <MenuItem mnemonicParsing="false" text="08:15am" />
+                              <MenuItem mnemonicParsing="false" text="08:30am" />
+                              <MenuItem mnemonicParsing="false" text="08:45am" />
+                              <MenuItem mnemonicParsing="false" text="09:00am" />
+                              <MenuItem mnemonicParsing="false" text="09:15am" />
+                              <MenuItem mnemonicParsing="false" text="09:30am" />
+                              <MenuItem mnemonicParsing="false" text="09:45am" />
+                              <MenuItem mnemonicParsing="false" text="10:00am" />
+                              <MenuItem mnemonicParsing="false" text="10:15am" />
+                              <MenuItem mnemonicParsing="false" text="10:30am" />
+                              <MenuItem mnemonicParsing="false" text="10:45am" />
+                              <MenuItem mnemonicParsing="false" text="11:00am" />
+                              <MenuItem mnemonicParsing="false" text="11:15am" />
+                              <MenuItem mnemonicParsing="false" text="11:30am" />
+                              <MenuItem mnemonicParsing="false" text="11:45am" />
+                              <MenuItem mnemonicParsing="false" text="12:00am" />
+                              <MenuItem mnemonicParsing="false" text="12:15am" />
+                              <MenuItem mnemonicParsing="false" text="12:30am" />
+                              <MenuItem mnemonicParsing="false" text="12:45am" />
+                              <MenuItem mnemonicParsing="false" text="01:00pm" />
+                              <MenuItem mnemonicParsing="false" text="01:15pm" />
+                              <MenuItem mnemonicParsing="false" text="01:30pm" />
+                              <MenuItem mnemonicParsing="false" text="01:45pm" />
+                              <MenuItem mnemonicParsing="false" text="02:00pm" />
+                              <MenuItem mnemonicParsing="false" text="02:15pm" />
+                              <MenuItem mnemonicParsing="false" text="02:30pm" />
+                              <MenuItem mnemonicParsing="false" text="02:45pm" />
+                              <MenuItem mnemonicParsing="false" text="03:00pm" />
+                              <MenuItem mnemonicParsing="false" text="03:15pm" />
+                              <MenuItem mnemonicParsing="false" text="03:30pm" />
+                              <MenuItem mnemonicParsing="false" text="03:45pm" />
+                              <MenuItem mnemonicParsing="false" text="04:00pm" />
+                              <MenuItem mnemonicParsing="false" text="04:15pm" />
+                              <MenuItem mnemonicParsing="false" text="04:30pm" />
+                              <MenuItem mnemonicParsing="false" text="04:45pm" />
+                              <MenuItem mnemonicParsing="false" text="05:00pm" />
+                              <MenuItem mnemonicParsing="false" text="05:15pm" />
+                              <MenuItem mnemonicParsing="false" text="05:30pm" />
+                              <MenuItem mnemonicParsing="false" text="05:45pm" />
+                              <MenuItem mnemonicParsing="false" text="06:00pm" />
+                              <MenuItem mnemonicParsing="false" text="06:15pm" />
+                              <MenuItem mnemonicParsing="false" text="06:30pm" />
+                              <MenuItem mnemonicParsing="false" text="06:45pm" />
+                              <MenuItem mnemonicParsing="false" text="07:00pm" />
+                              <MenuItem mnemonicParsing="false" text="07:15pm" />
+                              <MenuItem mnemonicParsing="false" text="07:30pm" />
+                              <MenuItem mnemonicParsing="false" text="07:45pm" />
+                              <MenuItem mnemonicParsing="false" text="08:00pm" />
+                              <MenuItem mnemonicParsing="false" text="08:15pm" />
+                              <MenuItem mnemonicParsing="false" text="08:30pm" />
+                              <MenuItem mnemonicParsing="false" text="08:45pm" />
+                              <MenuItem mnemonicParsing="false" text="09:00pm" />
+                              <MenuItem mnemonicParsing="false" text="09:15pm" />
+                             <MenuItem mnemonicParsing="false" text="09:30pm" />
+                             <MenuItem mnemonicParsing="false" text="09:45pm" />
+                             <MenuItem mnemonicParsing="false" text="10:00pm" />
+                             <MenuItem mnemonicParsing="false" text="10:15pm" />
+                             <MenuItem mnemonicParsing="false" text="10:30pm" />
+                             <MenuItem mnemonicParsing="false" text="10:45pm" />
+                             <MenuItem mnemonicParsing="false" text="11:00pm" />
+                             <MenuItem mnemonicParsing="false" text="11:15pm" />
+                             <MenuItem mnemonicParsing="false" text="11:30pm" />
+                             <MenuItem mnemonicParsing="false" text="11:45pm" />
+                          </items>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MenuButton>
+                        <Text smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="a" textAlignment="CENTER" wrappingWidth="22.13671875">
+                           <font>
+                              <Font size="22.0" />
+                           </font></Text>
+                        <MenuButton mnemonicParsing="false" onTouchPressed="#handleButtonAction" popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="12:00am" />
+                              <MenuItem mnemonicParsing="false" text="12:15am" />
+                              <MenuItem mnemonicParsing="false" text="12:30am" />
+                              <MenuItem mnemonicParsing="false" text="12:45am" />
+                              <MenuItem mnemonicParsing="false" text="01:00am" />
+                              <MenuItem mnemonicParsing="false" text="01:15am" />
+                              <MenuItem mnemonicParsing="false" text="01:30am" />
+                              <MenuItem mnemonicParsing="false" text="01:45am" />
+                              <MenuItem mnemonicParsing="false" text="02:00am" />
+                              <MenuItem mnemonicParsing="false" text="02:15am" />
+                              <MenuItem mnemonicParsing="false" text="02:30am" />
+                              <MenuItem mnemonicParsing="false" text="02:45am" />
+                              <MenuItem mnemonicParsing="false" text="03:00am" />
+                              <MenuItem mnemonicParsing="false" text="03:15am" />
+                              <MenuItem mnemonicParsing="false" text="03:30am" />
+                              <MenuItem mnemonicParsing="false" text="03:45am" />
+                              <MenuItem mnemonicParsing="false" text="04:00am" />
+                              <MenuItem mnemonicParsing="false" text="04:15am" />
+                              <MenuItem mnemonicParsing="false" text="04:30am" />
+                              <MenuItem mnemonicParsing="false" text="04:45am" />
+                              <MenuItem mnemonicParsing="false" text="05:00am" />
+                              <MenuItem mnemonicParsing="false" text="05:15am" />
+                              <MenuItem mnemonicParsing="false" text="05:30am" />
+                              <MenuItem mnemonicParsing="false" text="05:45am" />
+                              <MenuItem mnemonicParsing="false" text="06:00am" />
+                              <MenuItem mnemonicParsing="false" text="06:15am" />
+                              <MenuItem mnemonicParsing="false" text="06:30am" />
+                              <MenuItem mnemonicParsing="false" text="06:45am" />
+                              <MenuItem mnemonicParsing="false" text="07:00am" />
+                              <MenuItem mnemonicParsing="false" text="07:15am" />
+                              <MenuItem mnemonicParsing="false" text="07:30am" />
+                              <MenuItem mnemonicParsing="false" text="07:45am" />
+                              <MenuItem mnemonicParsing="false" text="08:00am" />
+                              <MenuItem mnemonicParsing="false" text="08:15am" />
+                              <MenuItem mnemonicParsing="false" text="08:30am" />
+                              <MenuItem mnemonicParsing="false" text="08:45am" />
+                              <MenuItem mnemonicParsing="false" text="09:00am" />
+                              <MenuItem mnemonicParsing="false" text="09:15am" />
+                              <MenuItem mnemonicParsing="false" text="09:30am" />
+                              <MenuItem mnemonicParsing="false" text="09:45am" />
+                              <MenuItem mnemonicParsing="false" text="10:00am" />
+                              <MenuItem mnemonicParsing="false" text="10:15am" />
+                              <MenuItem mnemonicParsing="false" text="10:30am" />
+                              <MenuItem mnemonicParsing="false" text="10:45am" />
+                              <MenuItem mnemonicParsing="false" text="11:00am" />
+                              <MenuItem mnemonicParsing="false" text="11:15am" />
+                              <MenuItem mnemonicParsing="false" text="11:30am" />
+                              <MenuItem mnemonicParsing="false" text="11:45am" />
+                              <MenuItem mnemonicParsing="false" text="12:00am" />
+                              <MenuItem mnemonicParsing="false" text="12:15am" />
+                              <MenuItem mnemonicParsing="false" text="12:30am" />
+                              <MenuItem mnemonicParsing="false" text="12:45am" />
+                              <MenuItem mnemonicParsing="false" text="01:00pm" />
+                              <MenuItem mnemonicParsing="false" text="01:15pm" />
+                              <MenuItem mnemonicParsing="false" text="01:30pm" />
+                              <MenuItem mnemonicParsing="false" text="01:45pm" />
+                              <MenuItem mnemonicParsing="false" text="02:00pm" />
+                              <MenuItem mnemonicParsing="false" text="02:15pm" />
+                              <MenuItem mnemonicParsing="false" text="02:30pm" />
+                              <MenuItem mnemonicParsing="false" text="02:45pm" />
+                              <MenuItem mnemonicParsing="false" text="03:00pm" />
+                              <MenuItem mnemonicParsing="false" text="03:15pm" />
+                              <MenuItem mnemonicParsing="false" text="03:30pm" />
+                              <MenuItem mnemonicParsing="false" text="03:45pm" />
+                              <MenuItem mnemonicParsing="false" text="04:00pm" />
+                              <MenuItem mnemonicParsing="false" text="04:15pm" />
+                              <MenuItem mnemonicParsing="false" text="04:30pm" />
+                              <MenuItem mnemonicParsing="false" text="04:45pm" />
+                              <MenuItem mnemonicParsing="false" text="05:00pm" />
+                              <MenuItem mnemonicParsing="false" text="05:15pm" />
+                              <MenuItem mnemonicParsing="false" text="05:30pm" />
+                              <MenuItem mnemonicParsing="false" text="05:45pm" />
+                              <MenuItem mnemonicParsing="false" text="06:00pm" />
+                              <MenuItem mnemonicParsing="false" text="06:15pm" />
+                              <MenuItem mnemonicParsing="false" text="06:30pm" />
+                              <MenuItem mnemonicParsing="false" text="06:45pm" />
+                              <MenuItem mnemonicParsing="false" text="07:00pm" />
+                              <MenuItem mnemonicParsing="false" text="07:15pm" />
+                              <MenuItem mnemonicParsing="false" text="07:30pm" />
+                              <MenuItem mnemonicParsing="false" text="07:45pm" />
+                              <MenuItem mnemonicParsing="false" text="08:00pm" />
+                              <MenuItem mnemonicParsing="false" text="08:15pm" />
+                              <MenuItem mnemonicParsing="false" text="08:30pm" />
+                              <MenuItem mnemonicParsing="false" text="08:45pm" />
+                              <MenuItem mnemonicParsing="false" text="09:00pm" />
+                              <MenuItem mnemonicParsing="false" text="09:15pm" />
+                              <MenuItem mnemonicParsing="false" text="09:30pm" />
+                              <MenuItem mnemonicParsing="false" text="09:45pm" />
+                              <MenuItem mnemonicParsing="false" text="10:00pm" />
+                              <MenuItem mnemonicParsing="false" text="10:15pm" />
+                              <MenuItem mnemonicParsing="false" text="10:30pm" />
+                              <MenuItem mnemonicParsing="false" text="10:45pm" />
+                              <MenuItem mnemonicParsing="false" text="11:00pm" />
+                              <MenuItem mnemonicParsing="false" text="11:15pm" />
+                              <MenuItem mnemonicParsing="false" text="11:30pm" />
+                              <MenuItem mnemonicParsing="false" text="11:45pm" />
+                           </items>
+                        </MenuButton>
+                        <DatePicker prefHeight="37.0" prefWidth="140.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="36.0" prefWidth="580.0" styleClass="hbox-title">
+                     <children>
+                        <CheckBox mnemonicParsing="false" prefHeight="22.0" prefWidth="406.0" text="Todo el día">
+                           <styleClass>
+                              <String fx:value="check-box-custom" />
+                              <String fx:value="hbox-title" />
+                           </styleClass>
+                        </CheckBox>
+                        <MenuButton mnemonicParsing="false" text="No se repite">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Todos los dias" />
+                              <MenuItem mnemonicParsing="false" text="Dias habiles" />
+                            <MenuItem mnemonicParsing="false">
+                                 <graphic>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Label" />
+                                          <TextField />
+                                       </children>
+                                    </HBox>
+                                 </graphic>
+                              </MenuItem>
+                          </items>
+                        </MenuButton>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="580.0">
+                           <children>
+                              <ChoiceBox fx:id="alarma" prefWidth="150.0" />
+                              <MenuButton mnemonicParsing="false" text="Ninguna">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Notificación" />
+                                  <MenuItem mnemonicParsing="false" text="Sonido" />
+                                </items>
+                              </MenuButton>
+                              <TextField prefHeight="25.0" prefWidth="108.0" />
+                              <MenuButton mnemonicParsing="false" text="Minutos">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Horas" />
+                                    <MenuItem mnemonicParsing="false" text="Días" />
+                                    <MenuItem mnemonicParsing="false" text="Semanas" />
+                                </items>
+                              </MenuButton>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <ColorPicker prefHeight="25.0" prefWidth="216.0">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </ColorPicker>
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Agregar descripción del evento" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

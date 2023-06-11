@@ -20,7 +20,6 @@ public class Calendar {
             return false;
 
         int key = reminder.hashCode();
-
         return reminders.putIfAbsent(key, reminder) == null;
     }
 

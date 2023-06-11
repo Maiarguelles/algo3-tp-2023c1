@@ -331,6 +331,7 @@ public class CalendarTest {
 
         var writer = new StringWriter(); //Para que el test no me cree un archivo, uso un StringWriter para simular un archivo de texto
         var first = expected.writeCalendar(writer);
+
         writer.close();
         var reader = new StringReader(first);
         var calendar2 = Calendar.readCalendar(reader);
