@@ -1,11 +1,23 @@
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 
 public class Controlador {
-    FXMLLoader vista1;
+    AddReminderView view;
     Calendar calendar;
 
-    public Controlador(){
-        vista1 = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
+    public Controlador(AddReminderView view, Calendar calendar){
+        this.view = view;
+        this.calendar = calendar;
+    }
+
+    public void initialize(){
+        view.notifyButtonPress(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                view.a();
+            }
+        });
     }
 
 }
