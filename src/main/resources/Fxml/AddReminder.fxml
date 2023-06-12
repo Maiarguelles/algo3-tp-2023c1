@@ -25,7 +25,7 @@
                               <Insets />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="guardar" mnemonicParsing="false" text="Guardar">
+                        <Button fx:id="save" mnemonicParsing="false" text="Guardar">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

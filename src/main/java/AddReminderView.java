@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 
 public class AddReminderView implements Initializable {
 
-
     @FXML
     private DatePicker datePicker1;
 
@@ -58,6 +57,7 @@ public class AddReminderView implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
     }
 
     public Button getSave() {

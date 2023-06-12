@@ -10,13 +10,16 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
 
-        Controlador controlador = new Controlador()
+
         Calendar calendar = new Calendar(); //Modelo
 
         //Scene scene = new Scene(fxmlloader.load());
         Parent root = (Parent) fxmlloader.load();
         AddReminderView a = fxmlloader.getController(); //Vista de la creación de eventos
+        Controlador controlador = new Controlador(a, calendar);
+
         a.setView(stage, root);
+        controlador.initialize();
 
 
 
