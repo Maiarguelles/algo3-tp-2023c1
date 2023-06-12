@@ -2,25 +2,37 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
 
+        FXMLLoader eventDetailLoader =  new FXMLLoader(getClass().getResource("/Fxml/EventDetail.fxml"));
+        FXMLLoader replaceThingsLoader = new FXMLLoader(getClass().getResource("/Fxml/ReplaceThings.fxml"));
 
-        Calendar calendar = new Calendar(); //Modelo
+        Parent sceneRoot = (Parent) eventDetailLoader.load(); //cargamos el archivo AddReminder.fxml
 
-        //Scene scene = new Scene(fxmlloader.load());
-        Parent root = (Parent) fxmlloader.load();
-        AddReminderView a = fxmlloader.getController(); //Vista de la creación de eventos
-        Controlador controlador = new Controlador(a, calendar);
+        Calendar calendar = new Calendar();
 
-        a.setView(stage, root);
-        controlador.initialize();
+        Scene scene = new Scene(sceneRoot);
+        stage.setScene(scene);
+        stage.show();
+        replaceThingsLoader.load();
+        AnchorPane rootPane = (AnchorPane) scene.getRoot();
+        VBox vbox = (VBox) eventDetailLoader.getNamespace().get("mainVbox");
+        HBox hboxviejo = (HBox) eventDetailLoader.getNamespace().get("hboxTitleEvent");
+        int indexviejo = vbox.getChildren().indexOf(hboxviejo);
 
+        Pane hboxnuevo = (Pane) replaceThingsLoader.getNamespace().get("paneTitleTask");
+        System.out.println( hboxnuevo);
+        vbox.getChildren().remove(indexviejo);
+        vbox.getChildren().add(indexviejo,hboxnuevo);
 
 
     }

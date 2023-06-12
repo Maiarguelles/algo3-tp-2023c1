@@ -53,11 +53,11 @@ public class AddReminderView implements Initializable {
     @FXML
     private Button save;
 
-    public void setView(Stage stage, Parent root) throws IOException {
+    public Scene setView(Stage stage, Parent root) throws IOException {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
+        return scene;
     }
 
     public Button getSave() {
