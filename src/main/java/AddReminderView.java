@@ -20,6 +20,10 @@ public class AddReminderView implements Initializable {
     @FXML
     private DatePicker datePicker2;
 
+    public void setEventName(String string) {
+        this.eventName.setText(string);
+    }
+
     @FXML
     private TextField eventName;
 
@@ -49,11 +53,13 @@ public class AddReminderView implements Initializable {
     @FXML
     private MenuButton timeFormat;
 
-
     @FXML
     private Button save;
 
-    public Scene setView(Stage stage, Parent root) throws IOException {
+
+
+    public Scene setView(Stage stage, Parent root) {
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -63,8 +69,6 @@ public class AddReminderView implements Initializable {
     public Button getSave() {
         return save;
     }
-
-
 
     public LocalDate getDatePicker1() {
         return datePicker1.getValue();
@@ -128,8 +132,36 @@ public class AddReminderView implements Initializable {
 
     }
 
+    public void handleMenuItems1(EventHandler<ActionEvent> eventHandler){
+        for(int i=0; i< hour1.getItems().size(); i++){
+            hour1.getItems().get(i).setOnAction(eventHandler);
+        }
+    }
+
+    public void initializeHourPickers(){
+        hour1.setText("Elegir hora");
+        hour2.setText("Elegir hora");
+    }
+
+    public void handleMenuItems2(EventHandler<ActionEvent> eventHandler){
+        for(int i=0; i< hour1.getItems().size(); i++){
+            hour2.getItems().get(i).setOnAction(eventHandler);
+        }
+    }
+
+    public void notifyHourSelection(EventHandler<ActionEvent> eventHandler){
+        hour1.setOnAction(eventHandler);
+    }
+    public void notifyHourSelection2(EventHandler<ActionEvent> eventHandler){
+        hour2.setOnAction(eventHandler);
+    }
+
+
     @FXML
     public void handleButtonAction() {
+    }
+
+    public void a(){
 
     }
 

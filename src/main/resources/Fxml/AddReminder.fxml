@@ -32,7 +32,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="580.0" styleClass="datesSelector">
+                  <HBox fx:id="chooseDateHbox" alignment="CENTER" prefHeight="0.0" prefWidth="580.0" styleClass="datesSelector">
                      <children>
                         <DatePicker fx:id="datePicker1" prefHeight="37.0" prefWidth="140.0" />
 
