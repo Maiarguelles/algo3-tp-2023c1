@@ -12,15 +12,34 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        //Abrimos las views
         FXMLLoader eventDetailLoader =  new FXMLLoader(getClass().getResource("/Fxml/EventDetail.fxml"));
         FXMLLoader replaceThingsLoader = new FXMLLoader(getClass().getResource("/Fxml/ReplaceThings.fxml"));
+        FXMLLoader addReminderLoader = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/Fxml/Main.fxml"));
+        System.out.println(replaceThingsLoader);
 
-        Parent sceneRoot = (Parent) eventDetailLoader.load(); //cargamos el archivo AddReminder.fxml
 
-        Calendar calendar = new Calendar();
+        //Cargamos las views
+        Parent eventDetailRoot = (Parent) eventDetailLoader.load();
+        Parent addReminderRoot = (Parent) addReminderLoader.load();
+        Parent mainRoot = (Parent) mainLoader.load();
 
-        Scene scene = new Scene(sceneRoot);
+
+
+        //Parent replaceThingsRoot = (Parent) replaceThingsLoader.load();
+        System.out.println("chau");
+
+
+        Calendar calendar = new Calendar(); //Modelo
+
+        //Creamos el controlador principal
+        Controlador controlador = new Controlador(mainLoader, mainRoot, addReminderLoader, addReminderRoot, calendar, replaceThingsLoader);
+        MainView mainView = mainLoader.getController();
+        mainView.setView(stage, mainRoot);
+        controlador.initialize();
+
+        /*Scene scene = new Scene(eventDetailRoot);
         stage.setScene(scene);
         stage.show();
         replaceThingsLoader.load();
@@ -32,7 +51,7 @@ public class App extends Application {
         Pane hboxnuevo = (Pane) replaceThingsLoader.getNamespace().get("paneTitleTask");
         System.out.println( hboxnuevo);
         vbox.getChildren().remove(indexviejo);
-        vbox.getChildren().add(indexviejo,hboxnuevo);
+        vbox.getChildren().add(indexviejo,hboxnuevo);*/
 
 
     }

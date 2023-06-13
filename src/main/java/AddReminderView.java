@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -56,6 +57,9 @@ public class AddReminderView implements Initializable {
     @FXML
     private Button save;
 
+    @FXML
+    private HBox chooseDateHbox;
+
 
 
     public Scene setView(Stage stage, Parent root) {
@@ -64,6 +68,10 @@ public class AddReminderView implements Initializable {
         stage.setScene(scene);
         stage.show();
         return scene;
+    }
+
+    public HBox getDateChooser(){
+        return chooseDateHbox;
     }
 
     public Button getSave() {
@@ -98,12 +106,12 @@ public class AddReminderView implements Initializable {
         return description.getText();
     }
 
-    public String getHour1() {
-        return hour1.getText();
+    public MenuButton getHour1() {
+        return hour1;
     }
 
-    public String getHour2() {
-        return hour2.getText();
+    public MenuButton getHour2() {
+        return hour2;
     }
 
     public String getAlarm() {
@@ -118,13 +126,12 @@ public class AddReminderView implements Initializable {
         return timeFormat.getText();
     }
 
-    public void notifyButtonPress(EventHandler<ActionEvent> eventHandler){
+    public void notifySavePress(EventHandler<ActionEvent> eventHandler){
         save.setOnAction(eventHandler);
     }
 
-
-    public void a(){
-        eventName.setText("Hola");
+    public void notifyAllDayCheckBox(EventHandler<ActionEvent> eventHandler){
+        allDay.setOnAction(eventHandler);
     }
 
     @Override
