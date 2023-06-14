@@ -17,6 +17,11 @@ import java.util.ResourceBundle;
 
 public class AddReminderView implements Initializable {
 
+    private Stage stage;
+
+    @FXML
+    private Label warningValidDate;
+
     @FXML
     private DatePicker datePicker1;
 
@@ -62,6 +67,19 @@ public class AddReminderView implements Initializable {
     @FXML
     private HBox chooseDateHbox;
 
+    @FXML
+    private  HBox allDayHbox;
+
+    @FXML
+    private Text a;
+
+    public HBox getAllDayHbox(){
+        return this.allDayHbox;
+    }
+
+    public Label getWarningValidDate(){
+        return this.warningValidDate;
+    }
 
 
     public Scene setView(Stage stage, Parent root) {
@@ -69,6 +87,7 @@ public class AddReminderView implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        this.stage = stage;
         return scene;
     }
 
@@ -85,16 +104,16 @@ public class AddReminderView implements Initializable {
         return save;
     }
 
-    public LocalDate getDatePicker1() {
-        return datePicker1.getValue();
+    public DatePicker getDatePicker1() {
+        return datePicker1;
     }
 
     public DatePicker getDatePicker2() {
         return datePicker2;
     }
 
-    public String getEventName() {
-        return eventName.getText();
+    public TextField getEventName() {
+        return eventName;
     }
 
     public boolean getAllDay() {

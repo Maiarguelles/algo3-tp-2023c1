@@ -23,7 +23,6 @@ public class App extends Application {
 
 
         //Parent replaceThingsRoot = (Parent) replaceThingsLoader.load();
-        System.out.println("chau");
 
 
         Calendar calendar = new Calendar(); //Modelo

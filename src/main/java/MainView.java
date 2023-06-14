@@ -41,6 +41,9 @@ public class MainView {
 
     }
 
+    public VBox getListOfReminders(){
+        return listOfReminders;
+    }
 
     public Scene setView(Stage stage, Parent root) {
         Scene scene = new Scene(root);
