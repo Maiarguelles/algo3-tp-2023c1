@@ -6,7 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -70,6 +72,11 @@ public class AddReminderView implements Initializable {
         return scene;
     }
 
+    public void closeStage(){
+        if(this.stage != null){
+            stage.close();
+        }
+    }
     public HBox getDateChooser(){
         return chooseDateHbox;
     }
@@ -82,8 +89,8 @@ public class AddReminderView implements Initializable {
         return datePicker1.getValue();
     }
 
-    public LocalDate getDatePicker2() {
-        return datePicker2.getValue();
+    public DatePicker getDatePicker2() {
+        return datePicker2;
     }
 
     public String getEventName() {
@@ -164,12 +171,13 @@ public class AddReminderView implements Initializable {
     }
 
 
+
     @FXML
     public void handleButtonAction() {
     }
 
-    public void a(){
-
+    public javafx.scene.text.Text getA(){
+        return a;
     }
 
 }

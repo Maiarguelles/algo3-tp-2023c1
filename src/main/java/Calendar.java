@@ -14,9 +14,6 @@ public class Calendar {
         this.reminders = new HashMap<>();
     }
 
-
-
-
     public boolean addReminder(Reminder reminder){
         if(reminder == null)
             return false;

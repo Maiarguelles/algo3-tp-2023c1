@@ -1,3 +1,24 @@
+.title .label{
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 5px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.title .label .text{
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+.fecha-texto{
+    -fx-font-size: 12px;
+}
+
+.hbox-fechas {
+    -fx-spacing: 20;
+}
+
 .main{
     -fx-spacing: 30;
     -fx-background-color: #FFFFFF;
@@ -9,7 +30,6 @@
 
 
 .check-box-custom {
-
     -fx-text-fill: #333333;
     -fx-font-weight: bold;
     -fx-font-size: 1.2em;
@@ -20,10 +40,6 @@
     -fx-background-color: #CCCCCC;
 }
 
-/* Estilo del marcador de verificación (check) */
-.check-box-custom .box .mark {
-
-}
 
 /* Estilo del texto del CheckBox */
 .check-box-custom .label {
@@ -73,3 +89,14 @@
     -fx-spacing: 10;
 }
 
+.vbox-central{
+    -fx-scroll-behavior: auto;
+}
+
+.menu-button > .arrow-button {
+    -fx-padding: 0;
+}
+
+.menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+}

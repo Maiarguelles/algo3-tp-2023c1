@@ -53,10 +53,10 @@ public class MainView {
         addEvent.setOnAction(eventHandler);
     }
 
-    /*
-    public void notifySelectedNewTask(EventHandler<ActionEvent> eventHandler){
+
+    public void notifySelectNewTask(EventHandler<ActionEvent> eventHandler){
         addTask.setOnAction(eventHandler);
     }
 
-     */
+
 }

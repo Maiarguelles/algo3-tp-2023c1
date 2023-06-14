@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DisplayReminderView">
+   <children>
+      <Button fx:id="buttonDisplay" mnemonicParsing="false" prefHeight="100.0" prefWidth="280.0">
+         <graphic>
+            <VBox fx:id="displayVbox" prefHeight="92.0" prefWidth="283.0">
+               <children>
+                  <Pane prefHeight="67.0" prefWidth="264.0">
+                     <children>
+                        <Label fx:id="reminderName" prefHeight="32.0" prefWidth="264.0" text="Nombre del evento" />
+                        <Label fx:id="reminderDate" layoutY="34.0" prefHeight="32.0" prefWidth="265.0" text="Fechas" />
+                     </children>
+                  </Pane>
+                  <CheckBox fx:id="completed" mnemonicParsing="false" text="CheckBox" />
+               </children>
+            </VBox>
+         </graphic>
+      </Button>
+   </children>
+</Pane>

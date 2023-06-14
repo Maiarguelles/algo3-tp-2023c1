@@ -3,6 +3,7 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.MenuItem;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +12,10 @@ import java.time.LocalTime;
 public class AddReminderController {
     private AddReminderView view;
     private Calendar calendar;
+    private DisplayReminderView displayView;
+
+    private MainView mainView;
+
 
     public AddReminderController(AddReminderView view, Calendar calendar){
         this.calendar = calendar;
@@ -18,8 +23,9 @@ public class AddReminderController {
     }
 
 
-    public void initialize(){
 
+
+    public void initialize(){
 
         view.notifySavePress(new EventHandler<ActionEvent>() {
             @Override
@@ -40,14 +46,6 @@ public class AddReminderController {
                     startDate = startdate.atStartOfDay();
                     endDate =  enddate.atStartOfDay();
                 }
-
-                Event event = new Event(title, description, startDate, endDate, completeDay);
-                calendar.addReminder(event);
-                try {
-                    System.out.println(calendar.writeCalendar(new StringWriter()));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
             }
         });
 
@@ -55,18 +53,11 @@ public class AddReminderController {
         view.notifyAllDayCheckBox(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                boolean allDay = view.getAllDay();
-                HBox dateChooser = view.getDateChooser();
-                if(allDay){
-                    int index1 = dateChooser.getChildren().indexOf(view.getHour1());
-                    dateChooser.getChildren().remove(index1);
-                    int index2 = dateChooser.getChildren().indexOf(view.getHour2());
-                    dateChooser.getChildren().remove(index2);
+                if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
+                    allDayCheckBoxEvent();
                 }
                 else{
-                    view.initializeHourPickers();
-                    dateChooser.getChildren().add(1, view.getHour1());
-                    dateChooser.getChildren().add(3, view.getHour2());
+                    allDayCheckBoxTask();
                 }
 
             }
@@ -88,7 +79,6 @@ public class AddReminderController {
             public void handle(ActionEvent actionEvent) {
                 MenuItem item = (MenuItem) actionEvent.getSource();
                 view.getHour2().setText(item.getText());
-
 
             }
         });

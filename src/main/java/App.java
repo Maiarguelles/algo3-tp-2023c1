@@ -1,11 +1,6 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -34,8 +29,9 @@ public class App extends Application {
         Calendar calendar = new Calendar(); //Modelo
 
         //Creamos el controlador principal
-        Controlador controlador = new Controlador(mainLoader, mainRoot, addReminderLoader, addReminderRoot, calendar, replaceThingsLoader);
         MainView mainView = mainLoader.getController();
+        MainController controlador = new MainController(mainLoader, mainRoot, addReminderLoader, addReminderRoot, calendar, replaceThingsLoader, mainView);
+
         mainView.setView(stage, mainRoot);
         controlador.initialize();
 

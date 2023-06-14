@@ -139,7 +139,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MenuButton>
-                        <Text smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="a" textAlignment="CENTER" wrappingWidth="22.13671875">
+                        <Text fx:id="a" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="a" textAlignment="CENTER" wrappingWidth="22.13671875">
                            <font>
                               <Font size="22.0" />
                            </font></Text>
@@ -246,15 +246,17 @@
                         <DatePicker fx:id="datePicker2" prefHeight="37.0" prefWidth="140.0" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="36.0" prefWidth="580.0" styleClass="hbox-title">
+                  <HBox fx:id="allDayHbox" prefHeight="36.0" prefWidth="580.0">
                      <children>
-                        <CheckBox fx:id="allDay" mnemonicParsing="false" prefHeight="22.0" prefWidth="406.0" text="Todo el día">
+                        <CheckBox fx:id="allDay" mnemonicParsing="false" prefHeight="32.0" prefWidth="144.0" text="Todo el día">
                            <styleClass>
                               <String fx:value="check-box-custom" />
                               <String fx:value="hbox-title" />
+                              <String fx:value="spacing-warning" />
                            </styleClass>
                         </CheckBox>
-                        <MenuButton fx:id="repetition" mnemonicParsing="false" text="No se repite">
+                        <Label fx:id="warningValidDate" prefHeight="32.0" prefWidth="240.0" textFill="#ff0f0f" />
+                        <MenuButton fx:id="repetition" mnemonicParsing="false" styleClass="spacing-warning" text="No se repite">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Todos los dias" />
                               <MenuItem mnemonicParsing="false" text="Dias habiles" />
@@ -269,8 +271,15 @@
                                  </graphic>
                               </MenuItem>
                           </items>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                         </MenuButton>
                      </children>
+                     <styleClass>
+                        <String fx:value="hbox-title" />
+                        <String fx:value="spacing-warning" />
+                     </styleClass>
                   </HBox>
                   <HBox>
                      <children>
