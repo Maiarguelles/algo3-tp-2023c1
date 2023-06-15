@@ -5,10 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.StringReader;
 
 public class MainView {
 
@@ -46,13 +48,25 @@ public class MainView {
     private DatePicker datePicker;
     @FXML
     private Label date;
+
+    @FXML
+    private Label hour;
+
     @FXML
     private VBox listOfReminders;
 
-
+    private Stage stage;
 
     public MainView(){
 
+    }
+
+    public Label getLabel(){
+        return date;
+    }
+
+    public Label getHour(){
+        return hour;
     }
 
     public VBox getListOfReminders(){
@@ -62,8 +76,16 @@ public class MainView {
     public Scene setView(Stage stage, Parent root) {
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        this.stage = stage;
         stage.show();
         return scene;
+    }
+
+
+
+    public void adjustVboxHeight(){
+        if(listOfReminders.getChildren().size()>4)
+            listOfReminders.setMinHeight((listOfReminders.getHeight() + 100));
     }
 
     public void notifySelectNewEvent(EventHandler<ActionEvent> eventHandler){
@@ -73,6 +95,18 @@ public class MainView {
 
     public void notifySelectNewTask(EventHandler<ActionEvent> eventHandler){
         addTask.setOnAction(eventHandler);
+    }
+
+    public void notifySelectDaily(EventHandler<ActionEvent> eventHandler){
+        daily.setOnAction(eventHandler);
+    }
+
+    public void notifySelectMonthly(EventHandler<ActionEvent> eventHandler){
+        monthly.setOnAction(eventHandler);
+    }
+
+    public void notifySelectWeekly(EventHandler<ActionEvent> eventHandler){
+        weekly.setOnAction(eventHandler);
     }
 
 

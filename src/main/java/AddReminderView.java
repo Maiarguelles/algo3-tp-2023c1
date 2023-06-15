@@ -73,6 +73,25 @@ public class AddReminderView implements Initializable {
     @FXML
     private Text a;
 
+    public HBox getHboxRepetition() {
+        return hboxRepetition;
+    }
+
+    @FXML
+    private HBox hboxRepetition;
+
+
+
+    @FXML
+    private Label repeatsEveryDayLabel;
+
+    public Label getRepeatsEveryDayLabel(){
+        return repeatsEveryDayLabel;
+    }
+
+    @FXML
+    private MenuItem repeatsWithInterval;
+
     public HBox getAllDayHbox(){
         return this.allDayHbox;
     }
@@ -190,8 +209,14 @@ public class AddReminderView implements Initializable {
     }
 
 
+    public void handleRepetitionItem1(EventHandler<ActionEvent> eventHandler) {
+        repetition.getItems().get(0).setOnAction(eventHandler);
+    }
+    public void handleRepetitionItem2(EventHandler<ActionEvent> eventHandler) {
+        repetition.getItems().get(1).setOnAction(eventHandler);
+    }
 
-    @FXML
+        @FXML
     public void handleButtonAction() {
     }
 

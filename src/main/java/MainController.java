@@ -3,31 +3,43 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime.*;
+import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.Chronology;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class MainController extends Controller {
-    private FXMLLoader mainLoader;
-    private Parent mainRoot;
-    private FXMLLoader addReminderLoader;
-    private Parent addReminderRoot;
-    private FXMLLoader replaceThingsLoader;
+public class MainController{
+
     private Calendar calendar;
 
     private MainView mainView;
 
+    private StageState stageState;
+
+    private LocalDateTime stateDate1;
+
+    private LocalDateTime stateDate2;
+
+
     public MainController(FXMLLoader mainLoader, Parent mainRoot, FXMLLoader addReminderLoader, Parent addReminderRoot, Calendar calendar, FXMLLoader replaceThingsLoader, MainView mainview) {
-        this.mainLoader = mainLoader;
-        this.mainRoot = mainRoot;
         this.calendar = calendar;
-        this.addReminderLoader = addReminderLoader;
-        this.addReminderRoot = addReminderRoot;
-        this.replaceThingsLoader = replaceThingsLoader;
         this.mainView = mainview;
+        this.stageState = StageState.DAILY;
+        this.stateDate1 = LocalDate.now().atStartOfDay();
+        this.stateDate2 = LocalDate.now().atTime(23, 59,59);
     }
 
 
@@ -102,6 +114,7 @@ public class MainController extends Controller {
                     AddReminderController addReminderController = new AddReminderController(view2, calendar, mainView);
                     addReminderController.initialize();
 
+                    displayReminderBetweenTwoDates(stateDate1, stateDate2);
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -132,7 +145,7 @@ public class MainController extends Controller {
                     dateChooser.getChildren().add(0, text);
                     AddReminderController addReminderController = new AddReminderController(view2, calendar, mainView);
                     addReminderController.initialize();
-
+                    displayReminderBetweenTwoDates(stateDate1, stateDate2);
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -141,6 +154,52 @@ public class MainController extends Controller {
         });
 
 
+    }
+
+
+    public void displayReminderBetweenTwoDates(LocalDateTime date1, LocalDateTime date2) throws IOException {
+        mainView.getListOfReminders().getChildren().clear();
+        List<Reminder> listOfReminders = calendar.remindersBetweenTwoDates(date1, date2);
+
+        for(int i = 0; i < listOfReminders.size(); i++){
+            mainView.getListOfReminders().getChildren().add(createDisplay(listOfReminders.get(i)));
+        }
+
+    }
+
+    private Button createDisplay(Reminder reminder) throws IOException {
+        FXMLLoader displayReminderloader = new FXMLLoader(getClass().getResource("/Fxml/DisplayReminder.fxml"));
+        displayReminderloader.load();
+        DisplayReminderView displayReminderView = displayReminderloader.getController();
+        displayReminderView.getReminderName().setText(reminder.getTitle());
+
+
+        if(reminder.getClass() == Event.class || reminder.getClass() == InfiniteEvent.class){
+            displayReminderView.getDisplayVbox().getChildren().remove(displayReminderView.getCompleted());
+            if(reminder.isCompleteDay())
+                displayReminderView.getReminderDate().setText(reminder.getStartDate().toLocalDate().toString() + " - " +
+                        ((Event) reminder).getEndDate().toLocalDate().toString());
+            else{
+                displayReminderView.getReminderDate().setText(reminder.getStartDate().toString() + " - " +
+                        ((Event) reminder).getEndDate().toString());
+            }
+        } else if (reminder.getClass() == Task.class) {
+            if(reminder.isCompleteDay())
+                displayReminderView.getReminderDate().setText(reminder.getStartDate().toLocalDate().toString());
+            else
+                displayReminderView.getReminderDate().setText(reminder.getStartDate().toString());
+
+
+        }
+        return displayReminderView.getButtonDisplay();
+    }
+
+
+
+    enum StageState{
+        DAILY,
+        WEEKLY,
+        MONTHLY
     }
 }
 

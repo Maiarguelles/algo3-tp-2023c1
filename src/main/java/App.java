@@ -1,7 +1,13 @@
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class App extends Application {
 
@@ -32,21 +38,19 @@ public class App extends Application {
         MainController controlador = new MainController(mainLoader, mainRoot, addReminderLoader, addReminderRoot, calendar, replaceThingsLoader, mainView);
 
         mainView.setView(stage, mainRoot);
+
+        Label hour = mainView.getHour();
+
+        var timer = new AnimationTimer(){
+            @Override
+            public void handle(long tiempo){
+                hour.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            }
+        };
+        timer.start();
+        //hour.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
         controlador.initialize();
-
-        /*Scene scene = new Scene(eventDetailRoot);
-        stage.setScene(scene);
-        stage.show();
-        replaceThingsLoader.load();
-        AnchorPane rootPane = (AnchorPane) scene.getRoot();
-        VBox vbox = (VBox) eventDetailLoader.getNamespace().get("mainVbox");
-        HBox hboxviejo = (HBox) eventDetailLoader.getNamespace().get("hboxTitleEvent");
-        int indexviejo = vbox.getChildren().indexOf(hboxviejo);
-
-        Pane hboxnuevo = (Pane) replaceThingsLoader.getNamespace().get("paneTitleTask");
-        System.out.println( hboxnuevo);
-        vbox.getChildren().remove(indexviejo);
-        vbox.getChildren().add(indexviejo,hboxnuevo);*/
 
 
     }

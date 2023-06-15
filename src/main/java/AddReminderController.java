@@ -107,6 +107,27 @@ public class AddReminderController{
             }
         });
 
+        view.handleRepetitionItem1(new EventHandler<>(){
+            @Override
+            public void handle(ActionEvent actionEvent){
+                Label label = view.getRepeatsEveryDayLabel();
+                view.getRepetition().setText(label.getText());
+            }
+
+
+        });
+
+        view.handleRepetitionItem2(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                HBox hbox = view.getHboxRepetition();
+                Label label1 = (Label) hbox.getChildren().get(0);
+                TextField textField = (TextField) hbox.getChildren().get(1);
+                Label label2 = (Label) hbox.getChildren().get(2);
+                view.getRepetition().setText(label1.getText() +" "+ textField.getText() +" "+label2.getText());
+            }
+        });
+
     }
 
 
@@ -164,11 +185,22 @@ public class AddReminderController{
             endDate =  enddate.atStartOfDay();
         }
 
-
-        if(!correctDate(startDate, endDate))
+        if(!correctDate(startDate, endDate)){
             return null;
+        }
 
-        Event event = new Event(title, description, startDate, endDate, completeDay);
+
+
+        Event event = null;
+        if(repetition.equals("No se repite")) {
+            event = new Event(title, description, startDate, endDate, completeDay);
+        }
+        else{
+            event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
+
+        }
+
+        //Event event = new Event(title, description, startDate, endDate, completeDay);
         return event;
     }
 
@@ -188,6 +220,21 @@ public class AddReminderController{
 
         Task task = new Task(title,description,expirationDate,completeDay);
         return task;
+    }
+
+    private Event createEventWithRepetition(String repetition, String title, String description, LocalDateTime startDate, LocalDateTime endDate, boolean allDay){
+        DailyStrategy frequencyStrategy = null;
+        if(repetition.equals("Todos los dias")){
+            frequencyStrategy = new DailyStrategy(1);
+        }
+        else{
+            TextField textField = (TextField) view.getHboxRepetition().getChildren().get(1);
+            int interval =Integer.parseInt(textField.getText());
+            frequencyStrategy = new DailyStrategy(interval);
+        }
+        InfiniteEvent event = new InfiniteEvent(title, description, allDay, startDate, endDate);
+        event.addFrequency(frequencyStrategy);
+        return  event;
     }
 
     private LocalTime stringToLocalTime(String time){
