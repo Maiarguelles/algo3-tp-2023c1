@@ -224,7 +224,7 @@ public class AddReminderController{
 
     private Event createEventWithRepetition(String repetition, String title, String description, LocalDateTime startDate, LocalDateTime endDate, boolean allDay){
         DailyStrategy frequencyStrategy = null;
-        if(repetition.equals("Todos los dias")){
+        if(repetition.equals("Todos los días")){
             frequencyStrategy = new DailyStrategy(1);
         }
         else{

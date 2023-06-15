@@ -109,5 +109,15 @@ public class MainView {
         weekly.setOnAction(eventHandler);
     }
 
+    public void notifySelectNext(EventHandler<ActionEvent> eventHandler){
+        next.setOnAction(eventHandler);
+    }
+    public void notifySelectPrevious(EventHandler<ActionEvent> eventHandler){
+        previous.setOnAction(eventHandler);
+    }
+
+    public void notifyDatePickerSelection(EventHandler<ActionEvent> eventHandler){
+        datePicker.setOnAction(eventHandler);
+    }
 
 }

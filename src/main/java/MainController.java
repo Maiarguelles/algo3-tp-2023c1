@@ -19,6 +19,7 @@ import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainController{
@@ -43,7 +44,7 @@ public class MainController{
     }
 
 
-    public void initialize() throws IOException {
+    public void initialize() {
 
         mainView.getLabel().setText(LocalDate.now().toString());
         displayReminderBetweenTwoDates(stateDate1,stateDate2);
@@ -72,12 +73,8 @@ public class MainController{
                 int month = day.getMonthValue();
                 int year = day.getYear();
                 LocalDateTime start = LocalDateTime.of(year, month, 1,0,0);
-                try {
-                    displayReminderBetweenTwoDates(start, start.plusMonths(1).minusDays(1));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
+                displayReminderBetweenTwoDates(start, start.plusMonths(1).minusDays(1));
+                mainView.getDatePicker().setValue(null);
                 stageState = StageState.MONTHLY;
                 stateDate1 = start;
                 stateDate2 = start.plusMonths(1).minusDays(1);
@@ -111,7 +108,7 @@ public class MainController{
                     Parent root = (Parent) addReminderLoader2.load();
                     AddReminderView view2 = addReminderLoader2.getController();
                     view2.setView(stage, root);
-                    AddReminderController addReminderController = new AddReminderController(view2, calendar, mainView);
+                    AddReminderController addReminderController = new AddReminderController(view2, calendar);
                     addReminderController.initialize();
 
                     displayReminderBetweenTwoDates(stateDate1, stateDate2);
@@ -143,7 +140,7 @@ public class MainController{
                     dateChooser.getChildren().remove(view2.getDatePicker2());
                     Text text = new Text("Ingrese la fecha de inicio de la tarea");
                     dateChooser.getChildren().add(0, text);
-                    AddReminderController addReminderController = new AddReminderController(view2, calendar, mainView);
+                    AddReminderController addReminderController = new AddReminderController(view2, calendar);
                     addReminderController.initialize();
                     displayReminderBetweenTwoDates(stateDate1, stateDate2);
 
@@ -157,7 +154,7 @@ public class MainController{
     }
 
 
-    public void displayReminderBetweenTwoDates(LocalDateTime date1, LocalDateTime date2) throws IOException {
+    public void displayReminderBetweenTwoDates(LocalDateTime date1, LocalDateTime date2) {
         mainView.getListOfReminders().getChildren().clear();
         List<Reminder> listOfReminders = calendar.remindersBetweenTwoDates(date1, date2);
 
@@ -169,7 +166,11 @@ public class MainController{
 
     private Button createDisplay(Reminder reminder) throws IOException {
         FXMLLoader displayReminderloader = new FXMLLoader(getClass().getResource("/Fxml/DisplayReminder.fxml"));
-        displayReminderloader.load();
+        try {
+            displayReminderloader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         DisplayReminderView displayReminderView = displayReminderloader.getController();
         displayReminderView.getReminderName().setText(reminder.getTitle());
 
