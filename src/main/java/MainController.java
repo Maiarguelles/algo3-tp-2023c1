@@ -1,3 +1,5 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -43,26 +45,57 @@ public class MainController{
         this.stateDate2 = LocalDate.now().atTime(23, 59,59);
     }
 
-
     public void initialize() {
 
-        mainView.getLabel().setText(LocalDate.now().toString());
+        mainView.getLabel().setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
         displayReminderBetweenTwoDates(stateDate1,stateDate2);
-        mainView.getDatePicker().setValue(LocalDate.now());
+
+
+        mainView.getStage().focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                updateDisplays();
+            }
+        });
+
+        mainView.notifyDatePickerSelection(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                LocalDate day = mainView.getDatePicker().getValue();
+                mainView.getDaily().fire();
+            }
+        });
+
+        mainView.notifySelectNext(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                next();
+                updateDisplays();
+            }
+        });
+
+        mainView.notifySelectPrevious(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                previous();
+                updateDisplays();
+            }
+        });
 
         mainView.notifySelectDaily(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 LocalDate day = mainView.getDatePicker().getValue();
-                try {
-                    displayReminderBetweenTwoDates(day.atStartOfDay(), day.atTime(23, 59,59));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                if(day == null)
+                    day = LocalDate.now();
+
+                displayReminderBetweenTwoDates(day.atStartOfDay(), day.atTime(23, 59,59));
+
                 stageState = stageState.DAILY;
                 stateDate1 = day.atStartOfDay();
                 stateDate2 = day.atTime(23, 59,59);
 
+                mainView.getLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             }
         });
 
@@ -70,6 +103,8 @@ public class MainController{
             @Override
             public void handle(ActionEvent actionEvent) {
                 LocalDate day = mainView.getDatePicker().getValue();
+                if(day == null)
+                    day = LocalDate.now();
                 int month = day.getMonthValue();
                 int year = day.getYear();
                 LocalDateTime start = LocalDateTime.of(year, month, 1,0,0);
@@ -77,7 +112,9 @@ public class MainController{
                 mainView.getDatePicker().setValue(null);
                 stageState = StageState.MONTHLY;
                 stateDate1 = start;
-                stateDate2 = start.plusMonths(1).minusDays(1);
+                stateDate2 = start.plusMonths(1);
+
+                mainView.getLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             }
         });
 
@@ -85,16 +122,18 @@ public class MainController{
             @Override
             public void handle(ActionEvent actionEvent) {
                 LocalDate day = mainView.getDatePicker().getValue();
+                if(day == null)
+                    day = LocalDate.now();
                 int dayOfWeek = day.getDayOfWeek().getValue();
                 LocalDateTime start = day.minusDays(dayOfWeek-1).atStartOfDay();
-                try {
-                    displayReminderBetweenTwoDates(start, start.plusDays(7));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                displayReminderBetweenTwoDates(start, start.plusDays(7));
+
+                mainView.getDatePicker().setValue(null);
                 stageState = stageState.WEEKLY;
                 stateDate1 = start;
                 stateDate2 = start.plusDays(7);
+
+                mainView.getLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM  dd")).toUpperCase(Locale.ROOT)+ " - " + stateDate2.format(DateTimeFormatter.ofPattern("dd")));
             }
         });
 
@@ -111,7 +150,6 @@ public class MainController{
                     AddReminderController addReminderController = new AddReminderController(view2, calendar);
                     addReminderController.initialize();
 
-                    displayReminderBetweenTwoDates(stateDate1, stateDate2);
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -142,7 +180,6 @@ public class MainController{
                     dateChooser.getChildren().add(0, text);
                     AddReminderController addReminderController = new AddReminderController(view2, calendar);
                     addReminderController.initialize();
-                    displayReminderBetweenTwoDates(stateDate1, stateDate2);
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -151,6 +188,44 @@ public class MainController{
         });
 
 
+    }
+
+
+
+
+    public void next(){
+        if(stageState == StageState.DAILY){
+            stateDate1 = stateDate1.plusDays(1);
+            stateDate2 = stateDate2.plusDays(1);
+        }
+        else if(stageState == stageState.WEEKLY){
+            stateDate1 = stateDate1.plusWeeks(1);
+            stateDate2 = stateDate2.plusWeeks(1);
+        }
+        else{
+            stateDate1 = stateDate1.plusMonths(1);
+            stateDate2 = stateDate2.plusMonths(2);
+        }
+    }
+
+
+    public void previous(){
+        if(stageState == StageState.DAILY){
+            stateDate1 = stateDate1.minusDays(1);
+            stateDate2 = stateDate2.minusDays(1);
+        }
+        else if(stageState == stageState.WEEKLY){
+            stateDate1 = stateDate1.minusWeeks(1);
+            stateDate2 = stateDate2.minusWeeks(1);
+        }
+        else{
+            stateDate1 = stateDate1.minusMonths(1);
+            stateDate2 = stateDate2.minusMonths(2);
+        }
+    }
+
+    public void updateDisplays(){
+        displayReminderBetweenTwoDates(stateDate1, stateDate2);
     }
 
 
@@ -164,7 +239,7 @@ public class MainController{
 
     }
 
-    private Button createDisplay(Reminder reminder) throws IOException {
+    private Button createDisplay(Reminder reminder) {
         FXMLLoader displayReminderloader = new FXMLLoader(getClass().getResource("/Fxml/DisplayReminder.fxml"));
         try {
             displayReminderloader.load();

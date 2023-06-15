@@ -21,13 +21,11 @@ public class AddReminderController{
     private Calendar calendar;
     private DisplayReminderView displayView;
 
-    private MainView mainView;
 
 
-    public AddReminderController(AddReminderView view, Calendar calendar, MainView mainView){
+    public AddReminderController(AddReminderView view, Calendar calendar){
         this.calendar = calendar;
         this.view = view;
-        this.mainView = mainView;
     }
 
 

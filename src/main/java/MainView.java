@@ -61,6 +61,10 @@ public class MainView {
 
     }
 
+    public Stage getStage(){
+        return stage;
+    }
+
     public Label getLabel(){
         return date;
     }
