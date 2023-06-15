@@ -256,16 +256,20 @@
                            </styleClass>
                         </CheckBox>
                         <Label fx:id="warningValidDate" prefHeight="32.0" prefWidth="240.0" textFill="#ff0f0f" />
-                        <MenuButton fx:id="repetition" mnemonicParsing="false" styleClass="spacing-warning" text="No se repite">
+                        <MenuButton fx:id="repetition" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="25.0" prefWidth="227.0" styleClass="spacing-warning" text="No se repite">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Todos los dias" />
-                              <MenuItem mnemonicParsing="false" text="Dias habiles" />
+                              <MenuItem mnemonicParsing="false">
+                                 <graphic>
+                                    <Label fx:id="repeatsEveryDayLabel" text="Todos los días" />
+                                 </graphic>
+                              </MenuItem>
                             <MenuItem mnemonicParsing="false">
                                  <graphic>
-                                    <HBox>
+                                    <HBox fx:id="hboxRepetition" spacing="10.0" styleClass="intervaloRepeticion">
                                        <children>
-                                          <Label text="Label" />
-                                          <TextField />
+                                          <Label text="Repetir cada:" />
+                                          <TextField maxHeight="25.0" maxWidth="0.0" minHeight="20.0" minWidth="35.0" prefHeight="17.0" />
+                                          <Label text="días" />
                                        </children>
                                     </HBox>
                                  </graphic>

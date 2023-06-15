@@ -31,7 +31,63 @@ public class MainController extends Controller {
     }
 
 
-    public void initialize() {
+    public void initialize() throws IOException {
+
+        mainView.getLabel().setText(LocalDate.now().toString());
+        displayReminderBetweenTwoDates(stateDate1,stateDate2);
+        mainView.getDatePicker().setValue(LocalDate.now());
+
+        mainView.notifySelectDaily(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                LocalDate day = mainView.getDatePicker().getValue();
+                try {
+                    displayReminderBetweenTwoDates(day.atStartOfDay(), day.atTime(23, 59,59));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stageState = stageState.DAILY;
+                stateDate1 = day.atStartOfDay();
+                stateDate2 = day.atTime(23, 59,59);
+
+            }
+        });
+
+        mainView.notifySelectMonthly(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                LocalDate day = mainView.getDatePicker().getValue();
+                int month = day.getMonthValue();
+                int year = day.getYear();
+                LocalDateTime start = LocalDateTime.of(year, month, 1,0,0);
+                try {
+                    displayReminderBetweenTwoDates(start, start.plusMonths(1).minusDays(1));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                stageState = StageState.MONTHLY;
+                stateDate1 = start;
+                stateDate2 = start.plusMonths(1).minusDays(1);
+            }
+        });
+
+        mainView.notifySelectWeekly(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                LocalDate day = mainView.getDatePicker().getValue();
+                int dayOfWeek = day.getDayOfWeek().getValue();
+                LocalDateTime start = day.minusDays(dayOfWeek-1).atStartOfDay();
+                try {
+                    displayReminderBetweenTwoDates(start, start.plusDays(7));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stageState = stageState.WEEKLY;
+                stateDate1 = start;
+                stateDate2 = start.plusDays(7);
+            }
+        });
 
         mainView.notifySelectNewEvent(new EventHandler<ActionEvent>() {
             @Override
@@ -83,6 +139,8 @@ public class MainController extends Controller {
                 }
             }
         });
+
+
     }
 }
 

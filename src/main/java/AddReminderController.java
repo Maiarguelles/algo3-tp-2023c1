@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class AddReminderController extends Controller{
+public class AddReminderController{
     private AddReminderView view;
 
     private Calendar calendar;
@@ -48,8 +49,7 @@ public class AddReminderController extends Controller{
                         calendar.addReminder(reminder);
 
                         try {
-                            Button display = createDisplay(reminder);
-                            mainView.getListOfReminders().getChildren().add(display);
+
                             System.out.println(calendar.writeCalendar(new StringWriter()));
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -62,8 +62,7 @@ public class AddReminderController extends Controller{
                     Reminder reminder = createTask();
                     calendar.addReminder(reminder);
                     try {
-                        Button display = createDisplay(reminder);
-                        mainView.getListOfReminders().getChildren().add(display);
+
                         System.out.println(calendar.writeCalendar(new StringWriter()));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -153,6 +152,7 @@ public class AddReminderController extends Controller{
         LocalDate startdate = view.getDatePicker1().getValue();
         LocalDate enddate = view.getDatePicker2().getValue();
         Boolean completeDay = view.getAllDay();
+        String repetition = view.getRepetition().getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate =null;
         if(!completeDay){

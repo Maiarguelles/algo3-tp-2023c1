@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -9,14 +10,15 @@
    <children>
       <AnchorPane styleClass="title">
          <children>
-            <Label fx:id="date" alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="hbox-title" text="Fecha/Semana/Etc" AnchorPane.rightAnchor="10.0" />
-            <HBox alignment="TOP_CENTER" prefHeight="45.0" prefWidth="701.0">
+            <Label fx:id="date" alignment="CENTER" contentDisplay="RIGHT" layoutY="9.0" prefHeight="18.0" prefWidth="174.0" styleClass="hbox-title" text="Fecha/Semana/Etc" AnchorPane.leftAnchor="0.0" />
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="701.0">
                <children>
                   <Button fx:id="daily" mnemonicParsing="false" prefHeight="51.0" prefWidth="100.0" text="Diario" />
                   <Button fx:id="weekly" mnemonicParsing="false" prefHeight="51.0" prefWidth="100.0" text="Semanal" />
                   <Button fx:id="monthly" mnemonicParsing="false" prefHeight="51.0" prefWidth="100.0" text="Mensual" />
                </children>
             </HBox>
+            <Label fx:id="hour" layoutY="7.0" prefHeight="32.0" prefWidth="69.0" text="Label" AnchorPane.rightAnchor="10.0" />
          </children>
       </AnchorPane>
       <HBox prefHeight="508.0" prefWidth="701.0">
@@ -31,7 +33,10 @@
                <children>
                   <ScrollPane prefHeight="505.0" prefWidth="298.0">
                      <content>
-                        <VBox fx:id="listOfReminders" prefHeight="505.0" prefWidth="294.0" />
+                        <VBox fx:id="listOfReminders" fillWidth="false" prefWidth="279.0">
+                           <effect>
+                              <Glow />
+                           </effect></VBox>
                      </content>
                   </ScrollPane>
                </children>
