@@ -57,4 +57,5 @@ public class WeeklyStrategy implements FrequencyStrategy{
         return firstRepetition;
 
     }
+
 }

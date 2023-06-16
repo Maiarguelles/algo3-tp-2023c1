@@ -63,5 +63,9 @@ public class MonthlyStrategy implements FrequencyStrategy {
 
     }
 
+    public int getFrequency(){
+        return 1;
+    }
+
 }
 //hola

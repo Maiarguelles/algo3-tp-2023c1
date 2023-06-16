@@ -59,6 +59,14 @@ public class DisplayReminderView {
     @FXML
     private Label reminderID;
 
+    public Pane getMainPane() {
+        return mainPane;
+    }
+
+    @FXML
+    private Pane mainPane;
+
+
     public Label getReminderID(){
         return reminderID;
     }

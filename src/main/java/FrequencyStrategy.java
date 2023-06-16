@@ -8,4 +8,6 @@ public interface FrequencyStrategy {
     public LocalDateTime lastDateWithOcurrences(int ocurrences, LocalDateTime starDate);
 
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate);
+
+    public int getFrequency();
 }

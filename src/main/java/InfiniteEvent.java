@@ -44,16 +44,16 @@ public class InfiniteEvent extends Event{
 
     @Override
     public int hashCode(){
-        int x = 21;
+        int x = 31;
         if (completeDay){
-            x+=56;
+            x+=42;
         }
-        int y = 4;
+        int y = 1;
         for (int i = 0; i<title.length(); i++){
             y+= title.charAt(i);
         }
 
-        int z = 9;
+        int z = 0;
         for (int i = 0; i<description.length(); i++){
             z+= description.charAt(i);
         }
@@ -62,6 +62,7 @@ public class InfiniteEvent extends Event{
         int date2 = endDate.getMonthValue()+endDate.getDayOfMonth()*endDate.getYear();
 
         return date1*x+date2*y+z;
+
     }
 
 

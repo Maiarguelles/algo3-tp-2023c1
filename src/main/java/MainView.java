@@ -117,7 +117,8 @@ public class MainView {
        if (listOfReminders == null)
            return;
         for(int i=0; i< listOfReminders.getChildren().size(); i++){
-            Button button = (Button) listOfReminders.getChildren().get(i);
+            Pane pane = (Pane) listOfReminders.getChildren().get(i);
+            Button button = (Button) pane.getChildren().get(0);
             button.setOnAction(eventHandler);
         }
     }
@@ -126,10 +127,8 @@ public class MainView {
         if (displayReminderList == null)
             return;
         for(int i=0; i< displayReminderList.size(); i++){
-            VBox buttonVBox = displayReminderList.get(i).getDisplayVbox();
-            Pane pane = (Pane) buttonVBox.getChildren().get(0);
-            Button trash = (Button) pane.getChildren().get(2);
-            trash.setOnAction(eventHandler);
+            displayReminderList.get(i).getDeleteButton().setOnAction(eventHandler);
+
         }
     }
 
@@ -138,10 +137,9 @@ public class MainView {
             return;
 
         for(int i=0; i< displayReminderList.size(); i++){
-            VBox buttonVbox = displayReminderList.get(i).getDisplayVbox();
-
-            if(buttonVbox.getChildren().size() > 1) {
-                CheckBox checkBox = (CheckBox) buttonVbox.getChildren().get(1);
+            Pane pane = displayReminderList.get(i).getMainPane();
+            if(pane.getChildren().size() > 2) {
+                CheckBox checkBox = (CheckBox) pane.getChildren().get(1);
                 checkBox.setOnAction(eventHandler);
             }
         }

@@ -169,7 +169,7 @@ public class AddReminderController{
     }
 
 
-    private Event createEvent(){
+    private Reminder createEvent(){
         String title = view.getEventName().getText();
         String description = view.getDescription();
         LocalDate startdate = view.getDatePicker1().getValue();
@@ -194,7 +194,7 @@ public class AddReminderController{
 
 
 
-        Event event = null;
+        Reminder event = null;
         if(repetition.equals("No se repite")) {
             event = new Event(title, description, startDate, endDate, completeDay);
         }
