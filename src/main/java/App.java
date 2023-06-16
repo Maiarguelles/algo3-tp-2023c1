@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class App extends Application {
 
+    public static Calendar calendar;
     @Override
     public void start(Stage stage) throws Exception {
         //Abrimos las views
@@ -18,7 +19,6 @@ public class App extends Application {
         FXMLLoader replaceThingsLoader = new FXMLLoader(getClass().getResource("/Fxml/ReplaceThings.fxml"));
         FXMLLoader addReminderLoader = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/Fxml/Main.fxml"));
-        System.out.println(replaceThingsLoader);
 
 
         //Cargamos las views
@@ -28,29 +28,68 @@ public class App extends Application {
 
 
 
-        //Parent replaceThingsRoot = (Parent) replaceThingsLoader.load();
 
 
-        Calendar calendar = new Calendar(); //Modelo
+        FileReader file = null;
+        try {
+            file = new FileReader("Calendar.json");
+            var calendarReaded = Calendar.readCalendar(new BufferedReader(file));
+            if (calendarReaded != null){
+                this.calendar = calendarReaded;
+
+            }
+            else{
+                calendar = new Calendar();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        file.close();
+
+
+
 
         //Creamos el controlador principal
         MainView mainView = mainLoader.getController();
-        MainController controlador = new MainController(mainLoader, mainRoot, addReminderLoader, addReminderRoot, calendar, replaceThingsLoader, mainView);
+        MainController controlador = new MainController(calendar, mainView);
 
         mainView.setView(stage, mainRoot);
 
         Label hour = mainView.getHour();
 
         var timer = new AnimationTimer(){
+
             @Override
             public void handle(long tiempo){
-                hour.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                var time = LocalDateTime.now();
+                hour.setText(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                Alarm alarm = calendar.getNextAlarm(LocalDateTime.now());
+                FXMLLoader notificationLoader = new FXMLLoader(getClass().getResource("/Fxml/Notification.fxml"));
+
+                Parent notificationRoot = null;
+                try {
+                    notificationRoot = (Parent) notificationLoader.load();
+                    NotificationView notificationView = notificationLoader.getController();
+                    if(alarm!= null &&  alarm.shouldTrigger(time)){
+                        notificationView.setView(new Stage(), notificationRoot);
+                        Reminder reminder = calendar.getReminder(alarm.getID());
+                        notificationView.getReminderName().setText(reminder.getTitle());
+                        notificationView.getDateReminder().setText(reminder.getStartDate().toLocalDate().toString());
+                        notificationView.getHourReminder().setText(reminder.getStartDate().toLocalTime().toString());
+
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         };
         timer.start();
         //hour.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-        controlador.initialize();
+
+
+        System.out.println("");
 
 
     }

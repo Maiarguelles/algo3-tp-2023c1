@@ -5,10 +5,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
@@ -47,9 +49,106 @@ public class MainController{
 
     public void initialize() {
 
-        mainView.getLabel().setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
+
+        mainView.getDateLabel().setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
         displayReminderBetweenTwoDates(stateDate1,stateDate2);
 
+
+        updateDisplays();
+
+
+        mainView.notifyDeleteReminder(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Button button = (Button) actionEvent.getSource();
+                Pane pane = (Pane) button.getParent();
+                VBox vbox = (VBox) pane.getParent();
+                Button display = (Button) vbox.getParent();
+
+                Label id = (Label) pane.getChildren().get(3);
+                System.out.println(id.getText());
+
+                calendar.deleteReminder(Integer.parseInt(id.getText()));
+                mainView.getListOfReminders().getChildren().remove(display);
+                updateDisplays();
+
+            }
+        });
+
+       mainView.notifyCheckBoxDisplayOfReminder(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                CheckBox checkbox = (CheckBox) actionEvent.getSource();
+                boolean state = checkbox.isSelected();
+                VBox vbox = (VBox) checkbox.getParent();
+                Pane pane = (Pane) vbox.getChildren().get(0);
+                Label id = (Label) pane.getChildren().get(3);
+                Task task = (Task) calendar.getReminder(Integer.parseInt(id.getText()));
+
+                task.setCompleteTask(state);
+
+            }
+        });
+
+        mainView.notifyCloseAplication(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                closeCalendar();
+            }
+        });
+
+        mainView.notifyButtonDisplaysOfReminder(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                FXMLLoader fullDisplayReminderLoader = new FXMLLoader(getClass().getResource("/Fxml/FullDisplayReminder.fxml"));
+                Parent root = null;
+                try {
+                    root = (Parent)fullDisplayReminderLoader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                FullDisplayReminderView fullDisplayReminderView = fullDisplayReminderLoader.getController();
+                fullDisplayReminderView.setView(new Stage(), root);
+                Button reminderButton = (Button)actionEvent.getSource();
+                Pane pane = (Pane)reminderButton.getChildrenUnmodifiable().get(0);
+                Label id = (Label) pane.getChildren().get(3);
+                Reminder reminder = calendar.getReminder(Integer.parseInt(id.getText()));
+
+                fullDisplayReminderView.getReminderName().setText(reminder.getTitle());
+                fullDisplayReminderView.getReminderDescription().setText(reminder.getDescription());
+
+
+                if(reminder.getClass() == Event.class )
+                    if(reminder.isCompleteDay()){
+                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                                + "-----" + ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                        );
+                    }
+                    else{
+                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                                + "-----" + ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                        );
+                    }
+                    ((Pane)fullDisplayReminderView.getMainVbox().getChildren().get(0)).getChildren().remove(fullDisplayReminderView.getCompleted());
+                    fullDisplayReminderView.getReminderRepetition().setText("");
+
+                else if(reminder.getClass() == InfiniteEvent.class){
+                    ((Pane)fullDisplayReminderView.getMainVbox().getChildren().get(0)).getChildren().remove(fullDisplayReminderView.getCompleted());
+                }
+
+                else {
+                    fullDisplayReminderView.getCompleted().setSelected(((Task) reminder).isCompleted());
+                }
+
+                ArrayList<Alarm> alarms = reminder.getAlarms();
+
+                for(int i = 0; i < alarms.size(); i++){
+                    Label alarm = new Label();
+                    alarm.setText(alarms.get(i).getMinBefore()");
+                    fullDisplayReminderView.getAlarmVbox().getChildren().add(alarm);
+                }
+            }
+        });
 
         mainView.getStage().focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -57,6 +156,7 @@ public class MainController{
                 updateDisplays();
             }
         });
+
 
         mainView.notifyDatePickerSelection(new EventHandler<ActionEvent>() {
             @Override
@@ -95,7 +195,7 @@ public class MainController{
                 stateDate1 = day.atStartOfDay();
                 stateDate2 = day.atTime(23, 59,59);
 
-                mainView.getLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
+                mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             }
         });
 
@@ -114,7 +214,7 @@ public class MainController{
                 stateDate1 = start;
                 stateDate2 = start.plusMonths(1);
 
-                mainView.getLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
+                mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             }
         });
 
@@ -133,7 +233,7 @@ public class MainController{
                 stateDate1 = start;
                 stateDate2 = start.plusDays(7);
 
-                mainView.getLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM  dd")).toUpperCase(Locale.ROOT)+ " - " + stateDate2.format(DateTimeFormatter.ofPattern("dd")));
+                mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM  dd")).toUpperCase(Locale.ROOT)+ " - " + stateDate2.format(DateTimeFormatter.ofPattern("dd")));
             }
         });
 
@@ -191,8 +291,6 @@ public class MainController{
     }
 
 
-
-
     public void next(){
         if(stageState == StageState.DAILY){
             stateDate1 = stateDate1.plusDays(1);
@@ -201,10 +299,12 @@ public class MainController{
         else if(stageState == stageState.WEEKLY){
             stateDate1 = stateDate1.plusWeeks(1);
             stateDate2 = stateDate2.plusWeeks(1);
+            mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM  dd")).toUpperCase(Locale.ROOT)+ " - " + stateDate2.format(DateTimeFormatter.ofPattern("dd")));
         }
         else{
             stateDate1 = stateDate1.plusMonths(1);
             stateDate2 = stateDate2.plusMonths(2);
+            mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
         }
     }
 
@@ -217,10 +317,14 @@ public class MainController{
         else if(stageState == stageState.WEEKLY){
             stateDate1 = stateDate1.minusWeeks(1);
             stateDate2 = stateDate2.minusWeeks(1);
+            mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM  dd")).toUpperCase(Locale.ROOT)+ " - " + stateDate2.format(DateTimeFormatter.ofPattern("dd")));
+
+
         }
         else{
             stateDate1 = stateDate1.minusMonths(1);
             stateDate2 = stateDate2.minusMonths(2);
+            mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
         }
     }
 
@@ -234,6 +338,7 @@ public class MainController{
         List<Reminder> listOfReminders = calendar.remindersBetweenTwoDates(date1, date2);
 
         for(int i = 0; i < listOfReminders.size(); i++){
+
             mainView.getListOfReminders().getChildren().add(createDisplay(listOfReminders.get(i)));
         }
 
@@ -248,7 +353,7 @@ public class MainController{
         }
         DisplayReminderView displayReminderView = displayReminderloader.getController();
         displayReminderView.getReminderName().setText(reminder.getTitle());
-
+        displayReminderView.getReminderID().setText(Integer.toString(reminder.hashCode()));
 
         if(reminder.getClass() == Event.class || reminder.getClass() == InfiniteEvent.class){
             displayReminderView.getDisplayVbox().getChildren().remove(displayReminderView.getCompleted());
@@ -262,20 +367,35 @@ public class MainController{
         } else if (reminder.getClass() == Task.class) {
             if(reminder.isCompleteDay())
                 displayReminderView.getReminderDate().setText(reminder.getStartDate().toLocalDate().toString());
-            else
+            else {
                 displayReminderView.getReminderDate().setText(reminder.getStartDate().toString());
-
-
+            }
+            System.out.print("CUANDO CREO EL DISPLAY:");
+            System.out.println(((Task) reminder).isCompleted());
+            System.out.println(((Task) reminder).isCompleted());
+            displayReminderView.getCompleted().setSelected(((Task) reminder).isCompleted());
         }
         return displayReminderView.getButtonDisplay();
     }
-
 
 
     enum StageState{
         DAILY,
         WEEKLY,
         MONTHLY
+    }
+
+
+    public void closeCalendar(){
+        FileWriter file2 = null;
+        try {
+
+            file2 = new FileWriter("Calendar.json");
+            System.out.println(calendar.writeCalendar(file2));
+            file2.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

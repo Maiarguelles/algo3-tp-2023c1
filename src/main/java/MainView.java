@@ -5,9 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Priority;
+
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -61,6 +63,11 @@ public class MainView {
 
     }
 
+
+    public ArrayList<DisplayReminderView> getDisplayReminderList() {
+        return displayReminderList;
+    }
+
     public Stage getStage(){
         return stage;
     }
@@ -96,6 +103,43 @@ public class MainView {
         addEvent.setOnAction(eventHandler);
     }
 
+    public void notifyButtonDisplaysOfReminder(EventHandler<ActionEvent> eventHandler){
+       if (listOfReminders == null)
+           return;
+        for(int i=0; i< listOfReminders.getChildren().size(); i++){
+            Button button = (Button) listOfReminders.getChildren().get(i);
+            button.setOnAction(eventHandler);
+        }
+    }
+
+    public void notifyDeleteReminder(EventHandler<ActionEvent> eventHandler){
+        if (displayReminderList == null)
+            return;
+        for(int i=0; i< displayReminderList.size(); i++){
+            VBox buttonVBox = displayReminderList.get(i).getDisplayVbox();
+            Pane pane = (Pane) buttonVBox.getChildren().get(0);
+            Button trash = (Button) pane.getChildren().get(2);
+            trash.setOnAction(eventHandler);
+        }
+    }
+
+    public void notifyCheckBoxDisplayOfReminder(EventHandler<ActionEvent> eventHandler){
+        if (displayReminderList == null)
+            return;
+
+        for(int i=0; i< displayReminderList.size(); i++){
+            VBox buttonVbox = displayReminderList.get(i).getDisplayVbox();
+
+            if(buttonVbox.getChildren().size() > 1) {
+                CheckBox checkBox = (CheckBox) buttonVbox.getChildren().get(1);
+                checkBox.setOnAction(eventHandler);
+            }
+        }
+    }
+    
+    public void notifyCloseAplication(EventHandler<WindowEvent> eventHandler){
+        stage.setOnCloseRequest(eventHandler);
+    }
 
     public void notifySelectNewTask(EventHandler<ActionEvent> eventHandler){
         addTask.setOnAction(eventHandler);

@@ -49,4 +49,32 @@ public class DailyStrategy implements FrequencyStrategy{
         else
             return null;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o.getClass() != DailyStrategy.class)
+            return false;
+
+        if(o == null)
+            return false;
+
+        if(this == o)
+            return false;
+
+        boolean isEqual = true;
+
+        if(!(this.frequency == ((DailyStrategy) o).frequency))
+            isEqual = false;
+
+
+        return isEqual;
+    }
+
+
+    @Override
+    public int hashCode(){
+        return frequency;
+    }
+
+
 }

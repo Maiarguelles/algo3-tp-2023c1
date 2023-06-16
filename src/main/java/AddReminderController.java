@@ -43,7 +43,6 @@ public class AddReminderController{
                         view.getWarningValidDate().setText("Inserte una fecha y hora válidas");
                     }
                     else {
-                        System.out.println("no soy null");
                         calendar.addReminder(reminder);
 
                         try {

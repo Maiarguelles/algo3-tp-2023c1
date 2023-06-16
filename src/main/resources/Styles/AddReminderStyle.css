@@ -73,3 +73,10 @@
     -fx-spacing: 10;
 }
 
+.AlarmHbox{
+    -fx-spacing: 10;
+}
+
+.number{
+    -fx-text-fill: #ffffff;
+}

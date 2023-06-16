@@ -5,6 +5,7 @@ import java.io.Writer;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Calendar {
 
@@ -40,7 +41,9 @@ public class Calendar {
         return nextAlarm;
     }
 
-
+    public ArrayList<Reminder> getListOfReminder(){
+        return reminders.values().stream().collect(Collectors.toCollection(ArrayList::new));
+    }
 
     public Reminder getReminder(int ID){
         return reminders.get(ID);

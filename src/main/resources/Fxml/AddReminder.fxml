@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
@@ -35,8 +36,8 @@
                   <HBox fx:id="chooseDateHbox" alignment="CENTER" prefHeight="0.0" prefWidth="580.0" styleClass="datesSelector">
                      <children>
                         <DatePicker fx:id="datePicker1" prefHeight="37.0" prefWidth="140.0" />
-
-                        <MenuButton fx:id="hour1" popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
+      
+                        <MenuButton fx:id="hour1" popupSide="TOP" styleClass="menu-button-custom" text="05:00pm">
                           <items>
                             <MenuItem mnemonicParsing="false" text="12:00am" />
                             <MenuItem mnemonicParsing="false" text="12:15am" />
@@ -142,8 +143,9 @@
                         <Text fx:id="a" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="a" textAlignment="CENTER" wrappingWidth="22.13671875">
                            <font>
                               <Font size="22.0" />
-                           </font></Text>
-                        <MenuButton fx:id="hour2" mnemonicParsing="false" onTouchPressed="#handleButtonAction" popupSide="TOP" styleClass="menu-button-custom" text="Elegir hora">
+                           </font>
+                        </Text>
+                        <MenuButton fx:id="hour2" mnemonicParsing="false" onTouchPressed="#handleButtonAction" popupSide="TOP" styleClass="menu-button-custom" text="06:00pm">
                            <items>
                               <MenuItem mnemonicParsing="false" text="12:00am" />
                               <MenuItem mnemonicParsing="false" text="12:15am" />
@@ -287,8 +289,13 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="580.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="580.0" styleClass="AlarmHbox">
                            <children>
+                              <ImageView fitHeight="21.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/alarmImage.png" />
+                                 </image>
+                              </ImageView>
                               <MenuButton fx:id="alarm" mnemonicParsing="false" text="Ninguna">
                                 <items>
                                   <MenuItem mnemonicParsing="false" text="Notificación" />
@@ -298,11 +305,13 @@
                               <TextField fx:id="timeBefore" prefHeight="25.0" prefWidth="108.0" />
                               <MenuButton fx:id="timeFormat" mnemonicParsing="false" text="Minutos">
                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Minutos" />
                                   <MenuItem mnemonicParsing="false" text="Horas" />
                                     <MenuItem mnemonicParsing="false" text="Días" />
                                     <MenuItem mnemonicParsing="false" text="Semanas" />
                                 </items>
                               </MenuButton>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Antes" />
                            </children>
                            <opaqueInsets>
                               <Insets />

@@ -43,12 +43,8 @@ public class Alarm {
         return eventDate.minusMinutes(this.minBefore);
     }
 
-    public boolean shouldTrigger(){
-        return (LocalDateTime.now().isEqual(this.goOffTime));
-    }
-
     public boolean shouldTrigger(LocalDateTime date){
-        return (date.isEqual(this.goOffTime));
+        return (date.isAfter(this.goOffTime) && date.isBefore(this.goOffTime.plusNanos( (long) (13 * Math.pow(10,7) / 7))));
     }
 
     public Effect.typeOfEffect  trigger(){

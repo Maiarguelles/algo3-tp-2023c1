@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DisplayReminderView">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="144.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DisplayReminderView">
    <children>
-      <Button fx:id="buttonDisplay" mnemonicParsing="false" prefHeight="100.0" prefWidth="280.0">
+      <Button fx:id="buttonDisplay" mnemonicParsing="false" prefHeight="100.0" prefWidth="280.0" style="-fx-background-color: ffffff;" styleClass="mainButton">
          <graphic>
             <VBox fx:id="displayVbox" prefHeight="92.0" prefWidth="283.0">
                <children>
@@ -14,6 +15,16 @@
                      <children>
                         <Label fx:id="reminderName" prefHeight="32.0" prefWidth="264.0" text="Nombre del evento" />
                         <Label fx:id="reminderDate" layoutY="34.0" prefHeight="32.0" prefWidth="265.0" text="Fechas" />
+                        <Button fx:id="delete" layoutX="233.0" layoutY="3.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="33.0">
+                           <graphic>
+                              <ImageView fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/trashImage.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="reminderID" layoutX="209.0" layoutY="34.0" prefHeight="17.0" prefWidth="55.0" style="-fx-background-color: ffffff;" styleClass="number" text="Label" textFill="WHITE" />
                      </children>
                   </Pane>
                   <CheckBox fx:id="completed" mnemonicParsing="false" text="CheckBox" />
