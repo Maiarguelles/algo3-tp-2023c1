@@ -6,10 +6,19 @@ public class Event extends Reminder{
 
     protected LocalDateTime endDate;
 
+    public boolean isRepeating() {
+        return isRepeating;
+    }
 
+    public void setRepeating(boolean repeating) {
+        isRepeating = repeating;
+    }
+
+    protected boolean isRepeating;
 
     public Event(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay){
         super(title, description, completeDay, startDate);
+        isRepeating = false;
         if(completeDay && (endDate==(null))){
             LocalDate realDate = startDate.plusDays(1).toLocalDate();
             this.endDate = LocalDateTime.of(realDate, LocalTime.of(0,0)); // no es lo mas lindo pero bueno
@@ -35,15 +44,15 @@ public class Event extends Reminder{
 
         if(!(this.title.equals(((Event) o).title)))
             isEqual = false;
-        if(!(this.description.equals(((Event) o).description)))
+        else if(!(this.description.equals(((Event) o).description)))
             isEqual = false;
-        if(!(this.completeDay == ((Event) o).completeDay))
+        else if(!(this.completeDay == ((Event) o).completeDay))
             isEqual = false;
-        if(!(this.startDate.equals(((Event) o).startDate)))
+        else if(!(this.startDate.equals(((Event) o).startDate)))
             isEqual = false;
-        if(!(this.endDate.equals(((Event) o).endDate)))
+        else if(!(this.endDate.equals(((Event) o).endDate)))
             isEqual = false;
-        if(!(this.alarms.equals(((Event) o).alarms)))
+        else if(!(this.alarms.equals(((Event) o).alarms)))
             isEqual = false;
 
         return isEqual;
@@ -68,7 +77,12 @@ public class Event extends Reminder{
         int date1 = startDate.getMonthValue()*startDate.getDayOfMonth()*startDate.getYear();
         int date2 = endDate.getMonthValue()+endDate.getDayOfMonth()*endDate.getYear();
 
-        return date1*x+date2*y+z;
+        int i = 0;
+        if (isRepeating){
+            i=1;
+            return x*y+z+i;
+        }
+        return date1*x+date2*y+z+ i;
     }
 
     public Event repeatReminder(LocalDateTime startDate){
@@ -138,7 +152,7 @@ public class Event extends Reminder{
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         ArrayList<LocalDateTime> dates = new ArrayList<>();
         if ((startDate.isBefore(date2) && startDate.isAfter(date1))
-                || (endDate.isAfter(date1) && endDate.isBefore(date2)))
+                || (endDate.isAfter(date1) && endDate.isBefore(date2)) || (startDate.isBefore(date2) && startDate.equals(date1)))
             dates.add(startDate);
 
         return dates;

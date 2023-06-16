@@ -1,23 +1,15 @@
-import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+
 public class AddReminderController{
     private AddReminderView view;
-
     private Calendar calendar;
-    private DisplayReminderView displayView;
-
 
 
     public AddReminderController(AddReminderView view, Calendar calendar){
@@ -26,9 +18,7 @@ public class AddReminderController{
     }
 
 
-
     public void initialize(){
-
         view.notifySavePress(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -55,7 +45,6 @@ public class AddReminderController{
         });
 
 
-
         view.notifyAllDayCheckBox(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -69,7 +58,6 @@ public class AddReminderController{
             }
         });
 
-
         view.handleAlarmItem(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -77,8 +65,6 @@ public class AddReminderController{
                 view.getAlarm().setText(item.getText());
              }
         });
-
-
 
         view.handleMenuItems1(new EventHandler<ActionEvent>() {
             @Override
@@ -128,8 +114,6 @@ public class AddReminderController{
             }
         });
 
-
-
     }
 
 
@@ -168,7 +152,6 @@ public class AddReminderController{
         return (date1.isBefore(date2) || date1.isEqual(date2));
     }
 
-
     private Reminder createEvent(){
         String title = view.getEventName().getText();
         String description = view.getDescription();
@@ -178,7 +161,7 @@ public class AddReminderController{
         String repetition = view.getRepetition().getText();
         String alarm = view.getAlarm().getText();
         LocalDateTime startDate = null;
-        LocalDateTime endDate =null;
+        LocalDateTime endDate = null;
         if(!completeDay){
             startDate = startdate.atTime(stringToLocalTime(view.getHour1().getText()));
             endDate =  enddate.atTime(stringToLocalTime(view.getHour2().getText()));
@@ -192,16 +175,14 @@ public class AddReminderController{
             return null;
         }
 
-
-
         Reminder event = null;
         if(repetition.equals("No se repite")) {
             event = new Event(title, description, startDate, endDate, completeDay);
-            System.out.println(event.hashCode()+"aaaa");
+
         }
         else{
             event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
-            System.out.println(event.hashCode()+"bbbb");
+
         }
         if(!alarm.equals("Ninguna"))
             event.addAlarm(createAlarm(alarm));
@@ -242,7 +223,6 @@ public class AddReminderController{
         String description = view.getDescription();
         Boolean completeDay = view.getAllDay();
         String alarm = view.getAlarm().getText();
-
         LocalDate expirationdate = view.getDatePicker1().getValue();
         LocalDateTime expirationDate = null;
         if(!completeDay){
@@ -251,13 +231,12 @@ public class AddReminderController{
         else {
             expirationDate = expirationdate.atStartOfDay();
         }
-
         Task task = new Task(title,description,expirationDate,completeDay,false);
-
         if(!alarm.equals("Ninguna"))
             task.addAlarm(createAlarm(alarm));
         return task;
     }
+
 
     private Event createEventWithRepetition(String repetition, String title, String description, LocalDateTime startDate, LocalDateTime endDate, boolean allDay){
         DailyStrategy frequencyStrategy = null;
@@ -273,6 +252,7 @@ public class AddReminderController{
         event.addFrequency(frequencyStrategy);
         return  event;
     }
+
 
     private LocalTime stringToLocalTime(String time){
         String parsed = null;

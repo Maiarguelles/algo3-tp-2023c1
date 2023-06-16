@@ -45,7 +45,6 @@ public class DailyStrategy implements FrequencyStrategy{
         int i = 0;
         while(firstRepetition.isBefore(date1)){
             i++;
-            System.out.println(i);
             firstRepetition = firstRepetition.plusDays(frequency);
         }
         if(firstRepetition.isBefore(date2))

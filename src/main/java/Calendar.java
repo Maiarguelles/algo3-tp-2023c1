@@ -27,8 +27,7 @@ public class Calendar {
 
 
     public void deleteReminder(int ID){
-        System.out.println("holaa");
-        System.out.println(reminders.remove(ID));
+        reminders.remove(ID);
     }
 
 

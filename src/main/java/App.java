@@ -28,9 +28,6 @@ public class App extends Application {
         Parent mainRoot = (Parent) mainLoader.load();
 
 
-
-
-
         FileReader file = null;
         try {
             file = new FileReader("Calendar.json");
@@ -47,8 +44,6 @@ public class App extends Application {
             throw new RuntimeException(e);
         }
         file.close();
-
-
 
 
         //Creamos el controlador principal
@@ -88,12 +83,9 @@ public class App extends Application {
         };
         timer.start();
 
-
-
-        System.out.println("");
-
-
     }
+
+
     public static void main(String[] args){
         launch();
     }

@@ -21,7 +21,7 @@ public class Task extends Reminder{
 
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         ArrayList<LocalDateTime> dates = new ArrayList<>();
-        if (startDate.isAfter(date1) && startDate.isBefore(date2))
+        if ((startDate.isAfter(date1) && startDate.isBefore(date2)) || (startDate.isBefore(date2) && startDate.equals(date1)))
             dates.add(startDate);
 
         return dates;

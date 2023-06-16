@@ -15,6 +15,46 @@ import javafx.scene.control.CheckBox;
 
 public class DisplayReminderView {
 
+    @FXML
+    private Pane mainPane;
+    @FXML
+    private Label reminderName;
+    @FXML
+    private Label reminderDate;
+    @FXML
+    private CheckBox completed;
+    @FXML
+    private VBox displayVbox;
+
+    @FXML
+    private Button delete;
+
+    @FXML
+    private Button buttonDisplay;
+
+    @FXML
+    private Label reminderID;
+
+
+    public Pane getMainPane() {
+        return mainPane;
+    }
+
+    public Label getReminderID(){
+        return reminderID;
+    }
+
+    public Button getButtonDisplay() {
+        return buttonDisplay;
+    }
+
+    public Button getDeleteButton(){
+        return delete;
+    }
+
+    public void setID(int ID){
+        this.reminderID.setText(Integer.toString(ID));
+    }
     public Label getReminderName() {
         return reminderName;
     }
@@ -26,85 +66,4 @@ public class DisplayReminderView {
     public CheckBox getCompleted() {
         return completed;
     }
-
-    public void setReminderName(Label reminderName) {
-        this.reminderName = reminderName;
-    }
-
-    public void setReminderDate(Label reminderDate) {
-        this.reminderDate = reminderDate;
-    }
-
-    public void setCompleted(CheckBox completed) {
-        this.completed = completed;
-    }
-
-    @FXML
-    private Label reminderName;
-    @FXML
-    private Label reminderDate;
-    @FXML
-    private CheckBox completed;
-
-    @FXML
-    private VBox displayVbox;
-
-    @FXML
-    private Button delete;
-
-    @FXML
-    private Button buttonDisplay;
-
-
-    private Reminder reminder;
-
-    @FXML
-    private Label reminderID;
-
-    public Pane getMainPane() {
-        return mainPane;
-    }
-
-    @FXML
-    private Pane mainPane;
-
-
-    public Label getReminderID(){
-        return reminderID;
-    }
-
-
-
-    public void notifyDelete(EventHandler<ActionEvent> eventHandler){
-        delete.setOnAction(eventHandler);
-    }
-
-    public void notifyButtonDisplay(EventHandler<ActionEvent> eventHandler){
-        buttonDisplay.setOnAction(eventHandler);
-    }
-
-    public VBox getDisplayVbox() {
-        return displayVbox;
-    }
-
-    public void setDisplayVbox(VBox displayVbox) {
-        this.displayVbox = displayVbox;
-    }
-
-    public Button getButtonDisplay() {
-        return buttonDisplay;
-    }
-
-    public void setButtonDisplay(Button buttonDisplay) {
-        this.buttonDisplay = buttonDisplay;
-    }
-
-    public Button getDeleteButton(){
-        return delete;
-    }
-
-    public void setID(int ID){
-        this.reminderID.setText(Integer.toString(ID));
-    }
-
 }

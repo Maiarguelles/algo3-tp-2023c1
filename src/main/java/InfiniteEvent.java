@@ -2,6 +2,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class InfiniteEvent extends Event{
+    public FrequencyStrategy getFrequencyStrategy() {
+        return frequencyStrategy;
+    }
+
     private FrequencyStrategy frequencyStrategy;
 
     public int getFrequency (){
@@ -11,6 +15,7 @@ public class InfiniteEvent extends Event{
     public InfiniteEvent(String title, String description, boolean completeDay, LocalDateTime startDate,LocalDateTime endDate){
         super(title, description, startDate, endDate, completeDay);
         this.frequencyStrategy = null;
+        this.isRepeating = true;
     }
 
 
@@ -61,13 +66,28 @@ public class InfiniteEvent extends Event{
             z+= description.charAt(i);
         }
 
-        int date1 = startDate.getMonthValue()*startDate.getDayOfMonth()*startDate.getYear();
-        int date2 = endDate.getMonthValue()+endDate.getDayOfMonth()*endDate.getYear();
+        int i = 0;
+        if (isRepeating){
+            i=1;
+        }
 
-        return date1*x+date2*y+z;
+        return x*y+z+i;
 
     }
 
+    @Override
+    public InfiniteEvent repeatReminder(LocalDateTime startDate){
+        var eventDuration = this.getDuration();
+        //var eventRepetition = new Event(title, description, startDate, startDate.plusMinutes(eventDuration), isCompleteDay());
+        var eventRepetition = new InfiniteEvent(title, description, isCompleteDay(), startDate, startDate.plusMinutes(eventDuration));
+
+        eventRepetition.addFrequency(getFrequencyStrategy());
+        for (Alarm alarm : alarms) {
+            eventRepetition.addAlarm(alarm.cloneAlarm(startDate));
+        }
+        eventRepetition.setRepeating(true);
+        return eventRepetition;
+    }
 
     @Override
     public void addFrequency(FrequencyStrategy frequencyStrategy){

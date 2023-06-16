@@ -1,24 +1,16 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 
 public class MainView {
-
-    private FXMLLoader view;
 
     @FXML
     private Button previous;
@@ -68,11 +60,6 @@ public class MainView {
 
     private Stage stage;
 
-    public MainView(){
-
-    }
-
-
     public ArrayList<DisplayReminderView> getDisplayReminderList() {
         return displayReminderList;
     }
@@ -102,26 +89,8 @@ public class MainView {
     }
 
 
-
-
-
-    public void adjustVboxHeight(){
-        if(listOfReminders.getChildren().size()>4)
-            listOfReminders.setMinHeight((listOfReminders.getHeight() + 100));
-    }
-
     public void notifySelectNewEvent(EventHandler<ActionEvent> eventHandler){
         addEvent.setOnAction(eventHandler);
-    }
-
-    public void notifyButtonDisplaysOfReminder(EventHandler<ActionEvent> eventHandler){
-       if (listOfReminders == null)
-           return;
-        for(int i=0; i< listOfReminders.getChildren().size(); i++){
-            Pane pane = (Pane) listOfReminders.getChildren().get(i);
-            Button button = (Button) pane.getChildren().get(0);
-            button.setOnAction(eventHandler);
-        }
     }
 
     public void notifyDeleteReminder(EventHandler<ActionEvent> eventHandler){
@@ -132,7 +101,6 @@ public class MainView {
 
         }
     }
-
 
     public void notifyCheckBoxDisplayOfReminder(EventHandler<ActionEvent> eventHandler){
         if (displayReminderList == null)

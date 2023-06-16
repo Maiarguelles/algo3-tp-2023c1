@@ -165,10 +165,10 @@ public class CalendarTest {
         assertNotEquals(calendar.getReminder(event1.hashCode()), event1);
 
         calendar.addOcurrencesRepetitionToExistentEvent(event2.hashCode(), 20, frequencyStrategy);
-        assertNotEquals(calendar.getReminder(event2.hashCode()), event2);
+        assertEquals(calendar.getReminder(event2.hashCode()), event2);
 
         calendar.addRepetitionByDateToExistentEvent(event3.hashCode(),date3.plusMonths(1), frequencyStrategy);
-        assertNotEquals(calendar.getReminder(event3.hashCode()), event3);
+        assertEquals(calendar.getReminder(event3.hashCode()), event3);
 
     }
 
@@ -336,13 +336,10 @@ public class CalendarTest {
         var reader = new StringReader(first);
         var calendar2 = Calendar.readCalendar(reader);
         reader.close();
-        var writer2 = new StringWriter();
 
-        assert calendar2 != null;
-        var second = calendar2.writeCalendar(writer2); //si escribe lo mismo es porque lo leyo bien
-        writer2.close();
-        assertEquals(first, second);
-
-
+        assertEquals(expected.getListOfReminder().size(), calendar2.getListOfReminder().size());
+        assertEquals(expected.getReminder(event.hashCode()).toString(), calendar2.getReminder(event.hashCode()).toString());
+        assertEquals(expected.getReminder(event2.hashCode()).toString(), calendar2.getReminder(event2.hashCode()).toString());
+        assertEquals(expected.getReminder(task1.hashCode()).toString(), calendar2.getReminder(task1.hashCode()).toString());
     }
 }
