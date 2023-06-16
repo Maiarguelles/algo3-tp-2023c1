@@ -249,7 +249,7 @@ public class CalendarTest {
         var starDate = LocalDateTime.of(2023, 4, 1, 0,0);
         var endDate = LocalDateTime.of(2023, 5,1,0,0);
 
-        var task = new Task("title", "test", date1, true);
+        var task = new Task("title", "test", date1, true,false);
         calendar.addReminder(task);
 
         int actual = calendar.remindersBetweenTwoDates(starDate, endDate).size();
@@ -291,7 +291,7 @@ public class CalendarTest {
         var endDate = LocalDateTime.of(2023, 5, 10, 0, 0);
 
         var event = new Event("title", "test", date1, null, true);
-        var task = new Task("title", "test", date2, true);
+        var task = new Task("title", "test", date2, true, false);
 
         calendar.addReminder(event);
         calendar.addReminder(task);
@@ -317,7 +317,7 @@ public class CalendarTest {
         Event event2 = new Event("hola", "holaaa", LocalDateTime.of(1234, 2, 3, 10, 4), LocalDateTime.of(1234, 2, 3, 10, 4), false);
         event2.addAlarm(alarm2);
 
-        Task task1 = new Task("xd", "xd", LocalDateTime.of(1234, 2, 3, 10, 4), false);
+        Task task1 = new Task("xd", "xd", LocalDateTime.of(1234, 2, 3, 10, 4), false, false);
         Calendar expected = new Calendar();
 
         expected.addReminder(event);

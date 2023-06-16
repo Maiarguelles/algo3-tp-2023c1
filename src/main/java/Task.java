@@ -6,9 +6,9 @@ public class Task extends Reminder{
 
     private boolean completed;
 
-    public Task(String title, String description, LocalDateTime startDate, boolean completeDay){
+    public Task(String title, String description, LocalDateTime startDate, boolean completeDay, boolean completed){
         super(title, description, completeDay, startDate);
-        this.completed = false;
+        this.completed = completed;
     }
 
     public boolean isCompleted(){
@@ -37,7 +37,7 @@ public class Task extends Reminder{
     }
 
     public Reminder repeatReminder(LocalDateTime startDate){
-        var taskRepetition = new Task(title, description, startDate, isCompleteDay());
+        var taskRepetition = new Task(title, description, startDate, isCompleteDay(),isCompleted());
         for (Alarm alarm : alarms) {
             taskRepetition.addAlarm(alarm.cloneAlarm(startDate));
         }

@@ -25,6 +25,11 @@ public class YearlyStrategy implements FrequencyStrategy{
     }
 
     @Override
+    public int getFrequency() {
+        return 0;
+    }
+
+    @Override
     public LocalDateTime lastDateWithOcurrences(int ocurrences, LocalDateTime starDate) {
         LocalDateTime lastPossibleDay = starDate;
         for (int i=0; i<ocurrences; i++){

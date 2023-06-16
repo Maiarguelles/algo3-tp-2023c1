@@ -197,10 +197,11 @@ public class AddReminderController{
         Reminder event = null;
         if(repetition.equals("No se repite")) {
             event = new Event(title, description, startDate, endDate, completeDay);
+            System.out.println(event.hashCode()+"aaaa");
         }
         else{
             event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
-
+            System.out.println(event.hashCode()+"bbbb");
         }
         if(!alarm.equals("Ninguna"))
             event.addAlarm(createAlarm(alarm));
@@ -251,7 +252,7 @@ public class AddReminderController{
             expirationDate = expirationdate.atStartOfDay();
         }
 
-        Task task = new Task(title,description,expirationDate,completeDay);
+        Task task = new Task(title,description,expirationDate,completeDay,false);
 
         if(!alarm.equals("Ninguna"))
             task.addAlarm(createAlarm(alarm));

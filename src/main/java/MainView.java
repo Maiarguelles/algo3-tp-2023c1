@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -132,6 +133,7 @@ public class MainView {
         }
     }
 
+
     public void notifyCheckBoxDisplayOfReminder(EventHandler<ActionEvent> eventHandler){
         if (displayReminderList == null)
             return;
@@ -171,6 +173,7 @@ public class MainView {
     public void notifySelectPrevious(EventHandler<ActionEvent> eventHandler){
         previous.setOnAction(eventHandler);
     }
+
 
     public void notifyDatePickerSelection(EventHandler<ActionEvent> eventHandler){
         datePicker.setOnAction(eventHandler);

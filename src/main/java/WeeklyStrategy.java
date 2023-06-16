@@ -12,6 +12,11 @@ public class WeeklyStrategy implements FrequencyStrategy{
     }
 
     @Override
+    public int getFrequency() {
+        return 0;
+    }
+
+    @Override
     public ArrayList<LocalDateTime> showDatesOfEvents(LocalDateTime date1, LocalDateTime date2, LocalDateTime eventDate) {
 
         var dates = new ArrayList<LocalDateTime>();

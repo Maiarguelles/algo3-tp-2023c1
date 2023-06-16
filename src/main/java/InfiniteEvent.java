@@ -4,6 +4,9 @@ import java.util.ArrayList;
 public class InfiniteEvent extends Event{
     private FrequencyStrategy frequencyStrategy;
 
+    public int getFrequency (){
+        return frequencyStrategy.getFrequency();
+    }
 
     public InfiniteEvent(String title, String description, boolean completeDay, LocalDateTime startDate,LocalDateTime endDate){
         super(title, description, startDate, endDate, completeDay);

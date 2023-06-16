@@ -31,9 +31,9 @@
             </Pane>
             <Pane prefHeight="487.0" prefWidth="300.0">
                <children>
-                  <ScrollPane prefHeight="505.0" prefWidth="298.0">
+                  <ScrollPane prefHeight="505.0" prefWidth="298.0" style="-fx-background-color: ffffff;">
                      <content>
-                        <VBox fx:id="listOfReminders" fillWidth="false" prefWidth="279.0">
+                        <VBox fx:id="listOfReminders" fillWidth="false" prefWidth="279.0" style="-fx-background-color: ffffff;">
                            <effect>
                               <Glow />
                            </effect></VBox>

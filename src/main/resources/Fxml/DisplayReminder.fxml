@@ -5,31 +5,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="144.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DisplayReminderView">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="291.0" style="-fx-border-style: solid; -fx-border-color: #9B9B9B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DisplayReminderView">
    <children>
-      <Button fx:id="buttonDisplay" mnemonicParsing="false" prefHeight="100.0" prefWidth="280.0" style="-fx-background-color: ffffff;" styleClass="mainButton">
+      <Button fx:id="buttonDisplay" layoutX="6.0" layoutY="4.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="220.0" style="-fx-background-color: ffffff;" styleClass="mainButton">
          <graphic>
-            <VBox fx:id="displayVbox" prefHeight="92.0" prefWidth="283.0">
+            <Pane prefHeight="52.0" prefWidth="210.0">
                <children>
-                  <Pane prefHeight="67.0" prefWidth="264.0">
-                     <children>
-                        <Label fx:id="reminderName" prefHeight="32.0" prefWidth="264.0" text="Nombre del evento" />
-                        <Label fx:id="reminderDate" layoutY="34.0" prefHeight="32.0" prefWidth="265.0" text="Fechas" />
-                        <Button fx:id="delete" layoutX="233.0" layoutY="3.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="33.0">
-                           <graphic>
-                              <ImageView fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/trashImage.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Label fx:id="reminderID" layoutX="209.0" layoutY="34.0" prefHeight="17.0" prefWidth="55.0" style="-fx-background-color: ffffff;" styleClass="number" text="Label" textFill="WHITE" />
-                     </children>
-                  </Pane>
-                  <CheckBox fx:id="completed" mnemonicParsing="false" text="CheckBox" />
+                  <Label fx:id="reminderName" layoutY="5.0" prefHeight="27.0" prefWidth="196.0" style="-fx-font-size: 15; -fx-background-color: #cdcdcd;" text="Nombre del evento" />
+                  <Label fx:id="reminderDate" layoutY="34.0" prefHeight="32.0" prefWidth="265.0" style="-fx-font-size: 13;" text="Fechas" />
+                  <Label fx:id="reminderID" layoutX="209.0" layoutY="34.0" prefHeight="17.0" prefWidth="55.0" style="-fx-background-color: ffffff;" styleClass="number" text="Label" textFill="WHITE" visible="false" />
                </children>
-            </VBox>
+            </Pane>
+         </graphic>
+      </Button>
+      <CheckBox fx:id="completed" layoutX="14.0" layoutY="90.0" mnemonicParsing="false" text="Completada" />
+      <Button fx:id="delete" layoutX="248.0" layoutY="14.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="33.0">
+         <graphic>
+            <ImageView fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/trashImage.png" />
+               </image>
+            </ImageView>
          </graphic>
       </Button>
    </children>

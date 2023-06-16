@@ -5,6 +5,10 @@ public class DailyStrategy implements FrequencyStrategy{
 
     private int frequency;
 
+    public int getFrequency(){
+        return frequency;
+    }
+
     public DailyStrategy(int frequency){
         this.frequency = frequency;
     }
