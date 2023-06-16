@@ -11,6 +11,10 @@ public class Task extends Reminder{
         this.completed = false;
     }
 
+    public boolean isCompleted(){
+        return completed;
+    }
+
     public void setCompleteTask(boolean completeTask){
         completed = completeTask;
     }
@@ -39,5 +43,59 @@ public class Task extends Reminder{
         }
         return taskRepetition;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o.getClass() != Task.class)
+            return false;
+
+        if(this == o)
+            return true;
+
+        if(o == null){
+            return false;
+        }
+
+        boolean isEqual = true;
+
+        if(!(this.completed ==((Task) o).completed))
+            isEqual = false;
+        if(!(this.title.equals(((Task) o).title)))
+            isEqual = false;
+        if(!(this.description.equals(((Task) o).description)))
+            isEqual = false;
+        if(!(this.completeDay == ((Task) o).completeDay))
+            isEqual = false;
+        if(!(this.startDate.equals(((Task) o).startDate)))
+            isEqual = false;
+        if(!(this.alarms.equals(((Task) o).alarms)))
+            isEqual = false;
+
+        return isEqual;
+    }
+
+
+    @Override
+    public int hashCode(){
+        int x = 24;
+        if (completeDay){
+            x+=16;
+        }
+        int y = 3;
+        for (int i = 0; i<title.length(); i++){
+            y+= title.charAt(i);
+        }
+
+        int z = 9;
+        for (int i = 0; i<description.length(); i++){
+            z+= description.charAt(i);
+        }
+
+        int date1 = startDate.getMonthValue()*startDate.getDayOfMonth()*startDate.getYear();
+
+        return date1*x+y*z;
+    }
+
+
 
 }

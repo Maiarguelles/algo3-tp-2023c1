@@ -23,8 +23,12 @@ public class Calendar {
         return reminders.putIfAbsent(key, reminder) == null;
     }
 
+
+
+
     public void deleteReminder(int ID){
-            reminders.remove(ID);
+        System.out.println("holaa");
+        System.out.println(reminders.remove(ID));
     }
 
 
@@ -133,6 +137,7 @@ public class Calendar {
     public static Calendar readCalendar(Reader reader) throws RuntimeException{
         var gsonBuilder = setBuilder();
         Gson gson = gsonBuilder.setPrettyPrinting().create();
+
         return gson.fromJson(reader,Calendar.class);
 
     }

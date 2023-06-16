@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -55,6 +56,7 @@ public class App extends Application {
         MainController controlador = new MainController(calendar, mainView);
 
         mainView.setView(stage, mainRoot);
+        controlador.initialize();
 
         Label hour = mainView.getHour();
 
@@ -85,7 +87,6 @@ public class App extends Application {
             }
         };
         timer.start();
-        //hour.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
 
 

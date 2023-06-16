@@ -8,11 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.io.IOException;
+import java.awt.event.PaintEvent;
+import java.io.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,6 +36,7 @@ public class MainController{
 
     private MainView mainView;
 
+
     private StageState stageState;
 
     private LocalDateTime stateDate1;
@@ -39,7 +44,7 @@ public class MainController{
     private LocalDateTime stateDate2;
 
 
-    public MainController(FXMLLoader mainLoader, Parent mainRoot, FXMLLoader addReminderLoader, Parent addReminderRoot, Calendar calendar, FXMLLoader replaceThingsLoader, MainView mainview) {
+    public MainController(Calendar calendar, MainView mainview) {
         this.calendar = calendar;
         this.mainView = mainview;
         this.stageState = StageState.DAILY;
@@ -154,6 +159,7 @@ public class MainController{
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 updateDisplays();
+
             }
         });
 
@@ -247,6 +253,8 @@ public class MainController{
                     Parent root = (Parent) addReminderLoader2.load();
                     AddReminderView view2 = addReminderLoader2.getController();
                     view2.setView(stage, root);
+                    view2.getDatePicker1().setValue(LocalDate.now());
+                    view2.getDatePicker2().setValue(LocalDate.now());
                     AddReminderController addReminderController = new AddReminderController(view2, calendar);
                     addReminderController.initialize();
 
@@ -276,6 +284,7 @@ public class MainController{
                     dateChooser.getChildren().remove(view2.getA());
                     dateChooser.getChildren().remove(view2.getHour2());
                     dateChooser.getChildren().remove(view2.getDatePicker2());
+                    view2.getDatePicker1().setValue(LocalDate.now());
                     Text text = new Text("Ingrese la fecha de inicio de la tarea");
                     dateChooser.getChildren().add(0, text);
                     AddReminderController addReminderController = new AddReminderController(view2, calendar);
@@ -286,8 +295,6 @@ public class MainController{
                 }
             }
         });
-
-
     }
 
 
@@ -295,6 +302,7 @@ public class MainController{
         if(stageState == StageState.DAILY){
             stateDate1 = stateDate1.plusDays(1);
             stateDate2 = stateDate2.plusDays(1);
+            mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
         }
         else if(stageState == stageState.WEEKLY){
             stateDate1 = stateDate1.plusWeeks(1);
@@ -313,6 +321,8 @@ public class MainController{
         if(stageState == StageState.DAILY){
             stateDate1 = stateDate1.minusDays(1);
             stateDate2 = stateDate2.minusDays(1);
+            mainView.getDateLabel().setText(stateDate1.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
+
         }
         else if(stageState == stageState.WEEKLY){
             stateDate1 = stateDate1.minusWeeks(1);
@@ -335,7 +345,7 @@ public class MainController{
 
     public void displayReminderBetweenTwoDates(LocalDateTime date1, LocalDateTime date2) {
         mainView.getListOfReminders().getChildren().clear();
-        List<Reminder> listOfReminders = calendar.remindersBetweenTwoDates(date1, date2);
+        List<Reminder> listOfReminders = calendar.remindersBetweenTwoDates(date1.minusDays(1), date2.plusDays(1));
 
         for(int i = 0; i < listOfReminders.size(); i++){
 
@@ -352,6 +362,7 @@ public class MainController{
             throw new RuntimeException(e);
         }
         DisplayReminderView displayReminderView = displayReminderloader.getController();
+        displayReminderView.setID(reminder.hashCode());
         displayReminderView.getReminderName().setText(reminder.getTitle());
         displayReminderView.getReminderID().setText(Integer.toString(reminder.hashCode()));
 
@@ -375,6 +386,47 @@ public class MainController{
             System.out.println(((Task) reminder).isCompleted());
             displayReminderView.getCompleted().setSelected(((Task) reminder).isCompleted());
         }
+
+        displayReminderView.getDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Button button = (Button) actionEvent.getSource();
+                Pane pane = (Pane) button.getParent();
+                VBox vbox = (VBox) pane.getParent();
+                Button display = (Button) vbox.getParent();
+
+                Label id = (Label) pane.getChildren().get(3);
+                System.out.println(id.getText());
+
+                calendar.deleteReminder(Integer.parseInt(id.getText()));
+                mainView.getListOfReminders().getChildren().remove(display);
+                updateDisplays();
+
+            }
+        });
+
+        if(reminder.getClass() == Task.class){
+            mainView.notifyCheckBoxDisplayOfReminder(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    CheckBox checkbox = (CheckBox) actionEvent.getSource();
+                    boolean state = checkbox.isSelected();
+                    VBox vbox = (VBox) checkbox.getParent();
+                    Pane pane = (Pane) vbox.getChildren().get(0);
+                    Label id = (Label) pane.getChildren().get(3);
+                    Task task = (Task) calendar.getReminder(Integer.parseInt(id.getText()));
+                    task.setCompleteTask(state);
+                }
+            });
+        }
+
+
+        if(mainView.getDisplayReminderList() == null)
+            mainView.setDisplayReminderList();
+
+
+        mainView.getDisplayReminderList().add(displayReminderView);
+
         return displayReminderView.getButtonDisplay();
     }
 

@@ -13,6 +13,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 public class MainView {
 
@@ -57,6 +58,13 @@ public class MainView {
     @FXML
     private VBox listOfReminders;
 
+
+    public void setDisplayReminderList(){
+        displayReminderList = new ArrayList<DisplayReminderView>();
+    }
+
+    private ArrayList<DisplayReminderView> displayReminderList;
+
     private Stage stage;
 
     public MainView(){
@@ -72,7 +80,7 @@ public class MainView {
         return stage;
     }
 
-    public Label getLabel(){
+    public Label getDateLabel(){
         return date;
     }
 
@@ -91,6 +99,8 @@ public class MainView {
         stage.show();
         return scene;
     }
+
+
 
 
 

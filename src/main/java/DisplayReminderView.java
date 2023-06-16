@@ -1,3 +1,5 @@
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,6 +47,32 @@ public class DisplayReminderView {
     @FXML
     private VBox displayVbox;
 
+    @FXML
+    private Button delete;
+
+    @FXML
+    private Button buttonDisplay;
+
+
+    private Reminder reminder;
+
+    @FXML
+    private Label reminderID;
+
+    public Label getReminderID(){
+        return reminderID;
+    }
+
+
+
+    public void notifyDelete(EventHandler<ActionEvent> eventHandler){
+        delete.setOnAction(eventHandler);
+    }
+
+    public void notifyButtonDisplay(EventHandler<ActionEvent> eventHandler){
+        buttonDisplay.setOnAction(eventHandler);
+    }
+
     public VBox getDisplayVbox() {
         return displayVbox;
     }
@@ -61,7 +89,12 @@ public class DisplayReminderView {
         this.buttonDisplay = buttonDisplay;
     }
 
-    @FXML
-    private Button buttonDisplay;
+    public Button getDeleteButton(){
+        return delete;
+    }
+
+    public void setID(int ID){
+        this.reminderID.setText(Integer.toString(ID));
+    }
 
 }

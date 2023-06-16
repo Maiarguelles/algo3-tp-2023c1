@@ -4,16 +4,12 @@ import java.util.ArrayList;
 
 public class Event extends Reminder{
 
-    protected boolean isRepeating;
     protected LocalDateTime endDate;
-    protected FrequencyStrategy frequencyStrategy;
 
 
 
     public Event(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay){
         super(title, description, completeDay, startDate);
-        isRepeating = false;
-        frequencyStrategy = null;
         if(completeDay && (endDate==(null))){
             LocalDate realDate = startDate.plusDays(1).toLocalDate();
             this.endDate = LocalDateTime.of(realDate, LocalTime.of(0,0)); // no es lo mas lindo pero bueno
@@ -22,6 +18,57 @@ public class Event extends Reminder{
         else
             this.endDate= endDate;
 
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o.getClass() != Event.class)
+            return false;
+
+        if(o == null)
+            return false;
+
+        if(this == o)
+            return false;
+
+        boolean isEqual = true;
+
+        if(!(this.title.equals(((Event) o).title)))
+            isEqual = false;
+        if(!(this.description.equals(((Event) o).description)))
+            isEqual = false;
+        if(!(this.completeDay == ((Event) o).completeDay))
+            isEqual = false;
+        if(!(this.startDate.equals(((Event) o).startDate)))
+            isEqual = false;
+        if(!(this.endDate.equals(((Event) o).endDate)))
+            isEqual = false;
+        if(!(this.alarms.equals(((Event) o).alarms)))
+            isEqual = false;
+
+        return isEqual;
+    }
+
+    @Override
+    public int hashCode(){
+        int x = 31;
+        if (completeDay){
+            x+=42;
+        }
+        int y = 1;
+        for (int i = 0; i<title.length(); i++){
+            y+= title.charAt(i);
+        }
+
+        int z = 0;
+        for (int i = 0; i<description.length(); i++){
+            z+= description.charAt(i);
+        }
+
+        int date1 = startDate.getMonthValue()*startDate.getDayOfMonth()*startDate.getYear();
+        int date2 = endDate.getMonthValue()+endDate.getDayOfMonth()*endDate.getYear();
+
+        return date1*x+date2*y+z;
     }
 
     public Event repeatReminder(LocalDateTime startDate){
@@ -49,9 +96,6 @@ public class Event extends Reminder{
         return this.endDate;
     }
 
-    public boolean isRepeating() {
-        return isRepeating;
-    }
 
 
     public void addFrequency(FrequencyStrategy frequencyStrategy){

@@ -2,11 +2,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ByDateEvent extends Event{
+    private FrequencyStrategy frequencyStrategy;
+
 
     private LocalDateTime expirationDate;
     public ByDateEvent(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay, LocalDateTime expirationDate){
         super(title, description, startDate, endDate, completeDay);
-        isRepeating = true;
         this.expirationDate = expirationDate;
     }
 

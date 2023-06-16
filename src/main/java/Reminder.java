@@ -49,6 +49,7 @@ public abstract class Reminder {
     }
 
     public void addAlarm(Alarm alarm){
+        alarm.setID(this.hashCode());
         this.alarms.add(alarm);
     }
 

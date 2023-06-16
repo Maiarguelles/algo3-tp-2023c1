@@ -55,6 +55,8 @@ public class AddReminderView implements Initializable {
 
     @FXML
     private MenuButton alarm;
+
+
     @FXML
     private TextField timeBefore;
 
@@ -159,16 +161,16 @@ public class AddReminderView implements Initializable {
         return hour2;
     }
 
-    public String getAlarm() {
-        return alarm.getText();
+    public MenuButton getAlarm() {
+        return alarm;
     }
 
-    public String getTimeBefore() {
-        return timeBefore.getText();
+    public TextField getTimeBefore() {
+        return timeBefore;
     }
 
-    public String getTimeFormat() {
-        return timeFormat.getText();
+    public MenuButton getTimeFormat() {
+        return timeFormat;
     }
 
     public void notifySavePress(EventHandler<ActionEvent> eventHandler){
@@ -182,6 +184,12 @@ public class AddReminderView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
 
+    }
+
+    public void handleTimeFormatItem(EventHandler<ActionEvent> eventHandler){
+        for(int i = 0; i < timeFormat.getItems().size();i++){
+            timeFormat.getItems().get(i).setOnAction(eventHandler);
+        }
     }
 
     public void handleMenuItems1(EventHandler<ActionEvent> eventHandler){
@@ -209,12 +217,23 @@ public class AddReminderView implements Initializable {
     }
 
 
+
+    
+
     public void handleRepetitionItem1(EventHandler<ActionEvent> eventHandler) {
         repetition.getItems().get(0).setOnAction(eventHandler);
     }
     public void handleRepetitionItem2(EventHandler<ActionEvent> eventHandler) {
         repetition.getItems().get(1).setOnAction(eventHandler);
     }
+
+    public void handleAlarmItem(EventHandler<ActionEvent> eventHandler){
+        for(int i = 0; i < alarm.getItems().size(); i++){
+            alarm.getItems().get(i).setOnAction(eventHandler);
+        }
+    }
+
+
 
         @FXML
     public void handleButtonAction() {

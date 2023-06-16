@@ -2,11 +2,8 @@ import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,7 +27,6 @@ public class AddReminderController{
 
 
 
-
     public void initialize(){
 
         view.notifySavePress(new EventHandler<ActionEvent>() {
@@ -45,12 +41,6 @@ public class AddReminderController{
                     else {
                         calendar.addReminder(reminder);
 
-                        try {
-
-                            System.out.println(calendar.writeCalendar(new StringWriter()));
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
                         view.closeStage();
                     }
 
@@ -58,12 +48,7 @@ public class AddReminderController{
                 else{
                     Reminder reminder = createTask();
                     calendar.addReminder(reminder);
-                    try {
 
-                        System.out.println(calendar.writeCalendar(new StringWriter()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
                     view.closeStage();
                 }
             }
@@ -83,6 +68,16 @@ public class AddReminderController{
 
             }
         });
+
+
+        view.handleAlarmItem(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                MenuItem item = (MenuItem) actionEvent.getSource();
+                view.getAlarm().setText(item.getText());
+             }
+        });
+
 
 
         view.handleMenuItems1(new EventHandler<ActionEvent>() {
@@ -125,6 +120,16 @@ public class AddReminderController{
             }
         });
 
+        view.handleTimeFormatItem(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                MenuItem item = (MenuItem) actionEvent.getSource();
+                view.getTimeFormat().setText(item.getText());
+            }
+        });
+
+
+
     }
 
 
@@ -160,7 +165,7 @@ public class AddReminderController{
     }
 
     private Boolean correctDate(LocalDateTime date1, LocalDateTime date2){
-        return date1.isBefore(date2);
+        return (date1.isBefore(date2) || date1.isEqual(date2));
     }
 
 
@@ -171,6 +176,7 @@ public class AddReminderController{
         LocalDate enddate = view.getDatePicker2().getValue();
         Boolean completeDay = view.getAllDay();
         String repetition = view.getRepetition().getText();
+        String alarm = view.getAlarm().getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate =null;
         if(!completeDay){
@@ -196,15 +202,46 @@ public class AddReminderController{
             event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
 
         }
-
-        //Event event = new Event(title, description, startDate, endDate, completeDay);
+        if(!alarm.equals("Ninguna"))
+            event.addAlarm(createAlarm(alarm));
         return event;
+    }
+
+    private Alarm createAlarm(String alarm ){
+        Alarm newAlarm = null;
+        Effect effect = null;
+        int timeBefore = Integer.parseInt(view.getTimeBefore().getText());
+        String format = view.getTimeFormat().getText();
+        LocalDateTime goOffTime = null;
+        LocalTime time = stringToLocalTime(view.getHour1().getText());
+        LocalDateTime eventDate = view.getDatePicker1().getValue().atTime(time);
+        if(format.equals("Minutos")){
+            goOffTime = view.getDatePicker1().getValue().atTime(time.minusMinutes(timeBefore));
+        }
+        if(format.equals("Horas")){
+            goOffTime = view.getDatePicker1().getValue().atTime(time.minusHours(timeBefore));
+        }
+        if(format.equals("Días")){
+            goOffTime = view.getDatePicker1().getValue().atTime(time).minusDays(timeBefore);
+        }
+        if(format.equals("Semanas")){
+            goOffTime = view.getDatePicker1().getValue().atTime(time).minusWeeks(timeBefore);
+        }
+        if(alarm.equals("Notificación"))
+            effect = new Notification();
+        else
+            effect = new Sound();
+
+        return newAlarm = new Alarm(goOffTime, effect, view.getDescription(), eventDate);
+
     }
 
     private Task createTask(){
         String title = view.getEventName().getText();
         String description = view.getDescription();
         Boolean completeDay = view.getAllDay();
+        String alarm = view.getAlarm().getText();
+
         LocalDate expirationdate = view.getDatePicker1().getValue();
         LocalDateTime expirationDate = null;
         if(!completeDay){
@@ -214,8 +251,10 @@ public class AddReminderController{
             expirationDate = expirationdate.atStartOfDay();
         }
 
-
         Task task = new Task(title,description,expirationDate,completeDay);
+
+        if(!alarm.equals("Ninguna"))
+            task.addAlarm(createAlarm(alarm));
         return task;
     }
 
