@@ -29,9 +29,9 @@
                   <DatePicker fx:id="datePicker" layoutX="15.0" layoutY="345.0" />
                </children>
             </Pane>
-            <Pane prefHeight="487.0" prefWidth="300.0">
+            <Pane prefHeight="505.0" prefWidth="338.0">
                <children>
-                  <ScrollPane prefHeight="505.0" prefWidth="298.0" style="-fx-background-color: ffffff;">
+                  <ScrollPane prefHeight="505.0" prefWidth="318.0" style="-fx-background-color: ffffff;">
                      <content>
                         <VBox fx:id="listOfReminders" fillWidth="false" prefWidth="279.0" style="-fx-background-color: ffffff;">
                            <effect>

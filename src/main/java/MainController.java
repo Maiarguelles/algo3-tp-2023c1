@@ -326,14 +326,14 @@ public class MainController{
             if(reminder.isCompleteDay())
                 displayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             else{
-                displayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT) + " - " +
-                        ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
+                displayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT) + "  -  " +
+                        ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             }
         } else if (reminder.getClass() == Task.class) {
             if(reminder.isCompleteDay())
                 displayReminderView.getReminderDate().setText(reminder.getStartDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy ").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             else {
-                displayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
+                displayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
             }
 
             displayReminderView.getCompleted().setSelected(((Task) reminder).isCompleted());
@@ -392,8 +392,8 @@ public class MainController{
                                 + "     " + ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
                         );
                     } else {
-                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
-                                + "     " + ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                                + "     " + ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
                         );
                     }
                     ((Pane) fullDisplayReminderView.getMainVbox().getChildren().get(0)).getChildren().remove(fullDisplayReminderView.getCompleted());
@@ -407,8 +407,8 @@ public class MainController{
                         );
                     }
                     else{
-                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
-                                + "     " + ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mm").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
+                                + "     " + ((Event) reminder).getEndDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT)
                         );
                     }
                     ((Pane)fullDisplayReminderView.getMainVbox().getChildren().get(0)).getChildren().remove(fullDisplayReminderView.getCompleted());
@@ -424,7 +424,7 @@ public class MainController{
 
                     }
                     else{
-                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
+                        fullDisplayReminderView.getReminderDate().setText(reminder.getStartDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mma").withLocale(new Locale("es"))).toUpperCase(Locale.ROOT));
                     }
                 }
 
