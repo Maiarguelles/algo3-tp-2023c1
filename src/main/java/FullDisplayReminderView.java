@@ -58,9 +58,9 @@ public class FullDisplayReminderView {
     private VBox mainVbox;
 
     public Scene setView(Stage stage, Parent root) {
-
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
         return scene;
     }

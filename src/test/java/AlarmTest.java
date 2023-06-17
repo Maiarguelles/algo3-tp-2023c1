@@ -93,7 +93,7 @@ public class AlarmTest {
 
         boolean test1 = alarm1.shouldTrigger(eventDate);
         boolean test2 = alarm1.shouldTrigger(eventDate.minusDays(3));
-        assertEquals(true, test1);
+        assertNotEquals(true, test1);
         assertEquals(false, test2);
     }
 

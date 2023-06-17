@@ -44,6 +44,9 @@ public class Calendar {
         return nextAlarm;
     }
 
+
+
+
     public ArrayList<Reminder> getListOfReminder(){
         return reminders.values().stream().collect(Collectors.toCollection(ArrayList::new));
     }

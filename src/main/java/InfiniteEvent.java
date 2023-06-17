@@ -78,7 +78,6 @@ public class InfiniteEvent extends Event{
     @Override
     public InfiniteEvent repeatReminder(LocalDateTime startDate){
         var eventDuration = this.getDuration();
-        //var eventRepetition = new Event(title, description, startDate, startDate.plusMinutes(eventDuration), isCompleteDay());
         var eventRepetition = new InfiniteEvent(title, description, isCompleteDay(), startDate, startDate.plusMinutes(eventDuration));
 
         eventRepetition.addFrequency(getFrequencyStrategy());

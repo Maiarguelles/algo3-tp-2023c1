@@ -61,11 +61,14 @@ public class App extends Application {
             public void handle(long tiempo){
                 var time = LocalDateTime.now();
                 hour.setText(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-                Alarm alarm = calendar.getNextAlarm(LocalDateTime.now());
+
+                Alarm alarm = calendar.getNextAlarm(time);
+
                 FXMLLoader notificationLoader = new FXMLLoader(getClass().getResource("/Fxml/Notification.fxml"));
 
                 Parent notificationRoot = null;
                 try {
+
                     notificationRoot = (Parent) notificationLoader.load();
                     NotificationView notificationView = notificationLoader.getController();
                     if(alarm!= null &&  alarm.shouldTrigger(time)){
@@ -79,6 +82,8 @@ public class App extends Application {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
+
             }
         };
         timer.start();

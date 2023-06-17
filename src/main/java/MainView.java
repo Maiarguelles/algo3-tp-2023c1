@@ -84,6 +84,7 @@ public class MainView {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         this.stage = stage;
+        stage.setResizable(false);
         stage.show();
         return scene;
     }

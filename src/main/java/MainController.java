@@ -373,7 +373,6 @@ public class MainController{
                 }
                 FullDisplayReminderView fullDisplayReminderView = fullDisplayReminderLoader.getController();
 
-
                 fullDisplayReminderView.setView(new Stage(), root);
 
                 Button reminderButton = (Button)actionEvent.getSource();
