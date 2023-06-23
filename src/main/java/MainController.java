@@ -30,6 +30,7 @@ public class MainController{
     private MainView mainView;
 
 
+    private String ruta;
     private StageState stageState;
 
     private LocalDateTime stateDate1;
@@ -64,6 +65,7 @@ public class MainController{
 
                 calendar.deleteReminder(Integer.parseInt(id.getText()));
                 mainView.getListOfReminders().getChildren().remove(pane);
+                calendar.updateNextAlarm(LocalDateTime.now());
                 updateDisplays();;
 
             }
@@ -305,7 +307,7 @@ public class MainController{
             throw new RuntimeException(e);
         }
         DisplayReminderView displayReminderView = displayReminderloader.getController();
-        displayReminderView.setID(reminder.hashCode());
+        displayReminderView.setID(reminder.getID());
         displayReminderView.getReminderName().setText(reminder.getTitle());
         displayReminderView.getReminderID().setText(Integer.toString(reminder.getID()));
 

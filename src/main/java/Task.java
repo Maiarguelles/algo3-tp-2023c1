@@ -9,6 +9,7 @@ public class Task extends Reminder{
     public Task(String title, String description, LocalDateTime startDate, boolean completeDay, boolean completed){
         super(title, description, completeDay, startDate);
         this.completed = completed;
+        this.isRepeating = false;
     }
 
     public boolean isCompleted(){

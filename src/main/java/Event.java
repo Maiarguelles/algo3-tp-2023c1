@@ -12,7 +12,7 @@ public class Event extends Reminder{
         isRepeating = repeating;
     }
 
-    protected boolean isRepeating;
+
 
     public Event(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay){
         super(title, description, completeDay, startDate);
@@ -56,36 +56,11 @@ public class Event extends Reminder{
         return isEqual;
     }
 
-    @Override
-    public int hashCode(){
-        int x = 31;
-        if (completeDay){
-            x+=42;
-        }
-        int y = 1;
-        for (int i = 0; i<title.length(); i++){
-            y+= title.charAt(i);
-        }
-
-        int z = 0;
-        for (int i = 0; i<description.length(); i++){
-            z+= description.charAt(i);
-        }
-
-        int date1 = startDate.getMonthValue()*startDate.getDayOfMonth()*startDate.getYear();
-        int date2 = endDate.getMonthValue()+endDate.getDayOfMonth()*endDate.getYear();
-
-        int i = 0;
-        if (isRepeating){
-            i=1;
-            return x*y+z+i;
-        }
-        return date1*x+date2*y+z+ i;
-    }
 
     public Event repeatReminder(LocalDateTime startDate){
         var eventDuration = this.getDuration();
         var eventRepetition = new Event(title, description, startDate, startDate.plusMinutes(eventDuration), isCompleteDay());
+        eventRepetition.setID(this.ID);
         for (Alarm alarm : alarms) {
             eventRepetition.addAlarm(alarm.cloneAlarm(startDate));
         }

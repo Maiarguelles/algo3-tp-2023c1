@@ -32,24 +32,59 @@ public class Calendar {
         return reminders.putIfAbsent(lastID, reminder) == null;
     }
 
+    public Alarm getAlarm(){
+        return this.nextAlarm;
+    }
 
     public void deleteReminder(int ID){
+
         reminders.remove(ID);
+        if(reminders.size() == 0) {
+            lastID = 0;
+            nextAlarm = null;
+        }
     }
 
 
-    public Alarm getNextAlarm(LocalDateTime actual){
+    private Alarm getNextAlarm(LocalDateTime actual){
         Alarm alarm;
-        Alarm nextAlarm = null;
+        Alarm nextAlarm = this.nextAlarm;
         for (Reminder reminder : reminders.values()){
+            if(reminder.isRepeating())
+                reminder = ((InfiniteEvent) reminder).getFirstRepetitionBetweenTwoDates(actual, actual.plusDays(((InfiniteEvent)reminder).getFrequency()));
+
             for (int j = 0; j < reminder.getAlarms().size(); j++) {
 
                 alarm = reminder.getAlarms().get(j);
-                if (nextAlarm == null ||(alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()) && alarm.getGoOffTime().isAfter(actual)))
+                if (isTheNewNextAlarm(actual, alarm, nextAlarm))
                     nextAlarm = alarm;
             }
         }
         return nextAlarm;
+    }
+
+    public void updateNextAlarm(LocalDateTime actual){
+        this.nextAlarm = getNextAlarm(actual);
+    }
+
+
+
+
+    private boolean isTheNewNextAlarm(LocalDateTime actual, Alarm alarm, Alarm nextAlarm){
+        if(nextAlarm == null){
+            return true;
+        }
+        if(alarm.getID() == nextAlarm.getID())
+            return false;
+
+        if((alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime())) && alarm.getGoOffTime().isAfter(actual)) {  //cuando creas una nueva que suena antes de la que ya estaba
+            return true;
+        }
+        if(nextAlarm.getGoOffTime().isBefore(actual))//ya sono
+            return true;
+
+
+        return false;
     }
 
 
@@ -75,6 +110,7 @@ public class Calendar {
         var reminder =  getReminder(ID);
 
         for (Alarm alarm : alarms) {
+
             reminder.addAlarm(alarm);
         }
 

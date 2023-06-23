@@ -41,9 +41,12 @@ public class App extends Application {
             else{
                 calendar = new Calendar();
             }
+            file.close();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            File newFile = new File(ruta);
+            newFile.createNewFile();
+            calendar = new Calendar();
         }
 
 
@@ -75,10 +78,12 @@ public class App extends Application {
                     NotificationView notificationView = notificationLoader.getController();
                     if(alarm!= null &&  alarm.shouldTrigger(time)){
                         notificationView.setView(new Stage(), notificationRoot);
+
                         Reminder reminder = calendar.getReminder(alarm.getID());
                         notificationView.getReminderName().setText(reminder.getTitle());
-                        notificationView.getDateReminder().setText(reminder.getStartDate().toLocalDate().toString());
-                        notificationView.getHourReminder().setText(reminder.getStartDate().toLocalTime().toString());
+                        notificationView.getDateReminder().setText(alarm.getGoOffTime().toLocalDate().toString());
+                        notificationView.getHourReminder().setText(alarm.getGoOffTime().toLocalTime().toString());
+                        calendar.updateNextAlarm(LocalDateTime.now());
 
                     }
                 } catch (IOException e) {

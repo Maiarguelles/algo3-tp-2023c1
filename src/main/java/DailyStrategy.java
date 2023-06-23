@@ -38,8 +38,11 @@ public class DailyStrategy implements FrequencyStrategy{
 
     @Override
     public LocalDateTime getFirstRepetitionWithinTwoDates(LocalDateTime date1, LocalDateTime date2, LocalDateTime startDate) {
-        if (startDate.isAfter(date2))
+        if (startDate.isAfter(date2)){
+
             return null;
+        }
+
 
         LocalDateTime firstRepetition = startDate;
         int i = 0;

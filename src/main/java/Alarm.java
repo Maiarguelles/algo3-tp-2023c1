@@ -15,7 +15,6 @@ public class Alarm {
         this.goOffTime = goOffTime;
         this.effect = effect;
         this.minBefore = calculateMinBefore(eventDate);
-
     }
 
     public int getID(){

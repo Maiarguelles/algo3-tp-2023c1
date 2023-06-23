@@ -25,23 +25,25 @@ public class AddReminderController{
                 String alarm = view.getAlarm().getText();
                 Reminder reminder = null;
                 if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
-                    Reminder reminder = createEvent();
-
+                    reminder = createEvent();
                     if (reminder == null){
                         view.getWarningValidDate().setText("Inserte una fecha y hora válidas");
                     }
                     else {
                         calendar.addReminder(reminder);
 
-                        view.closeStage();
                     }
-
                 }
                 else{
-                    Reminder reminder = createTask();
+                    reminder = createTask();
                     calendar.addReminder(reminder);
 
                 }
+                if(!alarm.equals("Ninguna") && reminder != null) {
+                    reminder.addAlarm(createAlarm(alarm));
+                    calendar.updateNextAlarm(LocalDateTime.now());
+                }
+                view.closeStage();
             }
         });
 
@@ -185,8 +187,7 @@ public class AddReminderController{
             event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
 
         }
-        if(!alarm.equals("Ninguna"))
-            event.addAlarm(createAlarm(alarm));
+
         return event;
     }
 
@@ -233,8 +234,7 @@ public class AddReminderController{
             expirationDate = expirationdate.atStartOfDay();
         }
         Task task = new Task(title,description,expirationDate,completeDay,false);
-        if(!alarm.equals("Ninguna"))
-            task.addAlarm(createAlarm(alarm));
+
         return task;
     }
 
@@ -260,12 +260,19 @@ public class AddReminderController{
 
         var substring = time.substring(0,2);
         if(time.charAt(5) == 'p'){
-            var substring = time.substring(0,2);
-            Integer a = Integer.parseInt(substring)+12;
+            substring = time.substring(0,2);
+            Integer a = Integer.parseInt(substring);
+            if(!substring.equals("12"))
+                 a +=12;
+
             parsed = a.toString() + time.substring(2,5);
         }
         else{
-            parsed = time.substring(0,5);
+            if(substring.equals("12")){
+                parsed = "00" + time.substring(2,5);
+            }
+            else
+                parsed = time.substring(0,5);
         }
 
         return LocalTime.parse(parsed);

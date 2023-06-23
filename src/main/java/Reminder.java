@@ -5,7 +5,7 @@ public abstract class Reminder {
     protected String title;
 
 
-
+    protected boolean isRepeating;
 
     protected int ID;
 
@@ -30,6 +30,17 @@ public abstract class Reminder {
 
     }
 
+    public void setID(int ID){
+        this.ID = ID;
+    }
+
+    public int getID(){
+        return this.ID;
+    }
+
+    public boolean isRepeating() {
+        return isRepeating;
+    }
     public String getTitle(){
         return this.title;
     }
@@ -51,7 +62,7 @@ public abstract class Reminder {
     }
 
     public void addAlarm(Alarm alarm){
-        alarm.setID(this.hashCode());
+        alarm.setID(this.ID);
         this.alarms.add(alarm);
     }
 
