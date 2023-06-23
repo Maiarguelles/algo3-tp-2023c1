@@ -23,14 +23,16 @@ public class App extends Application {
 
 
         //Cargamos las views
-        Parent eventDetailRoot = (Parent) eventDetailLoader.load();
-        Parent addReminderRoot = (Parent) addReminderLoader.load();
+        eventDetailLoader.load();
+        addReminderLoader.load();
         Parent mainRoot = (Parent) mainLoader.load();
+
+        String ruta = "Calendar.json";
 
 
         FileReader file = null;
         try {
-            file = new FileReader("Calendar.json");
+            file = new FileReader(ruta);
             var calendarReaded = Calendar.readCalendar(new BufferedReader(file));
             if (calendarReaded != null){
                 this.calendar = calendarReaded;
@@ -43,12 +45,12 @@ public class App extends Application {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        file.close();
+
 
 
         //Creamos el controlador principal
         MainView mainView = mainLoader.getController();
-        MainController controlador = new MainController(calendar, mainView);
+        MainController controlador = new MainController(calendar, mainView, ruta);
 
         mainView.setView(stage, mainRoot);
         controlador.initialize();
@@ -62,7 +64,7 @@ public class App extends Application {
                 var time = LocalDateTime.now();
                 hour.setText(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-                Alarm alarm = calendar.getNextAlarm(time);
+                Alarm alarm = calendar.getAlarm();
 
                 FXMLLoader notificationLoader = new FXMLLoader(getClass().getResource("/Fxml/Notification.fxml"));
 
@@ -87,7 +89,6 @@ public class App extends Application {
             }
         };
         timer.start();
-
     }
 
 

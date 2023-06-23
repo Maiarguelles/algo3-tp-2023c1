@@ -6,9 +6,7 @@ public class Event extends Reminder{
 
     protected LocalDateTime endDate;
 
-    public boolean isRepeating() {
-        return isRepeating;
-    }
+
 
     public void setRepeating(boolean repeating) {
         isRepeating = repeating;

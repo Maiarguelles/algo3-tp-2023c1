@@ -7,7 +7,8 @@ public abstract class Reminder {
 
 
 
-    //protected long ID;
+    protected int ID;
+
     protected String description;
 
     protected boolean completeDay;
@@ -26,6 +27,7 @@ public abstract class Reminder {
         this.completeDay = completeDay;
         this.alarms = new ArrayList<>();
         this.startDate = startDate;
+
     }
 
     public String getTitle(){

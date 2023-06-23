@@ -75,27 +75,6 @@ public class Task extends Reminder{
     }
 
 
-    @Override
-    public int hashCode(){
-        int x = 24;
-        if (completeDay){
-            x+=16;
-        }
-        int y = 3;
-        for (int i = 0; i<title.length(); i++){
-            y+= title.charAt(i);
-        }
-
-        int z = 9;
-        for (int i = 0; i<description.length(); i++){
-            z+= description.charAt(i);
-        }
-
-        int date1 = startDate.getMonthValue()*startDate.getDayOfMonth()*startDate.getYear();
-
-        return date1*x+y*z;
-    }
-
 
 
 }

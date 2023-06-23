@@ -18,7 +18,6 @@ public class InfiniteEvent extends Event{
         this.isRepeating = true;
     }
 
-
     @Override
     public boolean equals(Object o){
         if(o.getClass() != InfiniteEvent.class)
@@ -50,30 +49,13 @@ public class InfiniteEvent extends Event{
         return isEqual;
     }
 
-    @Override
-    public int hashCode(){
-        int x = 31;
-        if (completeDay){
-            x+=42;
-        }
-        int y = 1;
-        for (int i = 0; i<title.length(); i++){
-            y+= title.charAt(i);
-        }
+    public Event getFirstRepetitionBetweenTwoDates(LocalDateTime date1, LocalDateTime date2){
+        LocalDateTime date = this.frequencyStrategy.getFirstRepetitionWithinTwoDates(date1, date2, startDate);
 
-        int z = 0;
-        for (int i = 0; i<description.length(); i++){
-            z+= description.charAt(i);
-        }
 
-        int i = 0;
-        if (isRepeating){
-            i=1;
-        }
-
-        return x*y+z+i;
-
+        return repeatReminder(date);
     }
+
 
     @Override
     public InfiniteEvent repeatReminder(LocalDateTime startDate){
@@ -81,9 +63,12 @@ public class InfiniteEvent extends Event{
         var eventRepetition = new InfiniteEvent(title, description, isCompleteDay(), startDate, startDate.plusMinutes(eventDuration));
 
         eventRepetition.addFrequency(getFrequencyStrategy());
+        eventRepetition.setID(this.ID);
+
         for (Alarm alarm : alarms) {
             eventRepetition.addAlarm(alarm.cloneAlarm(startDate));
         }
+
         eventRepetition.setRepeating(true);
         return eventRepetition;
     }

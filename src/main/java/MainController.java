@@ -1,3 +1,4 @@
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -36,12 +37,13 @@ public class MainController{
     private LocalDateTime stateDate2;
 
 
-    public MainController(Calendar calendar, MainView mainview) {
+    public MainController(Calendar calendar, MainView mainview, String ruta) {
         this.calendar = calendar;
         this.mainView = mainview;
         this.stageState = StageState.DAILY;
         this.stateDate1 = LocalDate.now().atStartOfDay();
         this.stateDate2 = LocalDate.now().atTime(23, 59,59);
+        this.ruta = ruta;
     }
 
     public void initialize() {
@@ -305,7 +307,7 @@ public class MainController{
         DisplayReminderView displayReminderView = displayReminderloader.getController();
         displayReminderView.setID(reminder.hashCode());
         displayReminderView.getReminderName().setText(reminder.getTitle());
-        displayReminderView.getReminderID().setText(Integer.toString(reminder.hashCode()));
+        displayReminderView.getReminderID().setText(Integer.toString(reminder.getID()));
 
         displayReminderView.getCompleted().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -462,7 +464,7 @@ public class MainController{
         FileWriter file2 = null;
         try {
 
-            file2 = new FileWriter("Calendar.json");
+            file2 = new FileWriter(ruta);
             calendar.writeCalendar(file2);
             file2.close();
         } catch (Exception e) {

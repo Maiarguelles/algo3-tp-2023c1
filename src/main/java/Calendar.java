@@ -11,19 +11,26 @@ public class Calendar {
 
     private final HashMap<Integer, Reminder> reminders;
 
+    private int lastID;
+
+    private Alarm nextAlarm;
+
+
     public Calendar(){
         this.reminders = new HashMap<>();
+        lastID = 0;
+        this.nextAlarm = null;
     }
 
     public boolean addReminder(Reminder reminder){
-        if(reminder == null)
-            return false;
 
-        int key = reminder.hashCode();
-        return reminders.putIfAbsent(key, reminder) == null;
+        reminder.setID(lastID + 1);
+
+        this.lastID++;
+
+
+        return reminders.putIfAbsent(lastID, reminder) == null;
     }
-
-
 
 
     public void deleteReminder(int ID){
@@ -36,6 +43,7 @@ public class Calendar {
         Alarm nextAlarm = null;
         for (Reminder reminder : reminders.values()){
             for (int j = 0; j < reminder.getAlarms().size(); j++) {
+
                 alarm = reminder.getAlarms().get(j);
                 if (nextAlarm == null ||(alarm.getGoOffTime().isBefore(nextAlarm.getGoOffTime()) && alarm.getGoOffTime().isAfter(actual)))
                     nextAlarm = alarm;
@@ -43,7 +51,6 @@ public class Calendar {
         }
         return nextAlarm;
     }
-
 
 
 
@@ -56,7 +63,7 @@ public class Calendar {
     }
 
     public int getID(Reminder reminder){
-        return reminder.hashCode();
+        return reminder.getID();
     }
 
     public void addAlarmToExistentReminder(int ID, Alarm alarm){
@@ -135,6 +142,7 @@ public class Calendar {
         out.write(representationJson);
         return representationJson;
     }
+
 
     public static Calendar readCalendar(Reader reader) throws RuntimeException{
         var gsonBuilder = setBuilder();

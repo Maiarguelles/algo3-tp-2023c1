@@ -74,10 +74,6 @@ public class DailyStrategy implements FrequencyStrategy{
     }
 
 
-    @Override
-    public int hashCode(){
-        return frequency;
-    }
 
 
 }

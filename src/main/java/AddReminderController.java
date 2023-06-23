@@ -22,6 +22,8 @@ public class AddReminderController{
         view.notifySavePress(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                String alarm = view.getAlarm().getText();
+                Reminder reminder = null;
                 if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
                     Reminder reminder = createEvent();
 
@@ -39,7 +41,6 @@ public class AddReminderController{
                     Reminder reminder = createTask();
                     calendar.addReminder(reminder);
 
-                    view.closeStage();
                 }
             }
         });
@@ -159,7 +160,7 @@ public class AddReminderController{
         LocalDate enddate = view.getDatePicker2().getValue();
         Boolean completeDay = view.getAllDay();
         String repetition = view.getRepetition().getText();
-        String alarm = view.getAlarm().getText();
+
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
         if(!completeDay){
@@ -256,6 +257,8 @@ public class AddReminderController{
 
     private LocalTime stringToLocalTime(String time){
         String parsed = null;
+
+        var substring = time.substring(0,2);
         if(time.charAt(5) == 'p'){
             var substring = time.substring(0,2);
             Integer a = Integer.parseInt(substring)+12;
@@ -264,7 +267,9 @@ public class AddReminderController{
         else{
             parsed = time.substring(0,5);
         }
+
         return LocalTime.parse(parsed);
+
     }
 
 }
