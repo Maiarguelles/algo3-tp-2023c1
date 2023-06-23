@@ -27,6 +27,7 @@ public class AddReminderController{
                 if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
                     reminder = createEvent();
                     if (reminder == null){
+
                         view.getWarningValidDate().setText("Inserte una fecha y hora válidas");
                     }
                     else {
@@ -109,6 +110,15 @@ public class AddReminderController{
             }
         });
 
+
+        view.handleRepetitionItem3(new EventHandler<>(){
+            @Override
+            public void handle(ActionEvent actionEvent){
+                view.getRepetition().setText("No se repite");
+            }
+
+
+        });
         view.handleTimeFormatItem(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
