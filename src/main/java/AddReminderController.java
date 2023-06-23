@@ -25,6 +25,7 @@ public class AddReminderController{
                 String alarm = view.getAlarm().getText();
                 Reminder reminder = null;
                 if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
+
                     reminder = createEvent();
                     if (reminder == null){
 
@@ -32,19 +33,26 @@ public class AddReminderController{
                     }
                     else {
                         calendar.addReminder(reminder);
-
+                        if(!alarm.equals("Ninguna") && reminder != null) {
+                            reminder.addAlarm(createAlarm(alarm));
+                            calendar.updateNextAlarm(LocalDateTime.now());
+                        }
+                        view.closeStage();
                     }
                 }
                 else{
                     reminder = createTask();
                     calendar.addReminder(reminder);
+                    if(!alarm.equals("Ninguna") && reminder != null) {
+                        reminder.addAlarm(createAlarm(alarm));
+                        calendar.updateNextAlarm(LocalDateTime.now());
+                    }
+                    view.closeStage();
+                }
 
-                }
-                if(!alarm.equals("Ninguna") && reminder != null) {
-                    reminder.addAlarm(createAlarm(alarm));
-                    calendar.updateNextAlarm(LocalDateTime.now());
-                }
-                view.closeStage();
+
+
+
             }
         });
 
@@ -67,6 +75,21 @@ public class AddReminderController{
             public void handle(ActionEvent actionEvent) {
                 MenuItem item = (MenuItem) actionEvent.getSource();
                 view.getAlarm().setText(item.getText());
+                if(item.getText().equals("Ninguna")){
+                    view.getHboxAlarm().getChildren().remove(view.getTimeBefore());
+                    view.getHboxAlarm().getChildren().remove(view.getTimeFormat());
+                    view.getHboxAlarm().getChildren().remove(view.getAlarmText());
+
+                }
+                else{
+                    if(!view.getHboxAlarm().getChildren().contains(view.getTimeBefore())) {
+                        view.getHboxAlarm().getChildren().add(view.getTimeBefore());
+                        view.getHboxAlarm().getChildren().add(view.getTimeFormat());
+                        view.getHboxAlarm().getChildren().add(view.getAlarmText());
+                    }
+
+                }
+
              }
         });
 

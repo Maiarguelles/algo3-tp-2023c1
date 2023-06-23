@@ -82,6 +82,19 @@ public class AddReminderView implements Initializable {
     @FXML
     private HBox hboxRepetition;
 
+    public HBox getHboxAlarm() {
+        return hboxAlarm;
+    }
+
+    @FXML
+    private HBox hboxAlarm;
+
+    @FXML
+    private Text alarmText;
+
+    public Text getAlarmText(){
+        return alarmText;
+    }
 
 
     @FXML
@@ -107,6 +120,9 @@ public class AddReminderView implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);
+        hboxAlarm.getChildren().remove(timeBefore);
+        hboxAlarm.getChildren().remove(timeFormat);
+        hboxAlarm.getChildren().remove(alarmText);
         stage.show();
         this.stage = stage;
 
@@ -199,6 +215,8 @@ public class AddReminderView implements Initializable {
         }
     }
 
+
+
     public void initializeHourPickers(){
         hour1.setText("Elegir hora");
         hour2.setText("Elegir hora");
@@ -222,10 +240,14 @@ public class AddReminderView implements Initializable {
     
 
     public void handleRepetitionItem1(EventHandler<ActionEvent> eventHandler) {
-        repetition.getItems().get(0).setOnAction(eventHandler);
+        repetition.getItems().get(1).setOnAction(eventHandler);
     }
     public void handleRepetitionItem2(EventHandler<ActionEvent> eventHandler) {
-        repetition.getItems().get(1).setOnAction(eventHandler);
+        repetition.getItems().get(2).setOnAction(eventHandler);
+    }
+
+    public void handleRepetitionItem3(EventHandler<ActionEvent> eventHandler){
+        repetition.getItems().get(0).setOnAction(eventHandler);
     }
 
     public void handleAlarmItem(EventHandler<ActionEvent> eventHandler){
