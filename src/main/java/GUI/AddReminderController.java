@@ -235,7 +235,6 @@ public class AddReminderController{
                 view.getWarningValidDate().setText("Inserte un intervalo de repetición");
                 return null;
             }
-        } else{
             event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
 
         }
