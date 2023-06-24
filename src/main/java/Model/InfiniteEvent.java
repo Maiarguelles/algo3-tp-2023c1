@@ -80,6 +80,7 @@ public class InfiniteEvent extends Event{
         this.frequencyStrategy = frequencyStrategy;
     }
 
+
     @Override
     public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2){
         return frequencyStrategy.showDatesOfEvents(date1, date2, startDate);

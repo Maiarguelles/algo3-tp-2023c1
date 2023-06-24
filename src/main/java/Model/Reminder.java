@@ -4,19 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public abstract class Reminder {
+
     protected String title;
-
-
     protected boolean isRepeating;
-
     protected int ID;
-
     protected String description;
-
     protected boolean completeDay;
-
     protected final ArrayList<Alarm> alarms;
-
     protected LocalDateTime startDate;
 
 

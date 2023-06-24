@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
 public class Calendar {
 
     private final HashMap<Integer, Reminder> reminders;
-
     private int lastID;
-
     private Alarm nextAlarm;
 
 
@@ -26,15 +24,11 @@ public class Calendar {
     }
 
     public boolean addReminder(Reminder reminder){
-
         if (reminder == null){
             return false;
         }
         reminder.setID(lastID + 1);
-
         this.lastID++;
-
-
         return reminders.putIfAbsent(lastID, reminder) == null;
     }
 
@@ -43,14 +37,12 @@ public class Calendar {
     }
 
     public void deleteReminder(int ID){
-
         reminders.remove(ID);
         if(reminders.size() == 0) {
             lastID = 0;
             nextAlarm = null;
         }
     }
-
 
     private Alarm calculateNextAlarm(LocalDateTime actual){
         Alarm alarm;

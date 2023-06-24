@@ -5,9 +5,8 @@ import java.util.ArrayList;
 
 public class ByDateEvent extends Event{
     private FrequencyStrategy frequencyStrategy;
-
-
     private LocalDateTime expirationDate;
+
     public ByDateEvent(String title, String description, LocalDateTime startDate,LocalDateTime endDate, boolean completeDay, LocalDateTime expirationDate){
         super(title, description, startDate, endDate, completeDay);
         this.expirationDate = expirationDate;

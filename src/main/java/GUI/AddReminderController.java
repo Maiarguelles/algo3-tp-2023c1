@@ -31,6 +31,7 @@ public class AddReminderController{
 
                     reminder = createEvent();
 
+
                     if(reminder != null) {
 
                         if(!alarm.equals("Ninguna") && reminder != null) {
@@ -239,6 +240,9 @@ public class AddReminderController{
 
         }
 
+        else {
+            event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
+        }
         return event;
     }
 
