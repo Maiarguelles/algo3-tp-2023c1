@@ -29,11 +29,6 @@ public class NotificationView {
         return dateReminder;
     }
 
-
-
-
-
-
     public Scene setView(Stage stage, Parent root) {
         Scene scene = new Scene(root);
         stage.setScene(scene);

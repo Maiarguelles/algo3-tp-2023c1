@@ -30,17 +30,26 @@ public class AddReminderController{
                 if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
 
                     reminder = createEvent();
-                    if (reminder == null){
 
-                        view.getWarningValidDate().setText("Inserte una fecha y hora válidas");
-                    }
-                    else {
-                        calendar.addReminder(reminder);
+                    if(reminder != null) {
+
                         if(!alarm.equals("Ninguna") && reminder != null) {
-                            reminder.addAlarm(createAlarm(alarm));
-                            calendar.updateNextAlarm(LocalDateTime.now());
+                            Alarm newAlarm = createAlarm(alarm);
+                            if(newAlarm == null)
+                                view.getWarningValidDate().setText("Inserte una alarma válida");
+                            else{
+                                calendar.addReminder(reminder);
+                                reminder.addAlarm(newAlarm);
+                                calendar.updateNextAlarm(LocalDateTime.now());
+                                view.closeStage();
+                            }
+
                         }
-                        view.closeStage();
+                        else {
+                            calendar.addReminder(reminder);
+                            view.closeStage();
+                        }
+
                     }
                 }
                 else{
@@ -185,6 +194,9 @@ public class AddReminderController{
     }
 
     private Boolean correctDate(LocalDateTime date1, LocalDateTime date2){
+        if(view.getAllDay())
+            return (date1.toLocalDate().isBefore(date2.toLocalDate()) || date1.toLocalDate().isEqual(date2.toLocalDate()));
+
         return (date1.isBefore(date2) || date1.isEqual(date2));
     }
 
@@ -208,15 +220,22 @@ public class AddReminderController{
         }
 
         if(!correctDate(startDate, endDate)){
+            view.getWarningValidDate().setText("Inserte una fecha y hora válida" );
             return null;
         }
 
         Reminder event = null;
         if(repetition.equals("No se repite")) {
             event = new Event(title, description, startDate, endDate, completeDay);
-
         }
-        else{
+        else if (!repetition.equals("Todos los días")) {
+            HBox hbox = view.getHboxRepetition();
+            TextField textField = (TextField) hbox.getChildren().get(1);
+            if (textField.getText().equals("")){
+                view.getWarningValidDate().setText("Inserte un intervalo de repetición");
+                return null;
+            }
+        } else{
             event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
 
         }

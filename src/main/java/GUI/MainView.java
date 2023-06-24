@@ -18,11 +18,6 @@ public class MainView {
     private Button previous;
     @FXML
     private Button next;
-
-    public Button getDaily() {
-        return daily;
-    }
-
     @FXML
     private Button daily;
     @FXML
@@ -33,26 +28,22 @@ public class MainView {
     private MenuItem addEvent;
     @FXML
     private MenuItem addTask;
-
-    public DatePicker getDatePicker() {
-        return datePicker;
-    }
-
-    public void setDatePicker(DatePicker datePicker) {
-        this.datePicker = datePicker;
-    }
-
     @FXML
     private DatePicker datePicker;
     @FXML
     private Label date;
-
     @FXML
     private Label hour;
-
     @FXML
     private VBox listOfReminders;
 
+    public Button getDaily() {
+        return daily;
+    }
+
+    public DatePicker getDatePicker() {
+        return datePicker;
+    }
 
     public void setDisplayReminderList(){
         displayReminderList = new ArrayList<DisplayReminderView>();

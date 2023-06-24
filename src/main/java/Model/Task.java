@@ -43,6 +43,7 @@ public class Task extends Reminder{
         for (Alarm alarm : alarms) {
             taskRepetition.addAlarm(alarm.cloneAlarm(startDate));
         }
+        taskRepetition.setID(this.ID);
         return taskRepetition;
     }
 

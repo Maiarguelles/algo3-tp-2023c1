@@ -282,7 +282,7 @@
                                     <HBox fx:id="hboxRepetition" spacing="10.0" styleClass="intervaloRepeticion">
                                        <children>
                                           <Label text="Repetir cada:" />
-                                          <TextField maxHeight="25.0" maxWidth="0.0" minHeight="20.0" minWidth="35.0" prefHeight="17.0" />
+                                          <NumberTextField maxHeight="25.0" maxWidth="0.0" minHeight="20.0" minWidth="35.0" prefHeight="17.0" />
                                           <Label text="días" />
                                        </children>
                                     </HBox>
@@ -314,7 +314,7 @@
                                   <MenuItem mnemonicParsing="false" text="Notificación" />
                                 </items>
                               </MenuButton>
-                              <TextField fx:id="timeBefore" prefHeight="25.0" prefWidth="108.0" />
+                              <NumberTextField fx:id="timeBefore" prefHeight="25.0" prefWidth="108.0" />
                               <MenuButton fx:id="timeFormat" mnemonicParsing="false" text="Minutos">
                                 <items>
                                     <MenuItem mnemonicParsing="false" text="Minutos" />
