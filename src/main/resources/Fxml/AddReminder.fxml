@@ -9,9 +9,17 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import GUI.NumberTextField?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/AddReminderStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddReminderView">
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../Styles/AddReminderStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AddReminderView">
    <children>
+      <ImageView fitHeight="364.0" fitWidth="602.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="47.0">
+         <image>
+            <Image url="@../Images/pikachu.png" />
+         </image>
+      </ImageView>
       <TitledPane prefHeight="400.0" prefWidth="602.0">
          <content>
             <VBox prefHeight="72.0" prefWidth="600.0" styleClass="main" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

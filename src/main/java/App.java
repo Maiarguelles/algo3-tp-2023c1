@@ -1,3 +1,9 @@
+import GUI.MainController;
+import GUI.MainView;
+import GUI.NotificationView;
+import Model.Alarm;
+import Model.Calendar;
+import Model.Reminder;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,8 +13,8 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
 
 public class App extends Application {
 
@@ -17,7 +23,6 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         //Abrimos las views
         FXMLLoader eventDetailLoader =  new FXMLLoader(getClass().getResource("/Fxml/EventDetail.fxml"));
-        FXMLLoader replaceThingsLoader = new FXMLLoader(getClass().getResource("/Fxml/ReplaceThings.fxml"));
         FXMLLoader addReminderLoader = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/Fxml/Main.fxml"));
 
@@ -67,7 +72,7 @@ public class App extends Application {
                 var time = LocalDateTime.now();
                 hour.setText(time.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-                Alarm alarm = calendar.getAlarm();
+                Alarm alarm = calendar.getNextAlarm();
 
                 FXMLLoader notificationLoader = new FXMLLoader(getClass().getResource("/Fxml/Notification.fxml"));
 

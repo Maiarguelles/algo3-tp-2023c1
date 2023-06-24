@@ -1,4 +1,4 @@
-import org.junit.Assert;
+import Model.Event;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

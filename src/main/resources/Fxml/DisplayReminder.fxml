@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="316.0" style="-fx-border-style: solid; -fx-border-color: #9B9B9B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DisplayReminderView">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="316.0" style="-fx-border-style: solid; -fx-border-color: #9B9B9B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.DisplayReminderView">
    <children>
       <Button fx:id="buttonDisplay" layoutX="6.0" layoutY="4.0" mnemonicParsing="false" prefHeight="79.0" prefWidth="220.0" style="-fx-background-color: ffffff;" styleClass="mainButton">
          <graphic>

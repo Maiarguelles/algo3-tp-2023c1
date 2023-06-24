@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="550.0" prefWidth="701.0" stylesheets="@../Styles/Main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainView">
+<VBox prefHeight="550.0" prefWidth="701.0" stylesheets="@../Styles/Main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainView">
    <children>
       <AnchorPane styleClass="title">
          <children>
