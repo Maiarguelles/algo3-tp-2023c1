@@ -153,7 +153,7 @@
                               <Font size="22.0" />
                            </font>
                         </Text>
-                        <MenuButton fx:id="hour2" mnemonicParsing="false" onTouchPressed="#handleButtonAction" popupSide="TOP" styleClass="menu-button-custom" text="06:00pm">
+                        <MenuButton fx:id="hour2" mnemonicParsing="false" popupSide="TOP" styleClass="menu-button-custom" text="06:00pm">
                            <items>
                               <MenuItem mnemonicParsing="false" text="12:00am" />
                               <MenuItem mnemonicParsing="false" text="12:15am" />

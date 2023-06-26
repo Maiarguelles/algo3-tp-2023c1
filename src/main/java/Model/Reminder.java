@@ -94,5 +94,7 @@ public abstract class Reminder {
 
     abstract public ArrayList<LocalDateTime> showDatesOfReminder(LocalDateTime date1, LocalDateTime date2);
 
+    abstract public void accept(Visitor visitor);
+
 }
 

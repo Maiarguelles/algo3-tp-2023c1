@@ -1,5 +1,6 @@
 package GUI;
 
+import Model.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class NotificationView {
+public class NotificationView{
     @FXML
     private Label reminderName;
 

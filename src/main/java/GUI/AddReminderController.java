@@ -30,30 +30,7 @@ public class AddReminderController{
                 if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
 
                     reminder = createEvent();
-
-
-                    if(reminder != null) {
-
-                        if(!alarm.equals("Ninguna") && reminder != null) {
-                            Alarm newAlarm = createAlarm(alarm);
-                            if(newAlarm == null)
-                                view.getWarningValidDate().setText("Inserte una alarma válida");
-                            else{
-                                calendar.addReminder(reminder);
-                                reminder.addAlarm(newAlarm);
-                                calendar.updateNextAlarm(LocalDateTime.now());
-                                view.closeStage();
-                            }
-
-                        }
-                        else {
-                            calendar.addReminder(reminder);
-                            view.closeStage();
-                        }
-
-                    }
-                }
-                else{
+                else
                     reminder = createTask();
                     calendar.addReminder(reminder);
                     if(!alarm.equals("Ninguna") && reminder != null) {
@@ -70,7 +47,7 @@ public class AddReminderController{
         view.notifyAllDayCheckBox(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
+                if(view.getAllDayHbox().getChildren().contains(view.getRepetition())){
                     allDayCheckBoxEvent();
                 }
                 else{
@@ -85,23 +62,12 @@ public class AddReminderController{
             public void handle(ActionEvent actionEvent) {
                 MenuItem item = (MenuItem) actionEvent.getSource();
                 view.getAlarm().setText(item.getText());
-                if(item.getText().equals("Ninguna")){
-                    view.getHboxAlarm().getChildren().remove(view.getTimeBefore());
-                    view.getHboxAlarm().getChildren().remove(view.getTimeFormat());
-                    view.getHboxAlarm().getChildren().remove(view.getAlarmText());
-
-                }
-                else{
-                    if(!view.getHboxAlarm().getChildren().contains(view.getTimeBefore())) {
-                        view.getHboxAlarm().getChildren().add(view.getTimeBefore());
-                        view.getHboxAlarm().getChildren().add(view.getTimeFormat());
-                        view.getHboxAlarm().getChildren().add(view.getAlarmText());
-                    }
-
-                }
+                AlarmEnum alarmEnum = AlarmEnum.stringToEnum(item.getText());
+                alarmEnum.setAlarmHbox(view);
 
              }
         });
+
 
         view.handleMenuItems1(new EventHandler<ActionEvent>() {
             @Override
@@ -109,9 +75,9 @@ public class AddReminderController{
                 MenuItem item = (MenuItem) actionEvent.getSource();
                 view.getHour1().setText(item.getText());
 
-
             }
         });
+
 
         view.handleMenuItems2(new EventHandler<ActionEvent>() {
             @Override
@@ -121,6 +87,7 @@ public class AddReminderController{
 
             }
         });
+
 
         view.handleRepetitionItem1(new EventHandler<>(){
             @Override
@@ -202,8 +169,7 @@ public class AddReminderController{
     }
 
     private Reminder createEvent(){
-        String title = view.getEventName().getText();
-        String description = view.getDescription();
+
         LocalDate startdate = view.getDatePicker1().getValue();
         LocalDate enddate = view.getDatePicker2().getValue();
         Boolean completeDay = view.getAllDay();
@@ -219,7 +185,6 @@ public class AddReminderController{
             startDate = startdate.atStartOfDay();
             endDate =  enddate.atStartOfDay();
         }
-
         if(!correctDate(startDate, endDate)){
             view.getWarningValidDate().setText("Inserte una fecha y hora válida" );
             return null;
@@ -246,43 +211,6 @@ public class AddReminderController{
         return event;
     }
 
-    private Alarm createAlarm(String alarm ){
-        Alarm newAlarm = null;
-        Effect effect = null;
-
-        String text = view.getTimeBefore().getText();
-        if(text.equals("")){
-            return null;
-        }
-
-
-        int timeBefore = Integer.parseInt(text);
-
-        String format = view.getTimeFormat().getText();
-        LocalDateTime goOffTime = null;
-        LocalTime time = stringToLocalTime(view.getHour1().getText());
-        LocalDateTime eventDate = view.getDatePicker1().getValue().atTime(time);
-        if(format.equals("Minutos")){
-            goOffTime = view.getDatePicker1().getValue().atTime(time.minusMinutes(timeBefore));
-        }
-        if(format.equals("Horas")){
-            goOffTime = view.getDatePicker1().getValue().atTime(time.minusHours(timeBefore));
-        }
-        if(format.equals("Días")){
-            goOffTime = view.getDatePicker1().getValue().atTime(time).minusDays(timeBefore);
-        }
-        if(format.equals("Semanas")){
-            goOffTime = view.getDatePicker1().getValue().atTime(time).minusWeeks(timeBefore);
-        }
-        if(alarm.equals("Notificación"))
-            effect = new Notification();
-        else
-            effect = new Sound();
-
-        return newAlarm = new Alarm(goOffTime, effect, view.getDescription(), eventDate);
-    }
-
-
     private Task createTask(){
         String title = view.getEventName().getText();
         String description = view.getDescription();
@@ -301,24 +229,7 @@ public class AddReminderController{
         return task;
     }
 
-
-    private Event createEventWithRepetition(String repetition, String title, String description, LocalDateTime startDate, LocalDateTime endDate, boolean allDay){
-        DailyStrategy frequencyStrategy = null;
-        if(repetition.equals("Todos los días")){
-            frequencyStrategy = new DailyStrategy(1);
-        }
-        else{
-            TextField textField = (TextField) view.getHboxRepetition().getChildren().get(1);
-            int interval =Integer.parseInt(textField.getText());
-            frequencyStrategy = new DailyStrategy(interval);
-        }
-        InfiniteEvent event = new InfiniteEvent(title, description, allDay, startDate, endDate);
-        event.addFrequency(frequencyStrategy);
-        return  event;
-    }
-
-
-    private LocalTime stringToLocalTime(String time){
+    private static LocalTime stringToLocalTime(String time){
         String parsed = null;
 
         var substring = time.substring(0,2);
@@ -342,4 +253,206 @@ public class AddReminderController{
 
     }
 
+    private enum AlarmEnum{
+        NONE("Ninguna"){
+            @Override
+            public void setAlarmHbox(AddReminderView view){
+                view.getHboxAlarm().getChildren().remove(view.getTimeBefore());
+                view.getHboxAlarm().getChildren().remove(view.getTimeFormat());
+                view.getHboxAlarm().getChildren().remove(view.getAlarmText());
+            }
+
+            @Override
+            public boolean addAlarmToReminder(AddReminderView view, Reminder reminder){
+                return true;
+            }
+        },
+        NOTIFICATION("Notificación"){
+            @Override
+            public void setAlarmHbox(AddReminderView view){
+                if(!view.getHboxAlarm().getChildren().contains(view.getTimeBefore())) {
+                    view.getHboxAlarm().getChildren().add(view.getTimeBefore());
+                    view.getHboxAlarm().getChildren().add(view.getTimeFormat());
+                    view.getHboxAlarm().getChildren().add(view.getAlarmText());
+                }
+            }
+            @Override
+            public boolean addAlarmToReminder(AddReminderView view, Reminder reminder) {
+                Alarm alarm = createAlarm(view);
+                if (alarm == null){
+                    view.getWarningValidDate().setText("Inserte una alarma válida");
+                    return false;
+                }
+                else {
+                    alarm.setEffect(new Notification());
+                    reminder.addAlarm(alarm);
+                    return true;
+                }
+
+            }
+        };
+
+        protected Alarm createAlarm(AddReminderView view){
+            Alarm newAlarm = null;
+            Effect effect = null;
+
+            String text = view.getTimeBefore().getText();
+            if(text.equals("")){
+                return null;
+            }
+
+            int timeBefore = Integer.parseInt(text);
+
+            String format = view.getTimeFormat().getText();
+            LocalDateTime goOffTime = null;
+            LocalTime time = stringToLocalTime(view.getHour1().getText());
+            LocalDateTime eventDate = view.getDatePicker1().getValue().atTime(time);
+
+            TimeFormat timeFormat = TimeFormat.stringToEnum(format);
+            if (timeFormat == null){
+                return  null;
+            }
+            goOffTime = timeFormat.getDateFromDatePicker(view, time, timeBefore);
+
+
+            return newAlarm = new Alarm(goOffTime, effect, view.getDescription(), eventDate);
+        }
+        private String type;
+
+        AlarmEnum(String string){
+            this.type = string;
+        }
+
+        private String getType(){
+            return type;
+        }
+        public abstract void setAlarmHbox(AddReminderView view);
+
+        public abstract boolean addAlarmToReminder(AddReminderView view, Reminder reminder);
+
+        public static AlarmEnum stringToEnum(String string){
+            for (AlarmEnum alarmEnum: AlarmEnum.values()) {
+                if (alarmEnum.getType().equals(string)){
+                    return alarmEnum;
+                }
+            }
+            return null;
+        }
+
+    }
+
+
+    private enum RepetitionEnum{
+        NOREPETITION("No se repite"){
+            @Override
+            Event eventConstructor(AddReminderView view, LocalDateTime startDate, LocalDateTime endDate){
+                return new Event(view.getEventName().getText(), view.getDescription(), startDate,endDate, view.getAllDay());
+            }
+            
+        },
+        EVERYDAYREPETITION("Todos los días"){
+            @Override
+            Event eventConstructor(AddReminderView view, LocalDateTime startDate, LocalDateTime endDate) {
+                TextField textField = (TextField) view.getHboxRepetition().getChildren().get(1);
+
+                DailyStrategy frequencyStrategy = new DailyStrategy(1);;
+                InfiniteEvent event = new InfiniteEvent(view.getEventName().getText(), view.getDescription(), view.getAllDay(),startDate, endDate);
+                event.addFrequency(frequencyStrategy);
+                return event;
+            }
+        },
+        INTERVALREPETITION("Repetir cada:"){
+            @Override
+            Event eventConstructor(AddReminderView view, LocalDateTime startDate, LocalDateTime endDate){
+                HBox hbox = view.getHboxRepetition();
+                TextField textField = (TextField) hbox.getChildren().get(1);
+                if (textField.getText().equals("")){
+                    view.getWarningValidDate().setText("Inserte un intervalo de repetición");
+                    return null;
+                }
+
+                DailyStrategy frequencyStrategy = null;
+                
+                TextField textField1 = (TextField) view.getHboxRepetition().getChildren().get(1);
+                int interval =Integer.parseInt(textField1.getText());
+                frequencyStrategy = new DailyStrategy(interval);
+                
+                InfiniteEvent event = new InfiniteEvent(view.getEventName().getText(), view.getDescription(), view.getAllDay(), startDate, endDate);
+                event.addFrequency(frequencyStrategy);
+                return  event;
+
+            }
+        };
+        private String type;
+
+        RepetitionEnum(String string){
+            this.type = string;
+        }
+
+        private String getRepetition(){
+            return type;
+        }
+
+        public static RepetitionEnum stringToEnum(String string){
+            for (RepetitionEnum repetition: RepetitionEnum.values()) {
+                if (string.contains(repetition.getRepetition())){
+                    return repetition;
+                }
+            }
+            return null;
+        }
+        
+        abstract Event eventConstructor(AddReminderView view, LocalDateTime starDate, LocalDateTime endDate);
+
+    }
+
+
+    private enum TimeFormat{
+        MINUTES("Minutos"){
+            @Override
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
+                return view.getDatePicker1().getValue().atTime(time.minusMinutes(timeBefore));
+            }
+        },
+        HOURS("Horas"){
+            @Override
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
+                return view.getDatePicker1().getValue().atTime(time.minusHours(timeBefore));
+            }
+        },
+        DAYS("Días"){
+            @Override
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
+                return view.getDatePicker1().getValue().atTime(time).minusDays(timeBefore);
+            }
+        },
+        SEMANAS("Semanas"){
+            @Override
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
+                return view.getDatePicker1().getValue().atTime(time).minusWeeks(timeBefore);
+            }
+        };
+
+        private String format;
+
+        TimeFormat(String string){
+            this.format = string;
+        }
+
+        private String getFormat(){
+            return format;
+        }
+
+        abstract LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore);
+
+        public static TimeFormat stringToEnum(String string){
+            for (TimeFormat timeFormat: TimeFormat.values()) {
+                if (timeFormat.getFormat().equals(string)){
+                    return timeFormat;
+                }
+            }
+            return null;
+        }
+
+    }
 }

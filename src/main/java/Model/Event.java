@@ -133,5 +133,8 @@ public class Event extends Reminder{
         return dates;
     }
 
-
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitEvent(this);
+    }
 }

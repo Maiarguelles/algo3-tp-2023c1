@@ -9,7 +9,7 @@ public class Alarm {
     private final LocalDateTime goOffTime;
     private final int minBefore;
     private int ID;
-    private final Effect effect;
+    private Effect effect;
 
     //PRE: goOffTime es anterior a eventDate
     public Alarm(LocalDateTime goOffTime, Effect effect, String description, LocalDateTime eventDate){
@@ -25,6 +25,10 @@ public class Alarm {
 
     public void setID(int ID){
         this.ID = ID;
+    }
+
+    public void setEffect(Effect effect){
+        this.effect = effect;
     }
 
     public Alarm(int minBefore, Effect effect, String description, LocalDateTime eventDate){

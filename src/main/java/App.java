@@ -20,7 +20,7 @@ public class App extends Application {
 
     public static Calendar calendar;
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws IOException {
         //Abrimos las views
         FXMLLoader eventDetailLoader =  new FXMLLoader(getClass().getResource("/Fxml/EventDetail.fxml"));
         FXMLLoader addReminderLoader = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
@@ -48,12 +48,17 @@ public class App extends Application {
             }
             file.close();
 
-        } catch (IOException e) {
-            File newFile = new File(ruta);
-            newFile.createNewFile();
+        }
+        catch (FileNotFoundException e){
+            FileWriter fileWriter = new FileWriter(ruta);
             calendar = new Calendar();
+            calendar.writeCalendar(fileWriter);
+            fileWriter.close();
         }
 
+        catch (IOException e) {
+            throw new IOException("No se pudo leer el archivo, revise el estado del mismo.");
+        }
 
 
         //Creamos el controlador principal
@@ -78,23 +83,20 @@ public class App extends Application {
 
                 Parent notificationRoot = null;
                 try {
-
                     notificationRoot = (Parent) notificationLoader.load();
-                    NotificationView notificationView = notificationLoader.getController();
-                    if(alarm!= null &&  alarm.shouldTrigger(time)){
-                        notificationView.setView(new Stage(), notificationRoot);
-
-                        Reminder reminder = calendar.getReminder(alarm.getID());
-                        notificationView.getReminderName().setText(reminder.getTitle());
-                        notificationView.getDateReminder().setText(alarm.getGoOffTime().toLocalDate().toString());
-                        notificationView.getHourReminder().setText(alarm.getGoOffTime().toLocalTime().toString());
-                        calendar.updateNextAlarm(LocalDateTime.now());
-
-                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                NotificationView notificationView = notificationLoader.getController();
+                if(alarm != null  &&  alarm.shouldTrigger(time) && notificationView != null){
+                    notificationView.setView(new Stage(), notificationRoot);
+                    Reminder reminder = calendar.getReminder(alarm.getID());
+                    notificationView.getReminderName().setText(reminder.getTitle());
+                    notificationView.getDateReminder().setText(alarm.getGoOffTime().toLocalDate().toString());
+                    notificationView.getHourReminder().setText(alarm.getGoOffTime().toLocalTime().toString());
+                    calendar.updateNextAlarm(LocalDateTime.now());
 
+                }
 
             }
         };

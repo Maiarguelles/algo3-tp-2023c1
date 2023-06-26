@@ -86,4 +86,8 @@ public class InfiniteEvent extends Event{
         return frequencyStrategy.showDatesOfEvents(date1, date2, startDate);
     }
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitInfiniteEvent(this);
+    }
 }

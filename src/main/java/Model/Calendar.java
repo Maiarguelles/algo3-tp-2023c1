@@ -2,6 +2,8 @@ package Model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.time.LocalDateTime;
@@ -169,7 +171,7 @@ public class Calendar {
         return toReturn;
     }
 
-    public String writeCalendar(Writer out) throws Exception{
+    public String writeCalendar(Writer out) throws IOException {
         var gsonBuilder = setBuilder();
         Gson gson = gsonBuilder.setPrettyPrinting().create();
         final String representationJson = gson.toJson(this);
