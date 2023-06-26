@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class FullDisplayReminderView {
+public class FullDisplayReminderView extends ViewVisitor{
 
     @FXML
     private Label reminderName;
@@ -36,7 +36,6 @@ public class FullDisplayReminderView {
         stage.setScene(scene);
         stage.setResizable(false);
         completed.setDisable(true);
-        
         stage.show();
         return scene;
     }

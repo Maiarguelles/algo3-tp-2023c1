@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,19 +28,21 @@ public class AddReminderController{
             public void handle(ActionEvent actionEvent) {
                 String alarm = view.getAlarm().getText();
                 Reminder reminder = null;
-                if(view.getEventName().getPromptText().equals("Inserte nombre del evento")){
-
+                if(view.getAllDayHbox().getChildren().contains(view.getRepetition()))
                     reminder = createEvent();
                 else
                     reminder = createTask();
-                    calendar.addReminder(reminder);
-                    if(!alarm.equals("Ninguna") && reminder != null) {
-                        reminder.addAlarm(createAlarm(alarm));
-                        calendar.updateNextAlarm(LocalDateTime.now());
-                    }
-                    view.closeStage();
-                }
 
+
+                AlarmEnum alarmEnum = AlarmEnum.stringToEnum(alarm);
+                if(reminder != null && alarmEnum != null){
+
+                    if(alarmEnum.addAlarmToReminder(view, reminder)){
+                        calendar.addReminder(reminder);
+                        calendar.updateNextAlarm(LocalDateTime.now());
+                        view.closeStage();
+                    }
+                }
             }
         });
 
@@ -186,29 +189,15 @@ public class AddReminderController{
             endDate =  enddate.atStartOfDay();
         }
         if(!correctDate(startDate, endDate)){
-            view.getWarningValidDate().setText("Inserte una fecha y hora válida" );
+            view.getWarningValidDate().setText("Inserte una fecha y hora válida");
             return null;
         }
 
         Reminder event = null;
-        if(repetition.equals("No se repite")) {
-            event = new Event(title, description, startDate, endDate, completeDay);
-        }
-        else if (!repetition.equals("Todos los días")) {
-            HBox hbox = view.getHboxRepetition();
-            TextField textField = (TextField) hbox.getChildren().get(1);
-            if (textField.getText().equals("")){
-                view.getWarningValidDate().setText("Inserte un intervalo de repetición");
-                return null;
-            }
-            event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
+        RepetitionEnum repetitionEnum = RepetitionEnum.stringToEnum(repetition);
 
-        }
 
-        else {
-            event = createEventWithRepetition(repetition, title, description, startDate, endDate, completeDay);
-        }
-        return event;
+        return repetitionEnum.eventConstructor(view, startDate, endDate);
     }
 
     private Task createTask(){

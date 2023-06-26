@@ -77,7 +77,10 @@ public class Task extends Reminder{
         return isEqual;
     }
 
-
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitTask(this);
+    }
 
 
 }

@@ -309,7 +309,7 @@ public class MainController{
                 CheckBox checkbox = (CheckBox) actionEvent.getSource();
                 boolean state = checkbox.isSelected();
                 Pane pane = (Pane) checkbox.getParent();
-                Pane pane2 = (Pane) ((Button)pane.getChildren().get(0)).getChildrenUnmodifiable().get(0);
+                Pane pane2 = (Pane) ((Button) pane.getChildren().get(0)).getChildrenUnmodifiable().get(0);
                 Label id = (Label) pane2.getChildren().get(2);
                 Task task = (Task) calendar.getReminder(Integer.parseInt(id.getText()));
 
@@ -336,7 +336,6 @@ public class MainController{
 
             }
         });
-
 
 
         displayReminderView.getButtonDisplay().setOnAction(new EventHandler<ActionEvent>() {
@@ -369,7 +368,7 @@ public class MainController{
 
                 for(int i = 0; i < alarms.size(); i++) {
                     Label alarm = new Label();
-                    alarm.setText("Alarma a las:" + alarms.get(i).getGoOffTime().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mm")));
+                    alarm.setText("Alarma a las:" + alarms.get(i).getGoOffTime().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy  hh:mma")));
                     fullDisplayReminderView.getAlarmVbox().getChildren().add(alarm);
                 }
 

@@ -1,5 +1,8 @@
 package GUI;
 
+import Model.InfiniteEvent;
+import Model.Task;
+import Model.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -7,8 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.CheckBox;
 
 
-
-public class DisplayReminderView {
+public class DisplayReminderView extends ViewVisitor{
 
     @FXML
     private Pane mainPane;
@@ -49,5 +51,37 @@ public class DisplayReminderView {
     }
     public CheckBox getCompleted() {
         return completed;
+    }
+
+
+    public void visitEvent(Event event){
+        mainPane.getChildren().remove(completed);
+        if(event.isCompleteDay())
+            setLabelDateWithFormat(reminderDate, "dd-MMM-yyyy", event.getStartDate());
+
+        else{
+            setLabelDateWithFormat(reminderDate,"dd-MMM-yyyy hh:mma" ,"dd-MMM-yyyy hh:mma", "  -  ", event.getStartDate(), event.getEndDate());
+        }
+    }
+
+    public void visitInfiniteEvent(InfiniteEvent event){
+        mainPane.getChildren().remove(completed);
+        if(event.isCompleteDay())
+            setLabelDateWithFormat(reminderDate, "dd-MMM-yyyy", event.getStartDate());
+
+        else{
+            setLabelDateWithFormat(reminderDate,"dd-MMM-yyyy hh:mma" ,"dd-MMM-yyyy hh:mma", "  -  ", event.getStartDate(), event.getEndDate());
+        }
+    }
+
+
+    public void visitTask(Task task){
+        if(task.isCompleteDay())
+            setLabelDateWithFormat(reminderDate, "dd-MMM-yyyy", task.getStartDate());
+        else {
+            setLabelDateWithFormat(reminderDate, "dd-MMM-yyyy hh:mma", task.getStartDate());
+
+        }
+        completed.setSelected(task.isCompleted());
     }
 }

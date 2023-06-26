@@ -30,8 +30,15 @@ public class Calendar {
             return false;
         }
         reminder.setID(lastID + 1);
+        setAlarmIDs(reminder.getAlarms(), lastID+1);
         this.lastID++;
         return reminders.putIfAbsent(lastID, reminder) == null;
+    }
+
+    private void setAlarmIDs(ArrayList<Alarm> alarms, int ID){
+        for (Alarm alarm: alarms) {
+            alarm.setID(ID);
+        }
     }
 
     public Alarm getNextAlarm(){

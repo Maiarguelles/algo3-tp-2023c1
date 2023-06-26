@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class AddReminderView implements Initializable {
+public class AddReminderView {
 
     private Stage stage;
 

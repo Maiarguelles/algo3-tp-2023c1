@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import java.util.ArrayList;
 
-public class MainView {
+public class MainView{
 
     @FXML
     private Button previous;
