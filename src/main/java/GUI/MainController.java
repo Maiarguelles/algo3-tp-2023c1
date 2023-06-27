@@ -63,7 +63,7 @@ public class MainController{
                 calendar.deleteReminder(Integer.parseInt(id.getText()));
                 mainView.getListOfReminders().getChildren().remove(pane);
                 calendar.updateNextAlarm(LocalDateTime.now());
-
+                updateDisplays();
             }
         });
 
@@ -331,7 +331,7 @@ public class MainController{
 
                 calendar.deleteReminder(Integer.parseInt(id.getText()));
                 mainView.getListOfReminders().getChildren().remove(pane);
-
+                updateDisplays();
             }
         });
 
