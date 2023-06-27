@@ -60,6 +60,7 @@ public class AddReminderController{
             }
         });
 
+
         view.handleAlarmItem(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -99,8 +100,8 @@ public class AddReminderController{
                 view.getRepetition().setText(label.getText());
             }
 
-
         });
+
 
         view.handleRepetitionItem2(new EventHandler<ActionEvent>() {
             @Override
@@ -120,8 +121,9 @@ public class AddReminderController{
                 view.getRepetition().setText("No se repite");
             }
 
-
         });
+
+
         view.handleTimeFormatItem(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

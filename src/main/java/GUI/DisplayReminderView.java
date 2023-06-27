@@ -46,14 +46,11 @@ public class DisplayReminderView extends ViewVisitor{
     public Label getReminderName() {
         return reminderName;
     }
-    public Label getReminderDate() {
-        return reminderDate;
-    }
     public CheckBox getCompleted() {
         return completed;
     }
 
-
+    @Override
     public void visitEvent(Event event){
         mainPane.getChildren().remove(completed);
         if(event.isCompleteDay())
@@ -64,6 +61,7 @@ public class DisplayReminderView extends ViewVisitor{
         }
     }
 
+    @Override
     public void visitInfiniteEvent(InfiniteEvent event){
         mainPane.getChildren().remove(completed);
         if(event.isCompleteDay())
@@ -74,7 +72,7 @@ public class DisplayReminderView extends ViewVisitor{
         }
     }
 
-
+    @Override
     public void visitTask(Task task){
         if(task.isCompleteDay())
             setLabelDateWithFormat(reminderDate, "dd-MMM-yyyy", task.getStartDate());
@@ -83,5 +81,6 @@ public class DisplayReminderView extends ViewVisitor{
 
         }
         completed.setSelected(task.isCompleted());
+
     }
 }

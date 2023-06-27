@@ -218,7 +218,6 @@ public class AddReminderView {
         }
     }
 
-
     public javafx.scene.text.Text getA(){
         return a;
     }

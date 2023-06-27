@@ -29,7 +29,11 @@ public class FullDisplayReminderView extends ViewVisitor{
     @FXML
     private VBox mainVbox;
 
+    boolean isCompleted;
 
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
 
     public Scene setView(Stage stage, Parent root) {
         Scene scene = new Scene(root);
@@ -44,27 +48,9 @@ public class FullDisplayReminderView extends ViewVisitor{
     public Label getReminderName() {
         return reminderName;
     }
-
-    public VBox getMainVbox() {
-        return mainVbox;
-    }
-
-    public CheckBox getCompleted() {
-        return completed;
-    }
-
-    public Label getReminderDate() {
-        return reminderDate;
-    }
-
-    public Label getReminderRepetition() {
-        return reminderRepetition;
-    }
-
     public Label getReminderDescription() {
         return reminderDescription;
     }
-
     public VBox getAlarmVbox() {
         return alarmVbox;
     }
@@ -83,9 +69,10 @@ public class FullDisplayReminderView extends ViewVisitor{
         reminderRepetition.setText("");
     }
 
+
     @Override
     public void visitTask(Task task) {
-        completed.setSelected(task.isCompleted());
+        completed.setSelected(isCompleted);
         reminderRepetition.setText("");
         if(task.isCompleteDay()){
             setLabelDateWithFormat(reminderDate, "dd-MMM-yyyy", task.getStartDate());

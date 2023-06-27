@@ -60,7 +60,6 @@ public class App extends Application {
             throw new IOException("No se pudo leer el archivo, revise el estado del mismo.");
         }
 
-
         //Creamos el controlador principal
         MainView mainView = mainLoader.getController();
         MainController controlador = new MainController(calendar, mainView, ruta);

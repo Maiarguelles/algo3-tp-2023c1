@@ -25,6 +25,7 @@ import Model.*;
 
 public class MainController{
 
+
     private Calendar calendar;
     private MainView mainView;
     private String ruta;
@@ -62,7 +63,6 @@ public class MainController{
                 calendar.deleteReminder(Integer.parseInt(id.getText()));
                 mainView.getListOfReminders().getChildren().remove(pane);
                 calendar.updateNextAlarm(LocalDateTime.now());
-                updateDisplays();;
 
             }
         });
@@ -270,8 +270,8 @@ public class MainController{
 
         }
         else{
-            stateDate1 = stateDate1.minusMonths(2);
-            stateDate2 = stateDate2.minusMonths(1);
+            stateDate1 = stateDate1.minusMonths(1);
+            stateDate2 = stateDate2.minusMonths(2);
             ViewVisitor.setLabelDateWithFormat(mainView.getDateLabel(), "MMM-yyyy", stateDate1);
         }
     }
@@ -279,7 +279,6 @@ public class MainController{
     public void updateDisplays(){
         displayReminderBetweenTwoDates(stateDate1, stateDate2);
     }
-
 
     public void displayReminderBetweenTwoDates(LocalDateTime date1, LocalDateTime date2) {
         mainView.getListOfReminders().getChildren().clear();
@@ -332,7 +331,6 @@ public class MainController{
 
                 calendar.deleteReminder(Integer.parseInt(id.getText()));
                 mainView.getListOfReminders().getChildren().remove(pane);
-                updateDisplays();
 
             }
         });
@@ -351,7 +349,7 @@ public class MainController{
                 FullDisplayReminderView fullDisplayReminderView = fullDisplayReminderLoader.getController();
 
                 fullDisplayReminderView.setView(new Stage(), root);
-
+                fullDisplayReminderView.setCompleted(displayReminderView.getCompleted().isSelected());
                 Button reminderButton = (Button)actionEvent.getSource();
 
                 Pane pane = (Pane)reminderButton.getChildrenUnmodifiable().get(0);
@@ -404,9 +402,6 @@ public class MainController{
             throw new RuntimeException(e);
         }
     }
-
-
-
 
 
 }
