@@ -1,3 +1,4 @@
+import Model.YearlyStrategy;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
