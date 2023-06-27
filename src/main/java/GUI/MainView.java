@@ -82,7 +82,6 @@ public class MainView{
         return scene;
     }
 
-
     public void notifySelectNewEvent(EventHandler<ActionEvent> eventHandler){
         addEvent.setOnAction(eventHandler);
     }
@@ -132,10 +131,10 @@ public class MainView{
     public void notifySelectNext(EventHandler<ActionEvent> eventHandler){
         next.setOnAction(eventHandler);
     }
+
     public void notifySelectPrevious(EventHandler<ActionEvent> eventHandler){
         previous.setOnAction(eventHandler);
     }
-
 
     public void notifyDatePickerSelection(EventHandler<ActionEvent> eventHandler){
         datePicker.setOnAction(eventHandler);

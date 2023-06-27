@@ -303,8 +303,7 @@ public class AddReminderController{
             if (timeFormat == null){
                 return  null;
             }
-            goOffTime = timeFormat.getDateFromDatePicker(view, time, timeBefore);
-
+            goOffTime = timeFormat.getDateFromDatePicker(view, eventDate, timeBefore);
 
             return newAlarm = new Alarm(goOffTime, effect, view.getDescription(), eventDate);
         }
@@ -401,26 +400,26 @@ public class AddReminderController{
     private enum TimeFormat{
         MINUTES("Minutos"){
             @Override
-            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
-                return view.getDatePicker1().getValue().atTime(time.minusMinutes(timeBefore));
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalDateTime eventDate, int timeBefore){
+                return eventDate.minusMinutes(timeBefore);
             }
         },
         HOURS("Horas"){
             @Override
-            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
-                return view.getDatePicker1().getValue().atTime(time.minusHours(timeBefore));
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalDateTime eventDate, int timeBefore){
+                return eventDate.minusHours(timeBefore);
             }
         },
         DAYS("Días"){
             @Override
-            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
-                return view.getDatePicker1().getValue().atTime(time).minusDays(timeBefore);
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalDateTime eventDate, int timeBefore){
+                return eventDate.minusDays(timeBefore);
             }
         },
         SEMANAS("Semanas"){
             @Override
-            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore){
-                return view.getDatePicker1().getValue().atTime(time).minusWeeks(timeBefore);
+            LocalDateTime getDateFromDatePicker(AddReminderView view, LocalDateTime eventDate, int timeBefore){
+                return eventDate.minusWeeks(timeBefore);
             }
         };
 
@@ -434,7 +433,7 @@ public class AddReminderController{
             return format;
         }
 
-        abstract LocalDateTime getDateFromDatePicker(AddReminderView view, LocalTime time, int timeBefore);
+        abstract LocalDateTime getDateFromDatePicker(AddReminderView view, LocalDateTime eventDate, int timeBefore);
 
         public static TimeFormat stringToEnum(String string){
             for (TimeFormat timeFormat: TimeFormat.values()) {

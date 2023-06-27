@@ -187,19 +187,18 @@ public class MainController{
                 FXMLLoader addReminderLoader2 = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
 
                 Stage stage = new Stage();
+                Parent root = null;
                 try {
-                    Parent root = (Parent) addReminderLoader2.load();
-                    AddReminderView view2 = addReminderLoader2.getController();
-                    view2.setView(stage, root);
-                    view2.getDatePicker1().setValue(LocalDate.now());
-                    view2.getDatePicker2().setValue(LocalDate.now());
-                    AddReminderController addReminderController = new AddReminderController(view2, calendar);
-                    addReminderController.initialize();
-
-
+                    root = (Parent) addReminderLoader2.load();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                AddReminderView view2 = addReminderLoader2.getController();
+                view2.setView(stage, root);
+                view2.getDatePicker1().setValue(LocalDate.now());
+                view2.getDatePicker2().setValue(LocalDate.now());
+                AddReminderController addReminderController = new AddReminderController(view2, calendar);
+                addReminderController.initialize();
 
             }
         });
@@ -210,28 +209,29 @@ public class MainController{
             public void handle(ActionEvent actionEvent) {
                 FXMLLoader addReminderLoader2 = new FXMLLoader(getClass().getResource("/Fxml/AddReminder.fxml"));
                 Stage stage = new Stage();
+                Parent root = null;
                 try {
-                    Parent root = (Parent) addReminderLoader2.load();
-                    AddReminderView view2 = addReminderLoader2.getController();
-                    view2.setView(stage, root);
-
-                    view2.getEventName().setPromptText("Inserte el nombre de la tarea");
-
-                    view2.getAllDayHbox().getChildren().remove(view2.getRepetition());
-
-                    HBox dateChooser = view2.getDateChooser();
-                    dateChooser.getChildren().remove(view2.getA());
-                    dateChooser.getChildren().remove(view2.getHour2());
-                    dateChooser.getChildren().remove(view2.getDatePicker2());
-                    view2.getDatePicker1().setValue(LocalDate.now());
-                    Text text = new Text("Ingrese la fecha de inicio de la tarea");
-                    dateChooser.getChildren().add(0, text);
-                    AddReminderController addReminderController = new AddReminderController(view2, calendar);
-                    addReminderController.initialize();
-
+                    root = (Parent) addReminderLoader2.load();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
+                AddReminderView view2 = addReminderLoader2.getController();
+                view2.setView(stage, root);
+
+                view2.getEventName().setPromptText("Inserte el nombre de la tarea");
+
+                view2.getAllDayHbox().getChildren().remove(view2.getRepetition());
+
+                HBox dateChooser = view2.getDateChooser();
+                dateChooser.getChildren().remove(view2.getA());
+                dateChooser.getChildren().remove(view2.getHour2());
+                dateChooser.getChildren().remove(view2.getDatePicker2());
+                view2.getDatePicker1().setValue(LocalDate.now());
+                Text text = new Text("Ingrese la fecha de inicio de la tarea");
+                dateChooser.getChildren().add(0, text);
+                AddReminderController addReminderController = new AddReminderController(view2, calendar);
+                addReminderController.initialize();
             }
         });
     }
@@ -354,8 +354,6 @@ public class MainController{
 
                 Pane pane = (Pane)reminderButton.getChildrenUnmodifiable().get(0);
                 Label id = (Label) pane.getChildren().get(2);
-
-
 
                 fullDisplayReminderView.getReminderName().setText(reminder.getTitle());
                 fullDisplayReminderView.getReminderDescription().setText(reminder.getDescription());
